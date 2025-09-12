@@ -43,37 +43,7 @@
 
 
     <!-- Navbar Start -->
-    <div class="container-fluid sticky-top">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light border-bottom border-2 border-white">
-                <a href="index.html" class="navbar-brand">
-                    <h1>iSTUDIO</h1>
-                </a>
-                <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="service.html" class="nav-item nav-link">Services</a>
-                        <a href="project.html" class="nav-item nav-link">Projects</a>
-                        <div class="nav-item dropdown">
-                            <a href="#!" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu bg-light mt-2">
-                                <a href="feature.html" class="dropdown-item active">Features</a>
-                                <a href="team.html" class="dropdown-item">Our Team</a>
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Page</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
+    <?php include "navbar.html" ?>
     <!-- Navbar End -->
 
 
@@ -82,14 +52,14 @@
         <div class="container py-5">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-1 mb-0 animated slideInLeft">Features</h1>
+                    <h1 class="display-1 mb-0 animated slideInLeft">Services</h1>
                 </div>
                 <div class="col-lg-6 animated slideInRight">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
                             <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
                             <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
-                            <li class="breadcrumb-item text-secondary active" aria-current="page">Features</li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Services</li>
                         </ol>
                     </nav>
                 </div>
@@ -99,54 +69,148 @@
     <!-- Hero End -->
 
 
-    <!-- Feature Start -->
+    <!-- Service Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
-            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
-                <h1 class="mb-5">Why People <span class="text-uppercase text-primary bg-light px-2">Choose Us</span>
-                </h1>
-            </div>
-            <div class="row g-5 align-items-center text-center">
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    <i class="fa fa-calendar-alt fa-5x text-primary mb-4"></i>
-                    <h4>25+ Years Experience</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
+                    <h1 class="mb-5">Our Creative <span
+                            class="text-uppercase text-primary bg-light px-2">Services</span></h1>
+                    <p>Aliqu diam
+                        amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus
+                        clita duo justo et tempor eirmod magna dolore erat amet</p>
+                    <p class="mb-5">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
+                        amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus
+                        clita duo justo et tempor eirmod magna dolore erat amet</p>
+                    <div class="d-flex align-items-center bg-light">
+                        <div class="btn-square flex-shrink-0 bg-primary" style="width: 100px; height: 100px;">
+                            <i class="fa fa-phone fa-2x text-white"></i>
+                        </div>
+                        <div class="px-3">
+                            <h3>+0123456789</h3>
+                            <span>Call us direct 24/7 for get a free consultation</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <i class="fa fa-tasks fa-5x text-primary mb-4"></i>
-                    <h4>Best Interior Design</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <i class="fa fa-pencil-ruler fa-5x text-primary mb-4"></i>
-                    <h4>Innovative Architects</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    <i class="fa fa-user fa-5x text-primary mb-4"></i>
-                    <h4>Customer Satisfaction</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <i class="fa fa-hand-holding-usd fa-5x text-primary mb-4"></i>
-                    <h4>Budget Friendly</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <i class="fa fa-check fa-5x text-primary mb-4"></i>
-                    <h4>Sustainable Material</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
+                <div class="col-lg-7">
+                    <div class="row g-0">
+                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.2s">
+                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-primary">
+                                <a href="#!" class="service-img position-relative mb-4">
+                                    <img class="img-fluid w-100" src="img/service-1.jpg" alt="">
+                                    <h3>Interior Design</h3>
+                                </a>
+                                <p class="mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam
+                                    stet diam sed stet lorem.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.4s">
+                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-light">
+                                <a href="#!" class="service-img position-relative mb-4">
+                                    <img class="img-fluid w-100" src="img/service-2.jpg" alt="">
+                                    <h3>Implement</h3>
+                                </a>
+                                <p class="mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam
+                                    stet diam sed stet lorem.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.6s">
+                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-light">
+                                <a href="#!" class="service-img position-relative mb-4">
+                                    <img class="img-fluid w-100" src="img/service-3.jpg" alt="">
+                                    <h3>Renovation</h3>
+                                </a>
+                                <p class="mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam
+                                    stet diam sed stet lorem.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.8s">
+                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-primary">
+                                <a href="#!" class="service-img position-relative mb-4">
+                                    <img class="img-fluid w-100" src="img/service-4.jpg" alt="">
+                                    <h3>Commercial</h3>
+                                </a>
+                                <p class="mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam
+                                    stet diam sed stet lorem.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Feature End -->
+    <!-- Service End -->
+
+
+    <!-- Testimonial Start -->
+    <div class="container-xxl pb-5">
+        <div class="container pb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-9">
+                    <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.2s">
+                        <div class="testimonial-item">
+                            <div class="row g-5 align-items-center">
+                                <div class="col-md-6">
+                                    <div class="testimonial-img">
+                                        <img class="img-fluid" src="img/testimonial-1.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="testimonial-text pb-5 pb-md-0">
+                                        <h3>Sustainable Material</h3>
+                                        <p>Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed
+                                            stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna
+                                            dolore erat
+                                            amet</p>
+                                        <h5 class="mb-0">Boris Johnson</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="row g-5 align-items-center">
+                                <div class="col-md-6">
+                                    <div class="testimonial-img">
+                                        <img class="img-fluid" src="img/testimonial-2.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="testimonial-text pb-5 pb-md-0">
+                                        <h3>Customer Satisfaction</h3>
+                                        <p>Clita erat ipsum et lorem et sit, sed
+                                            stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna
+                                            dolore erat
+                                            amet</p>
+                                        <h5 class="mb-0">Alexander Bell</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="row g-5 align-items-center">
+                                <div class="col-md-6">
+                                    <div class="testimonial-img">
+                                        <img class="img-fluid" src="img/testimonial-3.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="testimonial-text pb-5 pb-md-0">
+                                        <h3>Budget Friendly</h3>
+                                        <p>Diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed
+                                            stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna
+                                            dolore erat
+                                            amet</p>
+                                        <h5 class="mb-0">Bradley Gordon</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
 
 
     <!-- Newsletter Start -->

@@ -43,37 +43,7 @@
 
 
     <!-- Navbar Start -->
-    <div class="container-fluid sticky-top">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light border-bottom border-2 border-white">
-                <a href="index.html" class="navbar-brand">
-                    <h1>iSTUDIO</h1>
-                </a>
-                <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="service.html" class="nav-item nav-link">Services</a>
-                        <a href="project.html" class="nav-item nav-link">Projects</a>
-                        <div class="nav-item dropdown">
-                            <a href="#!" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu bg-light mt-2">
-                                <a href="feature.html" class="dropdown-item">Features</a>
-                                <a href="team.html" class="dropdown-item">Our Team</a>
-                                <a href="testimonial.html" class="dropdown-item active">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Page</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
+    <?php include "navbar.html" ?>
     <!-- Navbar End -->
 
 
@@ -82,14 +52,14 @@
         <div class="container py-5">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-1 mb-0 animated slideInLeft">Testimonial</h1>
+                    <h1 class="display-1 mb-0 animated slideInLeft">Projects</h1>
                 </div>
                 <div class="col-lg-6 animated slideInRight">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
                             <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
                             <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
-                            <li class="breadcrumb-item text-secondary active" aria-current="page">Testimonial</li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Projects</li>
                         </ol>
                     </nav>
                 </div>
@@ -99,9 +69,84 @@
     <!-- Hero End -->
 
 
-    <!-- Testimonial Start -->
-    <div class="container-xxl py-5">
+    <!-- Project Start -->
+    <div class="container-fluid py-5">
         <div class="container py-5">
+            <div class="row g-0">
+                <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="d-flex flex-column justify-content-center bg-primary h-100 p-5">
+                        <h1 class="text-white mb-5">Our Latest <span
+                                class="text-uppercase text-primary bg-light px-2">Projects</span></h1>
+                        <h4 class="text-white mb-0"><span class="display-1">6</span> of our latest projects</h4>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.2s">
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-1.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Kitchen</h4>
+                                    <small class="text-white">72 Projects</small>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-2.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Bathroom</h4>
+                                    <small class="text-white">67 Projects</small>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.4s">
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-3.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Bedroom</h4>
+                                    <small class="text-white">53 Projects</small>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-4.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Living Room</h4>
+                                    <small class="text-white">33 Projects</small>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.6s">
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-5.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Furniture</h4>
+                                    <small class="text-white">87 Projects</small>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.7s">
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-6.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Rennovation</h4>
+                                    <small class="text-white">69 Projects</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Project End -->
+
+
+    <!-- Testimonial Start -->
+    <div class="container-xxl pb-5">
+        <div class="container pb-5">
             <div class="row justify-content-center">
                 <div class="col-md-12 col-lg-9">
                     <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.2s">
