@@ -103,7 +103,6 @@
     </div>
   </div>
   <!-- Hero End -->
-
   <!-- About Start -->
   <div class="container-fluid py-5">
     <div class="container">
@@ -129,15 +128,38 @@
             of Our Creation
           </h1>
           <p class="mb-4">
-            Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor
-            sit. Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem
-            et sit, sed stet no labore lorem sit. Sanctus clita duo justo et
-            tempor eirmod magna dolore erat amet
+            Tenun Ikat Ina Ndao merupakan salah satu UKM tenun ikat ternama di Nusa Tenggara Timur,
+            berlokasi di Jl. Kebun Raja II, Kecamatan Naikoten I, Kota Kupang.
+            Usaha ini dirintis sejak tahun 1991 oleh pasangan Bapak Yus Lusi dan Ibu Dorce Lusi,
+            bersama seorang rekan kerja.
           </p>
           <p class="mb-5">
-            Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et
-            sit, sed stet no labore lorem sit. Sanctus clita duo justo et
-            tempor.
+            Nama “Ina Ndao” memiliki makna khusus. Ina dalam bahasa Rote berarti Ibu (Mama),
+            sedangkan Ndao adalah nama kampung asal pemilik. Secara filosofi,
+            Ina Ndao bermakna “Mama yang mengajar menenun dengan ketulusan hati”.
+          </p>
+          <p class="mb-5">
+            Perjalanan usaha ini tidak mudah. Dengan modal awal hanya Rp20.000,
+            Bapak Yus dan Ibu Dorce memulai dengan tekad, ketekunan,
+            dan konsistensi untuk menghadirkan tenun ikat berkualitas. Pada masa awal,
+            penjualan sangat minim—dalam sebulan hanya terjual 1–2 lembar kain seharga Rp50.000–70.000.
+          </p>
+          <p class="mb-5">
+            Titik balik terjadi pada tahun 1997, saat krisis moneter.
+            Ina Ndao menerima pesanan 200 lembar kain dari Ikatan Wanita Buruh Indonesia,
+            dengan harga Rp500.000 per lembar. Dari sinilah Ina Ndao mulai dikenal luas
+            dan mendapat dukungan dari berbagai pihak, baik pemerintah daerah maupun swasta.
+          </p>
+          <p class="mb-5">
+            Seiring waktu, Ina Ndao tidak hanya memproduksi tenun ikat,
+            tetapi juga aktif dalam pelatihan menenun untuk siswa sekolah dasar hingga perguruan tinggi,
+            serta masyarakat umum di berbagai daerah NTT. Pelatihan mencakup seluruh proses:
+            mulai dari pemintalan benang, pewarnaan alami, perancangan motif, hingga teknik menenun yang halus dan rapi.
+          </p>
+          <p class="mb-5">
+            Kini, Sentra Tenun Ikat Ina Ndao telah berkembang menjadi pusat kerajinan yang mampu
+            menghasilkan berbagai motif khas dari hampir seluruh daerah di NTT,
+            sekaligus menjadi wadah pelestarian budaya dan pemberdayaan masyarakat.
           </p>
           <div class="row g-3">
             <div class="col-sm-6">
@@ -170,7 +192,6 @@
     </div>
   </div>
   <!-- About End -->
-
   <!-- Feature Start -->
   <div class="container-fluid py-5">
     <div class="container">
