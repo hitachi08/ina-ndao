@@ -70,33 +70,33 @@
         <div class="col-md-6 col-lg-3">
           <div class="d-flex align-items-center">
             <div class="flex-shrink-0 btn-square border border-2 border-white me-3">
-              <i class="fa fa-robot text-primary"></i>
+              <i class="fa fa-landmark text-primary"></i>
             </div>
-            <h5 class="lh-base mb-0">Cerita Tenun</h5>
+            <h5 class="lh-base mb-0">Warisan Budaya</h5>
           </div>
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="d-flex align-items-center">
             <div class="flex-shrink-0 btn-square border border-2 border-white me-3">
-              <i class="fa fa-robot text-primary"></i>
+              <i class="fa fa-leaf text-primary"></i>
             </div>
-            <h5 class="lh-base mb-0">Sustainable Material</h5>
+            <h5 class="lh-base mb-0">Pewarna & Bahan Alami</h5>
           </div>
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="d-flex align-items-center">
             <div class="flex-shrink-0 btn-square border border-2 border-white me-3">
-              <i class="fa fa-robot text-primary"></i>
+              <i class="fa fa-handshake text-primary"></i>
             </div>
-            <h5 class="lh-base mb-0">Testimoni Pelanggan</h5>
+            <h5 class="lh-base mb-0">Kepercayaan Pelanggan</h5>
           </div>
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="d-flex align-items-center">
             <div class="flex-shrink-0 btn-square border border-2 border-white me-3">
-              <i class="fa fa-robot text-primary"></i>
+              <i class="fa fa-tags text-primary"></i>
             </div>
-            <h5 class="lh-base mb-0">Budget Friendly</h5>
+            <h5 class="lh-base mb-0">Bernilai & Terjangkau</h5>
           </div>
         </div>
       </div>
@@ -110,13 +110,13 @@
         <div class="col-lg-6">
           <div class="row">
             <div class="col-6 wow fadeIn" data-wow-delay="0.1s">
-              <img class="img-fluid" src="img/about-1.jpg" alt="" />
+              <img class="img-fluid" src="img/about-3.jpg" alt="" />
             </div>
             <div class="col-6 wow fadeIn" data-wow-delay="0.3s">
-              <img class="img-fluid h-75" src="img/about-2.jpg" alt="" />
+              <img class="img-fluid h-75" src="img/about-4.jpg" alt="" />
               <div class="h-25 d-flex align-items-center text-center bg-primary px-4">
                 <h4 class="text-white lh-base mb-0">
-                  Award Winning Studio Since 1990
+                  Berkarya Sejak 1945
                 </h4>
               </div>
             </div>
@@ -124,8 +124,8 @@
         </div>
         <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
           <h1 class="mb-5">
-            <span class="text-uppercase text-primary bg-light px-2">History</span>
-            of Our Creation
+            <span class="text-uppercase text-primary bg-light px-2">Cerita</span>
+            Dibalik Ina Ndao
           </h1>
           <p class="mb-4">
             Tenun Ikat Ina Ndao merupakan salah satu UKM tenun ikat ternama di Nusa Tenggara Timur,
@@ -138,39 +138,26 @@
             sedangkan Ndao adalah nama kampung asal pemilik. Secara filosofi,
             Ina Ndao bermakna “Mama yang mengajar menenun dengan ketulusan hati”.
           </p>
-          <div class="text-center">
-            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#historyModal"
-              class="text-primary fw-bold" style="cursor:pointer; text-decoration:underline;">
-              Read More
-            </a>
-          </div>
-          <p>
-          </p>
           <div class="row g-3">
             <div class="col-sm-6">
               <h6 class="mb-3">
-                <i class="fa fa-check text-primary me-2"></i>Award Winning
+                <i class="fa fa-check text-primary me-2"></i>Pengakuan & Prestasi
               </h6>
               <h6 class="mb-0">
-                <i class="fa fa-check text-primary me-2"></i>Professional
-                Staff
+                <i class="fa fa-check text-primary me-2"></i>Pengrajin Berpengalaman
               </h6>
             </div>
             <div class="col-sm-6">
               <h6 class="mb-3">
-                <i class="fa fa-check text-primary me-2"></i>24/7 Support
+                <i class="fa fa-check text-primary me-2"></i>Pelatihan & Edukasi Tenun
               </h6>
               <h6 class="mb-0">
-                <i class="fa fa-check text-primary me-2"></i>Fair Prices
+                <i class="fa fa-check text-primary me-2"></i>Harga Terjangkau
               </h6>
             </div>
           </div>
           <div class="d-flex align-items-center mt-5">
-            <a class="btn btn-primary px-4 me-2" href="#!">Read More</a>
-            <a class="btn btn-outline-primary btn-square border-2 me-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-            <a class="btn btn-outline-primary btn-square border-2 me-2" href="#!"><i class="fab fa-twitter"></i></a>
-            <a class="btn btn-outline-primary btn-square border-2 me-2" href="#!"><i class="fab fa-instagram"></i></a>
-            <a class="btn btn-outline-primary btn-square border-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+            <a class="btn btn-primary px-4 me-2" href="#!" data-bs-toggle="modal" data-bs-target="#historyModal">Baca Selengkapnya</a>
           </div>
         </div>
       </div>
@@ -221,7 +208,7 @@
               </p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
             </div>
           </div>
         </div>
