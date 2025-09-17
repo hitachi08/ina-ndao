@@ -42,7 +42,7 @@
   <!-- Spinner End -->
 
   <!-- Navbar Start -->
-  <?php include "navbar.html" ?>
+  <?php include "navbar.php" ?>
   <!-- Navbar End -->
 
   <!-- Hero Start -->
