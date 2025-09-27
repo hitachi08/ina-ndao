@@ -55,7 +55,7 @@
             <span style="font-size: 50px">Nusa Tenggara Timur</span>
           </h1>
           <h5 class="d-inline-block border border-2 border-white py-3 px-5 mb-0 animated slideInRight">
-            Berdiri sejak tahun 1945
+            Berdiri Sejak Tahun 1991
           </h5>
         </div>
         <div class="col-lg-6">
@@ -116,51 +116,55 @@
               <img class="img-fluid h-75" src="img/about-4.jpg" alt="" />
               <div class="h-25 d-flex align-items-center text-center bg-primary px-4">
                 <h4 class="text-white lh-base mb-0">
-                  Berkarya Sejak 1945
+                  Berkarya Sejak 1991
                 </h4>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-          <h1 class="mb-5">
-            <span class="text-uppercase text-primary bg-light px-2">Cerita</span>
-            Dibalik Ina Ndao
-          </h1>
-          <p class="mb-4">
-            Tenun Ikat Ina Ndao merupakan salah satu UKM tenun ikat ternama di Nusa Tenggara Timur,
-            berlokasi di Jl. Kebun Raja II, Kecamatan Naikoten I, Kota Kupang.
-            Usaha ini dirintis sejak tahun 1991 oleh pasangan Bapak Yus Lusi dan Ibu Dorce Lusi,
-            bersama seorang rekan kerja.
-          </p>
-          <p class="mb-5">
-            Nama “Ina Ndao” memiliki makna khusus. Ina dalam bahasa Rote berarti Ibu (Mama),
-            sedangkan Ndao adalah nama kampung asal pemilik. Secara filosofi,
-            Ina Ndao bermakna “Mama yang mengajar menenun dengan ketulusan hati”.
-          </p>
-          <div class="row g-3">
-            <div class="col-sm-6">
-              <h6 class="mb-3">
-                <i class="fa fa-check text-primary me-2"></i>Pengakuan & Prestasi
-              </h6>
-              <h6 class="mb-0">
-                <i class="fa fa-check text-primary me-2"></i>Pengrajin Berpengalaman
-              </h6>
-            </div>
-            <div class="col-sm-6">
-              <h6 class="mb-3">
-                <i class="fa fa-check text-primary me-2"></i>Pelatihan & Edukasi Tenun
-              </h6>
-              <h6 class="mb-0">
-                <i class="fa fa-check text-primary me-2"></i>Harga Terjangkau
-              </h6>
+        <div class="col-lg-6 wow fadeIn d-flex flex-column" data-wow-delay="0.5s">
+          <div>
+            <h1 class="mb-5">
+              <span class="text-uppercase text-primary bg-light px-2">Cerita</span>
+              Dibalik Ina Ndao
+            </h1>
+            <p class="mb-4 narasi-singkat">
+              Tenun Ikat Ina Ndao merupakan salah satu UKM tenun ikat ternama di Nusa Tenggara Timur,
+              berlokasi di Jl. Kebun Raja II, Kecamatan Naikoten I, Kota Kupang.
+              Usaha ini dirintis sejak tahun 1991 oleh pasangan Bapak Yus Lusi dan Ibu Dorce Lusi,
+              bersama seorang rekan kerja. Nama “Ina Ndao” memiliki makna khusus. Ina dalam bahasa Rote berarti Ibu (Mama),
+              sedangkan Ndao adalah nama kampung asal pemilik. Secara filosofi,
+              Ina Ndao bermakna “Mama yang mengajar menenun dengan ketulusan hati”.
+            </p>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <h6 class="mb-3">
+                  <i class="fa fa-check text-primary me-2"></i>Pengakuan & Prestasi
+                </h6>
+                <h6 class="mb-0">
+                  <i class="fa fa-check text-primary me-2"></i>Pengrajin Berpengalaman
+                </h6>
+              </div>
+              <div class="col-sm-6">
+                <h6 class="mb-3">
+                  <i class="fa fa-check text-primary me-2"></i>Pelatihan & Edukasi Tenun
+                </h6>
+                <h6 class="mb-0">
+                  <i class="fa fa-check text-primary me-2"></i>Harga Terjangkau
+                </h6>
+              </div>
             </div>
           </div>
-          <div class="d-flex align-items-center mt-5">
-            <a class="btn btn-primary px-4 me-2" href="#!" data-bs-toggle="modal" data-bs-target="#historyModal">Baca Selengkapnya</a>
+
+          <!-- Tombol baca selengkapnya dipaksa ke bawah -->
+          <div class="d-flex align-items-center mt-auto pt-4">
+            <a class="btn btn-primary px-4 me-2" href="#!" data-bs-toggle="modal" data-bs-target="#historyModal">
+              Baca Selengkapnya
+            </a>
           </div>
         </div>
       </div>
+
       <!-- Modal -->
       <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -169,7 +173,7 @@
               <h5 class="modal-title" id="historyModalLabel">Perjalanan Usaha Ina Ndao</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-justify">
               <p>
                 Tenun Ikat Ina Ndao merupakan salah satu UKM tenun ikat ternama di Nusa Tenggara Timur,
                 berlokasi di Jl. Kebun Raja II, Kecamatan Naikoten I, Kota Kupang.
@@ -622,34 +626,6 @@
     </div>
   </div>
   <!-- Testimonial End -->
-
-  <!-- Newsletter Start -->
-  <div class="container-fluid bg-primary newsletter p-0">
-    <div class="container p-0">
-      <div class="row g-0 align-items-center">
-        <div class="col-md-5 ps-lg-0 text-start wow fadeIn" data-wow-delay="0.2s">
-          <img class="img-fluid w-100" src="img/newsletter.jpg" alt="" />
-        </div>
-        <div class="col-md-7 py-5 newsletter-text wow fadeIn" data-wow-delay="0.5s">
-          <div class="p-5">
-            <h1 class="mb-5">
-              Subscribe the
-              <span class="text-uppercase text-primary bg-white px-2">Newsletter</span>
-            </h1>
-            <div class="position-relative w-100 mb-2">
-              <input class="form-control border-0 w-100 ps-4 pe-5" type="text" placeholder="Enter Your Email"
-                style="height: 60px" />
-              <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-2 me-2">
-                <i class="fa fa-paper-plane text-primary fs-4"></i>
-              </button>
-            </div>
-            <p class="mb-0">Diam sed sed dolor stet amet eirmod</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Newsletter End -->
 
   <!-- Footer Start -->
   <?php include "footer.html" ?>
