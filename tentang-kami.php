@@ -68,152 +68,300 @@
     </div>
     <!-- Hero End -->
 
+    <!-- Tentang Ina Ndao Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <!-- Row 1 -->
+            <div class="row align-items-center g-5 mb-5">
+                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
+                    <img src="img/ina-ndao.jpg" alt="Ina Ndao" class="img-fluid w-50 rounded shadow mx-auto d-block">
+                </div>
+                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.4s">
+                    <h2 class="mb-4">Peran <span class="text-primary bg-light px-2"> INA NDAO</span></h2>
+                    <p class="fs-6">
+                        Ina Ndao hadir sebagai pelestari dan penggerak budaya tenun ikat khas Nusa Tenggara Timur.
+                        Kami tidak hanya menjaga warisan leluhur melalui tenunan, tetapi juga memberikan nilai tambah
+                        dengan desain modern yang tetap mengakar pada tradisi.
+                    </p>
+                    <p class="fs-6">
+                        Melalui setiap helai benang, Ina Ndao membawa cerita, identitas, dan jati diri masyarakat NTT
+                        agar terus hidup dan dikenal luas oleh dunia.
+                    </p>
+                </div>
+            </div>
 
-    <!-- About Start -->
+            <!-- Row 2 -->
+            <div class="row align-items-center g-5 flex-lg-row-reverse mb-5">
+                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
+                    <img src="img/ina-ndao2.jpg" alt="Kolaborasi Ina Ndao" class="img-fluid w-50 rounded shadow mx-auto d-block">
+                </div>
+                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.4s">
+                    <h2 class="mb-4 text-primary">Kolaborasi & Kerja Sama</h2>
+                    <p class="fs-6">
+                        Ina Ndao telah menjalin kerja sama dengan berbagai komunitas, perajin lokal, desainer,
+                        hingga mitra usaha di tingkat nasional dan internasional.
+                        Tujuannya adalah memperluas jangkauan pemasaran sekaligus meningkatkan kesejahteraan para penenun.
+                    </p>
+                    <p class="fs-6">
+                        Kami percaya bahwa kolaborasi adalah kunci untuk menjaga keberlanjutan budaya dan memperkuat
+                        ekonomi kreatif di daerah.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="row align-items-center g-5 mb-5">
+                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
+                    <img src="img/ina-ndao3.jpg" alt="Visi Masa Depan Ina Ndao" class="img-fluid w-50 rounded shadow mx-auto d-block">
+                </div>
+                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.4s">
+                    <h2 class="mb-4 text-primary">Visi ke Depan</h2>
+                    <p class="fs-6">
+                        Dengan semangat inovasi, Ina Ndao berkomitmen untuk terus mengembangkan produk-produk
+                        berbasis tenun ikat yang relevan dengan gaya hidup modern tanpa meninggalkan akar tradisi.
+                    </p>
+                    <p class="fs-6">
+                        Kami ingin menjadikan tenun ikat sebagai simbol kebanggaan dan identitas, tidak hanya di NTT,
+                        tetapi juga di kancah internasional.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tentang Ina Ndao End -->
+
+    <style>
+        .project-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            padding-bottom: 10px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-rows: repeat(2, 1fr);
+            grid-auto-flow: column;
+        }
+
+        .project-item {
+            width: 216px;
+            height: 216px;
+        }
+
+        .project-overlay h4,
+        .project-overlay small {
+            white-space: normal;
+            word-wrap: break-word;
+            margin: 0;
+            line-height: 1.2em;
+            text-shadow: 1px 1px 3px black;
+        }
+    </style>
+
+    <!-- Event Ina Ndao Start -->
+    <div class="container-fluid mt-5">
+        <div class="container mt-5">
+            <div class="row g-0">
+                <!-- Bagian Kiri -->
+                <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="d-flex flex-column justify-content-center bg-primary h-100 p-5">
+                        <h1 class="text-white mb-5">
+                            Event Kami <br>
+                            <span class="text-uppercase text-primary bg-light px-2">Yang Telah Berlangsung</span>
+                        </h1>
+                        <h4 class="text-white mb-0">
+                            Dokumentasi Kegiatan Ina Ndao
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Bagian Kanan -->
+                <div class="col-lg-7">
+                    <div class="project-wrapper overflow-auto">
+                        <div class="project-grid">
+                            <!-- Event 1 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-1.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Workshop Tenun</h4>
+                                    <small class="text-white">Pelatihan untuk generasi muda</small>
+                                </a>
+                            </div>
+                            <!-- Event 2 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-2.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Pameran Budaya</h4>
+                                    <small class="text-white">Kolaborasi seni & tenun</small>
+                                </a>
+                            </div>
+                            <!-- Event 3 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-3.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Festival NTT</h4>
+                                    <small class="text-white">Partisipasi dalam festival daerah</small>
+                                </a>
+                            </div>
+                            <!-- Event 4 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-4.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Kolaborasi Desainer</h4>
+                                    <small class="text-white">Karya bersama fashion designer</small>
+                                </a>
+                            </div>
+                            <!-- Event 5 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-5.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Pentas Seni</h4>
+                                    <small class="text-white">Pagelaran musik & tarian</small>
+                                </a>
+                            </div>
+                            <!-- Event 6 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-6.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Launching Produk</h4>
+                                    <small class="text-white">Koleksi terbaru Ina Ndao</small>
+                                </a>
+                            </div>
+                            <!-- Event 7 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-1.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Pameran Nasional</h4>
+                                    <small class="text-white">Partisipasi di Jakarta</small>
+                                </a>
+                            </div>
+                            <!-- Event 8 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-2.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Pelatihan Penenun</h4>
+                                    <small class="text-white">Pemberdayaan komunitas lokal</small>
+                                </a>
+                            </div>
+                            <!-- Event 9 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-3.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Fashion Show</h4>
+                                    <small class="text-white">Tenun di panggung internasional</small>
+                                </a>
+                            </div>
+                            <!-- Event 10 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-4.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Pameran UMKM</h4>
+                                    <small class="text-white">Dukungan ekonomi kreatif</small>
+                                </a>
+                            </div>
+                            <!-- Event 11 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-5.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Bazar Tenun</h4>
+                                    <small class="text-white">Promosi produk lokal</small>
+                                </a>
+                            </div>
+                            <!-- Event 12 -->
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="img/project-6.jpg" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">Community Gathering</h4>
+                                    <small class="text-white">Silaturahmi & diskusi budaya</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Event Ina Ndao End -->
+
+    <!-- Service Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-6">
-                    <div class="row">
-                        <div class="col-6 wow fadeIn" data-wow-delay="0.1s">
-                            <img class="img-fluid" src="img/about-1.jpg" alt="">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
+                    <h1 class="mb-5">
+                        Our Creative
+                        <span class="text-uppercase text-primary bg-light px-2">Services</span>
+                    </h1>
+                    <p>
+                        Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et
+                        sit, sed stet no labore lorem sit. Sanctus clita duo justo et
+                        tempor eirmod magna dolore erat amet
+                    </p>
+                    <p class="mb-5">
+                        Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor
+                        sit. Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem
+                        et sit, sed stet no labore lorem sit. Sanctus clita duo justo et
+                        tempor eirmod magna dolore erat amet
+                    </p>
+                    <div class="d-flex align-items-center bg-light">
+                        <div class="btn-square flex-shrink-0 bg-primary" style="width: 100px; height: 100px">
+                            <i class="fa fa-phone fa-2x text-white"></i>
                         </div>
-                        <div class="col-6 wow fadeIn" data-wow-delay="0.3s">
-                            <img class="img-fluid h-75" src="img/about-2.jpg" alt="">
-                            <div class="h-25 d-flex align-items-center text-center bg-primary px-4">
-                                <h4 class="text-white lh-base mb-0">Award Winning Studio Since 1990</h4>
+                        <div class="px-3">
+                            <h3>+0123456789</h3>
+                            <span>Call us direct 24/7 for get a free consultation</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="row g-0">
+                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.2s">
+                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-primary">
+                                <a href="#!" class="service-img position-relative mb-4">
+                                    <img class="img-fluid w-100" src="img/service-1.jpg" alt="" />
+                                    <h3>Interior Design</h3>
+                                </a>
+                                <p class="mb-0">
+                                    Erat ipsum justo amet duo et elitr dolor, est duo duo eos
+                                    lorem sed diam stet diam sed stet lorem.
+                                </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                    <h1 class="mb-5"><span class="text-uppercase text-primary bg-light px-2">History</span> of Our
-                        Creation</h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
-                        amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus
-                        clita duo justo et tempor eirmod magna dolore erat amet</p>
-                    <p class="mb-5">Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no
-                        labore lorem sit. Sanctus clita duo justo et tempor.</p>
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <h6 class="mb-3"><i class="fa fa-check text-primary me-2"></i>Award Winning</h6>
-                            <h6 class="mb-0"><i class="fa fa-check text-primary me-2"></i>Professional Staff</h6>
-                        </div>
-                        <div class="col-sm-6">
-                            <h6 class="mb-3"><i class="fa fa-check text-primary me-2"></i>24/7 Support</h6>
-                            <h6 class="mb-0"><i class="fa fa-check text-primary me-2"></i>Fair Prices</h6>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center mt-5">
-                        <a class="btn btn-primary px-4 me-2" href="#!">Read More</a>
-                        <a class="btn btn-outline-primary btn-square border-2 me-2" href="#!"><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-primary btn-square border-2 me-2" href="#!"><i
-                                class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-primary btn-square border-2 me-2" href="#!"><i
-                                class="fab fa-instagram"></i></a>
-                        <a class="btn btn-outline-primary btn-square border-2" href="#!"><i
-                                class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- About End -->
-    <!-- Team Start -->
-    <div class="container-fluid bg-light py-5">
-        <div class="container py-5">
-            <h1 class="mb-5">Our Professional <span class="text-uppercase text-primary bg-light px-2">Designers</span>
-            </h1>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
-                        <div class="team-overlay">
-                            <small class="mb-2">Architect</small>
-                            <h4 class="lh-base text-light">Boris Johnson</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-facebook-f"></i>
+                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.4s">
+                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-light">
+                                <a href="#!" class="service-img position-relative mb-4">
+                                    <img class="img-fluid w-100" src="img/service-2.jpg" alt="" />
+                                    <h3>Implement</h3>
                                 </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
+                                <p class="mb-0">
+                                    Erat ipsum justo amet duo et elitr dolor, est duo duo eos
+                                    lorem sed diam stet diam sed stet lorem.
+                                </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
-                        <div class="team-overlay">
-                            <small class="mb-2">Architect</small>
-                            <h4 class="lh-base text-light">Donald Pakura</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-facebook-f"></i>
+                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.6s">
+                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-light">
+                                <a href="#!" class="service-img position-relative mb-4">
+                                    <img class="img-fluid w-100" src="img/service-3.jpg" alt="" />
+                                    <h3>Renovation</h3>
                                 </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
+                                <p class="mb-0">
+                                    Erat ipsum justo amet duo et elitr dolor, est duo duo eos
+                                    lorem sed diam stet diam sed stet lorem.
+                                </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
-                        <div class="team-overlay">
-                            <small class="mb-2">Architect</small>
-                            <h4 class="lh-base text-light">Bradley Gordon</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-facebook-f"></i>
+                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.8s">
+                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-primary">
+                                <a href="#!" class="service-img position-relative mb-4">
+                                    <img class="img-fluid w-100" src="img/service-4.jpg" alt="" />
+                                    <h3>Commercial</h3>
                                 </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-4.jpg" alt="">
-                        <div class="team-overlay">
-                            <small class="mb-2">Architect</small>
-                            <h4 class="lh-base text-light">Alexander Bell</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm-square border-2 me-2" href="#!">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
+                                <p class="mb-0">
+                                    Erat ipsum justo amet duo et elitr dolor, est duo duo eos
+                                    lorem sed diam stet diam sed stet lorem.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -221,60 +369,10 @@
             </div>
         </div>
     </div>
-    <!-- Team End -->
-
-
-    <!-- Feature Start -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
-                <h1 class="mb-5">Why People <span class="text-uppercase text-primary bg-light px-2">Choose Us</span>
-                </h1>
-            </div>
-            <div class="row g-5 align-items-center text-center">
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    <i class="fa fa-calendar-alt fa-5x text-primary mb-4"></i>
-                    <h4>25+ Years Experience</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <i class="fa fa-tasks fa-5x text-primary mb-4"></i>
-                    <h4>Best Interior Design</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <i class="fa fa-pencil-ruler fa-5x text-primary mb-4"></i>
-                    <h4>Innovative Architects</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    <i class="fa fa-user fa-5x text-primary mb-4"></i>
-                    <h4>Customer Satisfaction</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <i class="fa fa-hand-holding-usd fa-5x text-primary mb-4"></i>
-                    <h4>Budget Friendly</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <i class="fa fa-check fa-5x text-primary mb-4"></i>
-                    <h4>Sustainable Material</h4>
-                    <p class="mb-0">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo
-                        justo et tempor eirmod magna dolore erat amet</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Feature End -->
+    <!-- Service End -->
 
     <!-- Footer Start -->
-   <?php include "footer.html" ?>
+    <?php include "footer.html" ?>
     <!-- Footer End -->
 
     <!-- Back to Top -->
