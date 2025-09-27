@@ -29,6 +29,74 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .product-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            font-size: 14px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .text-warning.small {
+            font-size: 12px;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Samakan tinggi judul */
+        .product-card .card-title {
+            min-height: 45px;
+            /* atur sesuai kebutuhan */
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Samakan tinggi deskripsi */
+        .product-card .text-muted.mb-1 {
+            min-height: 25px;
+            /* biar rata */
+            font-size: 14px;
+        }
+
+        /* Harga tetap menempel di bawah deskripsi */
+        .product-card h6 {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        /* Rating tetap rata di bawah */
+        .product-card .d-flex {
+            margin-top: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -41,11 +109,9 @@
     </div>
     <!-- Spinner End -->
 
-
     <!-- Navbar Start -->
     <?php include "navbar.php" ?>
     <!-- Navbar End -->
-
 
     <!-- Hero Start -->
     <div class="container-fluid pb-5 bg-primary hero-header">
@@ -68,149 +134,135 @@
     </div>
     <!-- Hero End -->
 
-
-    <!-- Service Start -->
+    <!-- Product List Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
-                    <h1 class="mb-5">Our Creative <span
-                            class="text-uppercase text-primary bg-light px-2">Services</span></h1>
-                    <p>Aliqu diam
-                        amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus
-                        clita duo justo et tempor eirmod magna dolore erat amet</p>
-                    <p class="mb-5">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
-                        amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus
-                        clita duo justo et tempor eirmod magna dolore erat amet</p>
-                    <div class="d-flex align-items-center bg-light">
-                        <div class="btn-square flex-shrink-0 bg-primary" style="width: 100px; height: 100px;">
-                            <i class="fa fa-phone fa-2x text-white"></i>
-                        </div>
-                        <div class="px-3">
-                            <h3>+0123456789</h3>
-                            <span>Call us direct 24/7 for get a free consultation</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="row g-0">
-                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.2s">
-                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-primary">
-                                <a href="#!" class="service-img position-relative mb-4">
-                                    <img class="img-fluid w-100" src="img/service-1.jpg" alt="">
-                                    <h3>Interior Design</h3>
-                                </a>
-                                <p class="mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam
-                                    stet diam sed stet lorem.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.4s">
-                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-light">
-                                <a href="#!" class="service-img position-relative mb-4">
-                                    <img class="img-fluid w-100" src="img/service-2.jpg" alt="">
-                                    <h3>Implement</h3>
-                                </a>
-                                <p class="mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam
-                                    stet diam sed stet lorem.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.6s">
-                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-light">
-                                <a href="#!" class="service-img position-relative mb-4">
-                                    <img class="img-fluid w-100" src="img/service-3.jpg" alt="">
-                                    <h3>Renovation</h3>
-                                </a>
-                                <p class="mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam
-                                    stet diam sed stet lorem.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 wow fadeIn" data-wow-delay="0.8s">
-                            <div class="service-item h-100 d-flex flex-column justify-content-center bg-primary">
-                                <a href="#!" class="service-img position-relative mb-4">
-                                    <img class="img-fluid w-100" src="img/service-4.jpg" alt="">
-                                    <h3>Commercial</h3>
-                                </a>
-                                <p class="mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam
-                                    stet diam sed stet lorem.</p>
+            <h1 class="mb-5 text-center">Produk Tenun Ikat <span class="text-uppercase text-primary">Ina Ndao</span></h1>
+            <div class="row g-3">
+                <!-- Produk 1 -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card product-card h-100 border-0 shadow-sm text-center">
+                        <img src="img/produk/sarung-alor.png" class="card-img-top product-img" alt="Sarung Alor">
+                        <div class="card-body">
+                            <h5 class="card-title">Sarung Alor</h5>
+                            <p class="text-muted mb-1">Motif Ikan</p>
+                            <h6 class="text-primary">Rp 650.000</h6>
+                            <div class="d-flex align-items-center mt-2">
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-secondary"><i class="fas fa-star"></i></span>
+                                <small class="ms-2 text-muted">(12)</small>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- Produk 2 -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card product-card h-100 border-0 shadow-sm text-center">
+                        <img src="img/produk/kain-maumere.png" class="card-img-top product-img" alt="Selendang Sumba">
+                        <div class="card-body">
+                            <h5 class="card-title">Selendang Sumba</h5>
+                            <p class="text-muted mb-1">Motif Kuda</p>
+                            <h6 class="text-primary">Rp 450.000</h6>
+                            <div class="d-flex align-items-center mt-2">
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-secondary"><i class="fas fa-star"></i></span>
+                                <span class="text-secondary"><i class="fas fa-star"></i></span>
+                                <small class="ms-2 text-muted">(8)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 3 -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card product-card h-100 border-0 shadow-sm text-center">
+                        <img src="img/produk/sarung-ende.png" class="card-img-top product-img" alt="Sarung Flores">
+                        <div class="card-body">
+                            <h5 class="card-title">Sarung Flores</h5>
+                            <p class="text-muted mb-1">Motif Geometris</p>
+                            <h6 class="text-primary">Rp 500.000</h6>
+                            <div class="d-flex align-items-center mt-2">
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <small class="ms-2 text-muted">(20)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 4 -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card product-card h-100 border-0 shadow-sm text-center">
+                        <img src="img/produk/buna-nunkolo.png" class="card-img-top product-img" alt="Selendang Putih Sumba">
+                        <div class="card-body">
+                            <h5 class="card-title">Selendang Putih</h5>
+                            <p class="text-muted mb-1">Sumba</p>
+                            <h6 class="text-primary">Rp 400.000</h6>
+                            <div class="d-flex align-items-center mt-2">
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-secondary"><i class="fas fa-star"></i></span>
+                                <span class="text-secondary"><i class="fas fa-star"></i></span>
+                                <small class="ms-2 text-muted">(5)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 5 -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card product-card h-100 border-0 shadow-sm text-center">
+                        <img src="img/produk/sarung-sumba.png" class="card-img-top product-img" alt="Sarung Timor">
+                        <div class="card-body">
+                            <h5 class="card-title">Sarung Timor</h5>
+                            <p class="text-muted mb-1">Motif Belis</p>
+                            <h6 class="text-primary">Rp 700.000</h6>
+                            <div class="d-flex align-items-center mt-2">
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-secondary"><i class="fas fa-star"></i></span>
+                                <small class="ms-2 text-muted">(10)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 6 -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card product-card h-100 border-0 shadow-sm text-center">
+                        <img src="img/produk/kain-amarasi.png" class="card-img-top product-img" alt="Selendang Ina Ndao">
+                        <div class="card-body">
+                            <h5 class="card-title">Selendang Ina Ndao</h5>
+                            <p class="text-muted mb-1">Motif Flora</p>
+                            <h6 class="text-primary">Rp 550.000</h6>
+                            <div class="d-flex align-items-center mt-2">
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-warning"><i class="fas fa-star"></i></span>
+                                <span class="text-secondary"><i class="fas fa-star"></i></span>
+                                <small class="ms-2 text-muted">(7)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- end row -->
         </div>
     </div>
-    <!-- Service End -->
-
-
-    <!-- Testimonial Start -->
-    <div class="container-xxl pb-5">
-        <div class="container pb-5">
-            <div class="row justify-content-center">
-                <div class="col-md-12 col-lg-9">
-                    <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.2s">
-                        <div class="testimonial-item">
-                            <div class="row g-5 align-items-center">
-                                <div class="col-md-6">
-                                    <div class="testimonial-img">
-                                        <img class="img-fluid" src="img/testimonial-1.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="testimonial-text pb-5 pb-md-0">
-                                        <h3>Sustainable Material</h3>
-                                        <p>Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed
-                                            stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna
-                                            dolore erat
-                                            amet</p>
-                                        <h5 class="mb-0">Boris Johnson</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-item">
-                            <div class="row g-5 align-items-center">
-                                <div class="col-md-6">
-                                    <div class="testimonial-img">
-                                        <img class="img-fluid" src="img/testimonial-2.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="testimonial-text pb-5 pb-md-0">
-                                        <h3>Customer Satisfaction</h3>
-                                        <p>Clita erat ipsum et lorem et sit, sed
-                                            stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna
-                                            dolore erat
-                                            amet</p>
-                                        <h5 class="mb-0">Alexander Bell</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-item">
-                            <div class="row g-5 align-items-center">
-                                <div class="col-md-6">
-                                    <div class="testimonial-img">
-                                        <img class="img-fluid" src="img/testimonial-3.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="testimonial-text pb-5 pb-md-0">
-                                        <h3>Budget Friendly</h3>
-                                        <p>Diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed
-                                            stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna
-                                            dolore erat
-                                            amet</p>
-                                        <h5 class="mb-0">Bradley Gordon</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Testimonial End -->
+    <!-- Product List End -->
 
     <!-- Footer Start -->
     <?php include "footer.html" ?>
@@ -218,7 +270,6 @@
 
     <!-- Back to Top -->
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
