@@ -132,7 +132,8 @@
               Tenun Ikat Ina Ndao merupakan salah satu UKM tenun ikat ternama di Nusa Tenggara Timur,
               berlokasi di Jl. Kebun Raja II, Kecamatan Naikoten I, Kota Kupang.
               Usaha ini dirintis sejak tahun 1991 oleh pasangan Bapak Yus Lusi dan Ibu Dorce Lusi,
-              bersama seorang rekan kerja. Nama “Ina Ndao” memiliki makna khusus. Ina dalam bahasa Rote berarti Ibu (Mama),
+              bersama seorang rekan kerja. Nama “Ina Ndao” memiliki makna khusus. Ina dalam bahasa Rote berarti Ibu
+              (Mama),
               sedangkan Ndao adalah nama kampung asal pemilik. Secara filosofi,
               Ina Ndao bermakna “Mama yang mengajar menenun dengan ketulusan hati”.
             </p>
@@ -226,57 +227,52 @@
     <div class="container">
       <div class="text-center wow fadeIn" data-wow-delay="0.1s">
         <h1 class="mb-5">
-          Why People
-          <span class="text-uppercase text-primary bg-light px-2">Choose Us</span>
+          Mengapa memilih
+          <span class="text-uppercase text-primary bg-light px-2">Ina Ndao</span>
         </h1>
       </div>
       <div class="row g-5 align-items-center text-center">
         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-          <i class="fa fa-calendar-alt fa-5x text-primary mb-4"></i>
-          <h4>25+ Years Experience</h4>
+          <i class="fa fa-history fa-5x text-primary mb-4"></i>
+          <h4>30+ Tahun Berpengalaman</h4>
           <p class="mb-0">
-            Clita erat ipsum et lorem et sit, sed stet no labore lorem sit.
-            Sanctus clita duo justo et tempor eirmod magna dolore erat amet
+            Sejak 1991, Ina Ndao konsisten melestarikan dan mengembangkan tenun ikat khas NTT dengan kualitas terbaik.
           </p>
         </div>
         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-          <i class="fa fa-tasks fa-5x text-primary mb-4"></i>
-          <h4>Best Interior Design</h4>
+          <i class="fa fa-palette fa-5x text-primary mb-4"></i>
+          <h4>Motif Otentik & Pewarna Alami</h4>
           <p class="mb-0">
-            Clita erat ipsum et lorem et sit, sed stet no labore lorem sit.
-            Sanctus clita duo justo et tempor eirmod magna dolore erat amet
+            Setiap lembar kain dibuat dengan motif khas daerah dan menggunakan pewarna alami yang ramah lingkungan.
           </p>
         </div>
         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-          <i class="fa fa-pencil-ruler fa-5x text-primary mb-4"></i>
-          <h4>Innovative Architects</h4>
+          <i class="fa fa-chalkboard-teacher fa-5x text-primary mb-4"></i>
+          <h4>Edukasi Budaya</h4>
           <p class="mb-0">
-            Clita erat ipsum et lorem et sit, sed stet no labore lorem sit.
-            Sanctus clita duo justo et tempor eirmod magna dolore erat amet
+            Tidak hanya memproduksi, Ina Ndao aktif melatih generasi muda—dari anak sekolah hingga mahasiswa—agar budaya
+            tenun tetap lestari.
           </p>
         </div>
         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-          <i class="fa fa-user fa-5x text-primary mb-4"></i>
-          <h4>Customer Satisfaction</h4>
+          <i class="fa fa-users fa-5x text-primary mb-4"></i>
+          <h4>Pemberdayaan Masyarakat</h4>
           <p class="mb-0">
-            Clita erat ipsum et lorem et sit, sed stet no labore lorem sit.
-            Sanctus clita duo justo et tempor eirmod magna dolore erat amet
+            Ina Ndao memberdayakan masyarakat lokal, menciptakan lapangan kerja, sekaligus menjaga warisan budaya.
           </p>
         </div>
         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-          <i class="fa fa-hand-holding-usd fa-5x text-primary mb-4"></i>
-          <h4>Budget Friendly</h4>
+          <i class="fa fa-gem fa-5x text-primary mb-4"></i>
+          <h4>Kualitas Kerajinan Tinggi</h4>
           <p class="mb-0">
-            Clita erat ipsum et lorem et sit, sed stet no labore lorem sit.
-            Sanctus clita duo justo et tempor eirmod magna dolore erat amet
+            Dikerjakan dengan teknik menenun yang halus dan rapi, menghasilkan tenun ikat bernilai seni tinggi.
           </p>
         </div>
         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-          <i class="fa fa-check fa-5x text-primary mb-4"></i>
-          <h4>Sustainable Material</h4>
+          <i class="fa fa-leaf fa-5x text-primary mb-4"></i>
+          <h4>Tradisi Berkelanjutan</h4>
           <p class="mb-0">
-            Clita erat ipsum et lorem et sit, sed stet no labore lorem sit.
-            Sanctus clita duo justo et tempor eirmod magna dolore erat amet
+            Mengutamakan proses ramah lingkungan dan menjaga kearifan lokal sebagai warisan budaya NTT.
           </p>
         </div>
       </div>
