@@ -464,3 +464,9 @@
 .text-justify {
   text-align: justify;
 }
+
+.limit-container {
+  max-height: 600px; /* sesuaikan tinggi agar pas 8 item */
+  overflow-y: auto; /* munculkan scrollbar vertikal */
+  padding-right: 10px; /* biar konten tidak ketutup scrollbar */
+}
