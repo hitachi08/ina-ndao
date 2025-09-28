@@ -153,7 +153,7 @@
     <!-- Testimonial Start -->
     <div class="container-fluid py-5">
         <div class="container-xxl pb-5">
-            <h1 class="mb-5 text-center">Galeri Produk <span class="text-uppercase text-primary">Ina Ndao</span>
+            <h1 class="mb-5 text-center">Kain Terlaris <span class="text-uppercase text-primary">Ina Ndao</span>
             </h1>
             <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-9">
@@ -220,15 +220,15 @@
     </div>
     <!-- Testimonial End -->
     <div class="container py-5">
-        <div class="row g-4">
+        <div class="row g-4 limit-container">
             <!-- Item 1 -->
-            <div class="col-lg-6 col-md-6 wow fadeIn" data-wow-delay="0.1s">
+            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.1s">
                 <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
                     <div class="row g-0 align-items-center">
                         <!-- Gambar -->
                         <div class="col-5">
-                            <div class="team-item position-relative overflow-hidden shadow"> <img
-                                    class="img-fluid w-100" src="img/produk/sarung-sumba.png" alt="Kain Tenun Ina Ndao">
+                            <div class="position-relative overflow-hidden shadow"> <img class="img-fluid w-100"
+                                    src="img/produk/sarung-sumba.png" alt="Kain Tenun Ina Ndao">
                                 <div class="team-overlay"> <small
                                         class="position-absolute top-0 start-0 m-2">Sarung</small> </div>
                             </div>
@@ -249,12 +249,13 @@
             </div>
 
             <!-- Item 2 -->
-            <div class="col-lg-6 col-md-6 wow fadeIn" data-wow-delay="0.3s">
+            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.3s">
                 <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
                     <div class="row g-0 align-items-center">
                         <div class="col-5">
-                            <div class="team-item position-relative overflow-hidden shadow"> <img
-                                    class="img-fluid w-100" src="img/produk/sarung-ende.png" alt="Kain Tenun Ina Ndao">
+                            <div class="position-relative overflow-hidden shadow"> <img
+                                    class="img-fluid w-100 rounded shadow mx-auto d-block"
+                                    src="img/produk/sarung-ende.png" alt="Kain Tenun Ina Ndao">
                                 <div class="team-overlay"> <small
                                         class="position-absolute top-0 start-0 m-2">Sarung</small> </div>
                             </div>
@@ -272,6 +273,152 @@
                 </div>
             </div>
 
+            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.3s">
+                <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-5">
+                            <div class="position-relative overflow-hidden shadow"> <img
+                                    class="img-fluid w-100 rounded shadow mx-auto d-block"
+                                    src="img/produk/sarung-ende.png" alt="Kain Tenun Ina Ndao">
+                                <div class="team-overlay"> <small
+                                        class="position-absolute top-0 start-0 m-2">Sarung</small> </div>
+                            </div>
+                        </div>
+                        <div class="col-7 p-3">
+                            <h5 class="mb-2">Motif Ende</h5>
+                            <p class="small mb-3" style="text-align:justify;">
+                                Proses pewarnaan kain menggunakan bahan alami, ramah lingkungan,
+                                dan menjaga keaslian tradisi tenun ikat.
+                            </p>
+                            <a href="#!" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalEnde">Lebih Lanjut</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.3s">
+                <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-5">
+                            <div class="position-relative overflow-hidden shadow"> <img
+                                    class="img-fluid w-100 rounded shadow mx-auto d-block"
+                                    src="img/produk/sarung-ende.png" alt="Kain Tenun Ina Ndao">
+                                <div class="team-overlay"> <small
+                                        class="position-absolute top-0 start-0 m-2">Sarung</small> </div>
+                            </div>
+                        </div>
+                        <div class="col-7 p-3">
+                            <h5 class="mb-2">Motif Ende</h5>
+                            <p class="small mb-3" style="text-align:justify;">
+                                Proses pewarnaan kain menggunakan bahan alami, ramah lingkungan,
+                                dan menjaga keaslian tradisi tenun ikat.
+                            </p>
+                            <a href="#!" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalEnde">Lebih Lanjut</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.1s">
+                <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
+                    <div class="row g-0 align-items-center">
+                        <!-- Gambar -->
+                        <div class="col-5">
+                            <div class="position-relative overflow-hidden shadow"> <img class="img-fluid w-100"
+                                    src="img/produk/sarung-sumba.png" alt="Kain Tenun Ina Ndao">
+                                <div class="team-overlay"> <small
+                                        class="position-absolute top-0 start-0 m-2">Sarung</small> </div>
+                            </div>
+                        </div>
+                        <!-- Narasi -->
+                        <div class="col-7 p-3">
+                            <h5 class="mb-2">Motif Kakakwila</h5>
+                            <p class="small mb-3" style="text-align:justify;">
+                                Motif ini melambangkan persatuan dan kesatuan masyarakat Sumba,
+                                menggambarkan pentingnya hidup harmoni. Motif burung (biasanya kakatua)
+                                juga melambangkan persatuan dalam tenun Sumba secara umum.
+                            </p>
+                            <a href="#!" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalSumba">Lebih Lanjut</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.3s">
+                <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-5">
+                            <div class="position-relative overflow-hidden shadow"> <img
+                                    class="img-fluid w-100 rounded shadow mx-auto d-block"
+                                    src="img/produk/sarung-ende.png" alt="Kain Tenun Ina Ndao">
+                                <div class="team-overlay"> <small
+                                        class="position-absolute top-0 start-0 m-2">Sarung</small> </div>
+                            </div>
+                        </div>
+                        <div class="col-7 p-3">
+                            <h5 class="mb-2">Motif Ende</h5>
+                            <p class="small mb-3" style="text-align:justify;">
+                                Proses pewarnaan kain menggunakan bahan alami, ramah lingkungan,
+                                dan menjaga keaslian tradisi tenun ikat.
+                            </p>
+                            <a href="#!" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalEnde">Lebih Lanjut</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.3s">
+                <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-5">
+                            <div class="position-relative overflow-hidden shadow"> <img
+                                    class="img-fluid w-100 rounded shadow mx-auto d-block"
+                                    src="img/produk/sarung-ende.png" alt="Kain Tenun Ina Ndao">
+                                <div class="team-overlay"> <small
+                                        class="position-absolute top-0 start-0 m-2">Sarung</small> </div>
+                            </div>
+                        </div>
+                        <div class="col-7 p-3">
+                            <h5 class="mb-2">Motif Ende</h5>
+                            <p class="small mb-3" style="text-align:justify;">
+                                Proses pewarnaan kain menggunakan bahan alami, ramah lingkungan,
+                                dan menjaga keaslian tradisi tenun ikat.
+                            </p>
+                            <a href="#!" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalEnde">Lebih Lanjut</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.3s">
+                <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-5">
+                            <div class="position-relative overflow-hidden shadow"> <img
+                                    class="img-fluid w-100 rounded shadow mx-auto d-block"
+                                    src="img/produk/sarung-ende.png" alt="Kain Tenun Ina Ndao">
+                                <div class="team-overlay"> <small
+                                        class="position-absolute top-0 start-0 m-2">Sarung</small> </div>
+                            </div>
+                        </div>
+                        <div class="col-7 p-3">
+                            <h5 class="mb-2">Motif Ende</h5>
+                            <p class="small mb-3" style="text-align:justify;">
+                                Proses pewarnaan kain menggunakan bahan alami, ramah lingkungan,
+                                dan menjaga keaslian tradisi tenun ikat.
+                            </p>
+                            <a href="#!" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalEnde">Lebih Lanjut</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -284,7 +431,7 @@
                 <!-- Header -->
                 <div class="modal-header bg-primary text-white border-0 rounded-top-4">
                     <h5 class="modal-title fw-bold w-100 text-center" id="modalSumbaLabel">
-                        Cerita Lengkap Motif Sumba
+                        Cerita Lengkap Motif Kakakwila
                     </h5>
                     <button type="button" class="btn-close btn-close-white position-absolute end-0 me-3"
                         data-bs-dismiss="modal" aria-label="Tutup"></button>
@@ -293,7 +440,7 @@
                 <div class="modal-body px-4 py-4">
                     <!-- Gambar -->
                     <div class="text-center mb-4">
-                        <img src="img/produk/sarung-sumba.png" class="img-fluid mx-auto d-block rounded shadow-sm"
+                        <img src="img/produk/sarung-sumba.png" class="img-fluid w-30 rounded shadow mx-auto d-block"
                             alt="Motif Sumba" style="max-height:350px; object-fit:contain;">
                     </div>
 
@@ -362,26 +509,104 @@
     <!-- Modal untuk Motif Ende -->
     <div class="modal fade" id="modalEnde" tabindex="-1" aria-labelledby="modalEndeLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalEndeLabel">Cerita Lengkap Motif Ende</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <!-- Gambar di tengah -->
-                    <img src="img/produk/sarung-ende.png" class="img-fluid mx-auto d-block mb-3" alt="Motif Ende"
-                        style="max-height:350px; object-fit:contain;">
+            <div class="modal-content border-0 shadow-lg rounded-4">
 
-                    <p style="text-align:justify;">
-                        Motif Ende dikenal dengan warnanya yang khas dan proses pewarnaan alami dari bahan-bahan
-                        tumbuhan sekitar. Warna-warna ini melambangkan keselarasan hidup, harapan, dan semangat
-                        masyarakat Ende dalam menjaga tradisi. Teknik ikatnya yang rumit membuat setiap kain
-                        menjadi unik dan bernilai tinggi.
-                    </p>
+                <!-- Header -->
+                <div class="modal-header bg-primary text-white border-0 rounded-top-4">
+                    <h5 class="modal-title fw-bold w-100 text-center" id="modalEndeLabel">
+                        Cerita Lengkap Motif
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white position-absolute end-0 me-3"
+                        data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body px-4 py-4">
+                    <!-- Gambar -->
+                    <div class="text-center mb-4">
+                        <img src="img/produk/sarung-ende.png" class="img-fluid w-30 rounded shadow mx-auto d-block"
+                            alt="Motif Lawo Nepa Te’a" style="max-height:350px; object-fit:contain;">
+                    </div>
+
+                    <!-- Narasi -->
+                    <div class="px-2">
+                        <p style="text-align:justify; margin-bottom:15px;">
+                            Kain tenun Ende merupakan salah satu warisan budaya yang kaya akan makna, keindahan, dan
+                            nilai
+                            filosofis. Motif-motifnya dikenal dengan warna khas yang diperoleh melalui proses pewarnaan
+                            alami dari tumbuhan sekitar, meski kini sebagian juga menggunakan pewarna sintetis.
+                            Warna-warna
+                            tersebut bukan sekadar hiasan, tetapi melambangkan keselarasan hidup, harapan, dan semangat
+                            masyarakat Ende dalam menjaga tradisi. Setiap helai kain lahir dari ketelatenan dan
+                            keterampilan
+                            tinggi para penenun yang mempertahankan teknik ikat rumit sehingga menghasilkan karya yang
+                            unik
+                            dan bernilai tinggi.
+                        </p>
+
+                        <p style="text-align:justify; margin-bottom:15px;">
+                            Salah satu motif yang terkenal adalah <b>Motif Lawo Nepa Te’a</b>, yang berasal dari kata
+                            “Lawo Nepa” yang berarti berwarna kuning. Kain dengan motif ini biasanya hadir dalam bentuk
+                            sarung dan dikenakan oleh perempuan pada berbagai acara, baik adat maupun kegiatan
+                            sehari-hari
+                            yang bernuansa budaya. Kehadiran warna kuning dalam motif ini dipercaya membawa simbol
+                            keceriaan,
+                            kehangatan, dan penghormatan dalam kehidupan sosial masyarakat Ende.
+                        </p>
+
+                        <p style="text-align:justify; margin-bottom:15px;">
+                            Dibuat dari benang katun yang nyaman dipakai, sarung bermotif Lawo Nepa Te’a mencerminkan
+                            nilai
+                            estetika sekaligus keistimewaannya sebagai produk kerajinan tangan. Meskipun dalam proses
+                            pembuatannya digunakan pewarna sintetis, keindahan dan makna yang terkandung di dalamnya
+                            tetap
+                            menjadi daya tarik utama. Kain ini tidak hanya menjadi busana, tetapi juga wujud nyata dari
+                            pelestarian tradisi dan identitas budaya masyarakat Ende yang terus diwariskan lintas
+                            generasi.
+                        </p>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Detail Teknis -->
+                    <div class="d-flex justify-content-center">
+                        <div class="text-start" style="min-width:320px;">
+                            <div class="d-flex mb-2">
+                                <div class="fw-bold" style="width:120px;">Asal Daerah</div>
+                                <div class="flex-grow-1">: Ende, Nusa Tenggara Timur</div>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <div class="fw-bold" style="width:120px;">Nama Motif</div>
+                                <div class="flex-grow-1">: Lawo Nepa Te’a</div>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <div class="fw-bold" style="width:120px;">Ukuran</div>
+                                <div class="flex-grow-1">: Panjang 153 cm x Lebar 69 cm</div>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <div class="fw-bold" style="width:120px;">Bahan</div>
+                                <div class="flex-grow-1">: Benang Katun</div>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <div class="fw-bold" style="width:120px;">Pewarnaan</div>
+                                <div class="flex-grow-1">: Sintetis</div>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <div class="fw-bold" style="width:120px;">Kategori</div>
+                                <div class="flex-grow-1">: Sarung</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Footer Start -->
     <?php include "footer.html" ?>
