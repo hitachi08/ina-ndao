@@ -1,0 +1,46 @@
+# ====== Sistem ======
+# OS files
+.DS_Store
+Thumbs.db
+
+# ====== PHP / Composer ======
+/vendor/
+composer.lock
+
+# ====== Environment / Config ======
+/config/database.php
+/config/*.env
+*.env
+
+# ====== Logs / Cache ======
+*.log
+/cache/
+/tmp/
+
+# ====== Database ======
+*.sql
+*.sqlite
+*.db
+
+# ====== Node / Frontend ======
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+/package-lock.json
+/yarn.lock
+
+# ====== IDE / Editor ======
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ====== Uploads / Assets sementara ======
+/uploads/temp/
+/uploads/cache/
+
+# ====== Lain-lain ======
+*.bak
+*.swp
+*.zip
+*.tar.gz
