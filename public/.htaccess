@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Hilangkan .php dari URL
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*)$ $1.php [L]
+
+    # Redirect otomatis ke versi tanpa .php
+    RewriteCond %{THE_REQUEST} \s/([^.]+)\.php [NC]
+    RewriteRule ^ %1 [R=301,L]
+</IfModule>
