@@ -2,79 +2,6 @@
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../app/Auth.php';
 Auth::requireLogin();
-
-// Handle AJAX Request
-if (isset($_POST['action'])) {
-    $action = $_POST['action'];
-
-    if ($action == 'add' || $action == 'edit') {
-        $id = $_POST['id_event'] ?? '';
-        $nama = $_POST['nama_event'];
-        $tempat = $_POST['tempat'];
-        $tanggal = $_POST['tanggal'];
-        $waktu = $_POST['waktu'];
-        $deskripsi = $_POST['deskripsi'];
-
-        // Upload gambar banner
-        $banner = '';
-        if (isset($_FILES['gambar_banner']) && $_FILES['gambar_banner']['name'] != '') {
-            $banner = time() . '_' . $_FILES['gambar_banner']['name'];
-            move_uploaded_file($_FILES['gambar_banner']['tmp_name'], "../img/event/" . $banner);
-        }
-
-        // Upload gambar dokumentasi
-        $dokumentasi = '';
-        if (isset($_FILES['gambar_dokumentasi']) && $_FILES['gambar_dokumentasi']['name'] != '') {
-            $dokumentasi = time() . '_' . $_FILES['gambar_dokumentasi']['name'];
-            move_uploaded_file($_FILES['gambar_dokumentasi']['tmp_name'], "../img/event/" . $dokumentasi);
-        }
-
-        if ($action == 'add') {
-            $stmt = $pdo->prepare("INSERT INTO event (nama_event,tempat,tanggal,waktu,deskripsi,gambar_banner,gambar_dokumentasi) VALUES (?,?,?,?,?,?,?)");
-            $stmt->execute([$nama, $tempat, $tanggal, $waktu, $deskripsi, $banner, $dokumentasi]);
-            echo json_encode(['status' => 'success', 'message' => 'Event berhasil ditambahkan']);
-        } else {
-            // Ambil gambar lama jika tidak ada upload baru
-            $stmt0 = $pdo->prepare("SELECT gambar_banner, gambar_dokumentasi FROM event WHERE id_event=?");
-            $stmt0->execute([$id]);
-            $row = $stmt0->fetch(PDO::FETCH_ASSOC);
-
-            if ($banner == '') $banner = $row['gambar_banner'];
-            if ($dokumentasi == '') $dokumentasi = $row['gambar_dokumentasi'];
-
-            $stmt = $pdo->prepare("UPDATE event SET nama_event=?, tempat=?, tanggal=?, waktu=?, deskripsi=?, gambar_banner=?, gambar_dokumentasi=? WHERE id_event=?");
-            $stmt->execute([$nama, $tempat, $tanggal, $waktu, $deskripsi, $banner, $dokumentasi, $id]);
-            echo json_encode(['status' => 'success', 'message' => 'Event berhasil diupdate']);
-        }
-        exit;
-    }
-
-    // Hapus Event
-    if ($action == 'delete') {
-        $id = $_POST['id_event'];
-        $stmt0 = $pdo->prepare("SELECT gambar_banner, gambar_dokumentasi FROM event WHERE id_event=?");
-        $stmt0->execute([$id]);
-        $row = $stmt0->fetch(PDO::FETCH_ASSOC);
-
-        if ($row['gambar_banner']) unlink("../img/event/" . $row['gambar_banner']);
-        if ($row['gambar_dokumentasi']) unlink("../img/event/" . $row['gambar_dokumentasi']);
-
-        $stmt = $pdo->prepare("DELETE FROM event WHERE id_event=?");
-        $stmt->execute([$id]);
-        echo json_encode(['status' => 'success', 'message' => 'Event berhasil dihapus']);
-        exit;
-    }
-
-    // Fetch single event
-    if ($action == 'fetch_single') {
-        $id = $_POST['id_event'];
-        $stmt = $pdo->prepare("SELECT * FROM event WHERE id_event=?");
-        $stmt->execute([$id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo json_encode($row);
-        exit;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -97,7 +24,6 @@ if (isset($_POST['action'])) {
     <?php include "sidebar.php"; ?>
 
     <main class="content p-4">
-
         <h2>Kelola Event</h2>
         <button class="btn btn-primary mb-3" id="btnAdd">Tambah Event</button>
 
@@ -116,30 +42,11 @@ if (isset($_POST['action'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $events = $pdo->query("SELECT * FROM event ORDER BY tanggal DESC")->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($events as $row):
-                ?>
-                    <tr>
-                        <td><?= $row['id_event'] ?></td>
-                        <td><?= $row['nama_event'] ?></td>
-                        <td><?= $row['tempat'] ?></td>
-                        <td><?= $row['tanggal'] ?></td>
-                        <td><?= $row['waktu'] ?></td>
-                        <td><?= substr($row['deskripsi'], 0, 50) ?>...</td>
-                        <td><?php if ($row['gambar_banner']) echo "<img src='../img/event/" . $row['gambar_banner'] . "' width='80'>"; ?></td>
-                        <td><?php if ($row['gambar_dokumentasi']) echo "<img src='../img/event/" . $row['gambar_dokumentasi'] . "' width='80'>"; ?></td>
-                        <td>
-                            <button class="btn btn-warning btn-sm btnEdit" data-id="<?= $row['id_event'] ?>">Edit</button>
-                            <button class="btn btn-danger btn-sm btnDelete" data-id="<?= $row['id_event'] ?>">Hapus</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+                <!-- Data akan di-load via AJAX -->
             </tbody>
         </table>
 
         <?php include "footer.php" ?>
-
     </main>
 
     <!-- Modal -->
@@ -168,6 +75,7 @@ if (isset($_POST['action'])) {
         </div>
     </div>
 
+    <!-- JS -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
@@ -176,85 +84,158 @@ if (isset($_POST['action'])) {
 
     <script>
         $(document).ready(function() {
-            $('#eventTable').DataTable();
+            // base route → arahkan ke front controller (index.php di public)
+            var routeUrl = "/event";
 
-            // Tambah
-            $('#btnAdd').on('click', function() {
+            var table = $('#eventTable').DataTable({
+                "ajax": {
+                    "url": routeUrl + "/fetch_all",
+                    "type": "GET",
+                    "dataType": "json", // otomatis parse JSON
+                    "dataSrc": function(json) {
+                        if (Array.isArray(json)) {
+                            return json;
+                        }
+                        if (json.data) {
+                            return json.data;
+                        }
+                        return [];
+                    },
+                    "error": function() {
+                        Swal.fire('Error', 'Gagal memuat data dari server.', 'error');
+                    }
+                },
+                "scrollX": true,
+                "responsive": true,
+                "autoWidth": false,
+                "columns": [{
+                        "data": "id_event"
+                    },
+                    {
+                        "data": "nama_event"
+                    },
+                    {
+                        "data": "tempat"
+                    },
+                    {
+                        "data": "tanggal"
+                    },
+                    {
+                        "data": "waktu"
+                    },
+                    {
+                        "data": "deskripsi",
+                        "render": function(data) {
+                            if (!data) return "";
+                            return data.length > 50 ? data.substr(0, 50) + '...' : data;
+                        }
+                    },
+                    {
+                        "data": "gambar_banner",
+                        "render": function(data) {
+                            return data ? "<img src='../img/event/" + data + "' width='80'>" : "";
+                        }
+                    },
+                    {
+                        "data": "gambar_dokumentasi",
+                        "render": function(data) {
+                            return data ? "<img src='../img/event/" + data + "' width='80'>" : "";
+                        }
+                    },
+                    {
+                        "data": "id_event",
+                        "render": function(data) {
+                            return `
+                        <button class="btn btn-warning btn-sm btnEdit" data-id="${data}">Edit</button>
+                        <button class="btn btn-danger btn-sm btnDelete" data-id="${data}">Hapus</button>
+                    `;
+                        }
+                    }
+                ]
+            });
+
+            // Tambah Event
+            $('#btnAdd').click(function() {
                 $('#eventForm')[0].reset();
                 $('#id_event').val('');
                 $('#eventModal').modal('show');
             });
 
-            // Edit
-            $('.btnEdit').on('click', function() {
-                var id = $(this).data('id');
-                $.post('event.php', {
-                    action: 'fetch_single',
-                    id_event: id
-                }, function(data) {
-                    data = JSON.parse(data);
-                    $('#id_event').val(data.id_event);
-                    $('#nama_event').val(data.nama_event);
-                    $('#tempat').val(data.tempat);
-                    $('#tanggal').val(data.tanggal);
-                    $('#waktu').val(data.waktu);
-                    $('#deskripsi').val(data.deskripsi);
-                    $('#eventModal').modal('show');
+            // Submit Form (Add/Edit)
+            $('#eventForm').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                var action = $('#id_event').val() === '' ? 'add' : 'edit';
+
+                $.ajax({
+                    url: routeUrl + "/" + action,
+                    type: "POST",
+                    data: formData,
+                    dataType: "json", // otomatis parse JSON
+                    contentType: false,
+                    processData: false,
+                    success: function(res) {
+                        Swal.fire('Sukses', res.message, 'success').then(() => {
+                            $('#eventModal').modal('hide');
+                            table.ajax.reload();
+                        });
+                    },
+                    error: function() {
+                        Swal.fire('Error', 'Gagal menyimpan data.', 'error');
+                    }
                 });
             });
 
-            // Hapus
-            $('.btnDelete').on('click', function() {
+            // Edit Event
+            $('#eventTable tbody').on('click', '.btnEdit', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: routeUrl + "/fetch_single",
+                    type: "GET",
+                    data: {
+                        id_event: id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        $('#id_event').val(data.id_event);
+                        $('#nama_event').val(data.nama_event);
+                        $('#tempat').val(data.tempat);
+                        $('#tanggal').val(data.tanggal);
+                        $('#waktu').val(data.waktu);
+                        $('#deskripsi').val(data.deskripsi);
+                        $('#eventModal').modal('show');
+                    },
+                    error: function() {
+                        Swal.fire('Error', 'Gagal mengambil data event.', 'error');
+                    }
+                });
+            });
+
+            // Hapus Event
+            $('#eventTable tbody').on('click', '.btnDelete', function() {
                 var id = $(this).data('id');
                 Swal.fire({
                     title: 'Yakin ingin menghapus?',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Ya, hapus!',
+                    confirmButtonText: 'Ya, hapus!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $.post('event.php', {
-                            action: 'delete',
-                            id_event: id
-                        }, function(res) {
-                            res = JSON.parse(res);
-                            Swal.fire('Sukses', res.message, 'success').then(() => {
-                                location.reload();
-                            });
+                        $.ajax({
+                            url: routeUrl + "/delete",
+                            type: "POST",
+                            data: {
+                                id_event: id
+                            },
+                            dataType: "json",
+                            success: function(res) {
+                                Swal.fire('Sukses', res.message, 'success')
+                                    .then(() => table.ajax.reload());
+                            },
+                            error: function() {
+                                Swal.fire('Error', 'Gagal menghapus data.', 'error');
+                            }
                         });
-                    }
-                });
-            });
-
-            // Submit Form
-            $('#eventForm').on('submit', function(e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                formData.append('action', $('#id_event').val() == '' ? 'add' : 'edit');
-
-                $.ajax({
-                    url: 'event.php',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(res) {
-                        // Tampilkan dulu di console
-                        console.log("Response mentah dari server:", res);
-
-                        try {
-                            res = JSON.parse(res); // baru di-parse
-                            Swal.fire('Sukses', res.message, 'success').then(() => {
-                                location.reload();
-                            });
-                        } catch (err) {
-                            console.error("JSON.parse gagal:", err);
-                            Swal.fire('Error', 'Server tidak merespons JSON valid. Cek console untuk detail.', 'error');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX error:", status, error);
-                        Swal.fire('Error', 'Terjadi kesalahan server. Cek console untuk detail.', 'error');
                     }
                 });
             });
