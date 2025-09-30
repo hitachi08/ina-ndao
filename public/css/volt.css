@@ -4059,7 +4059,7 @@ textarea.form-control-lg {
 .form-select {
     display: block;
     width: 100%;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
     -moz-padding-start: calc(1rem - 3px);
     font-size: 0.875rem;
     font-weight: 400;
