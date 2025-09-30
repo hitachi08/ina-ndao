@@ -2,6 +2,9 @@
     RewriteEngine On
     RewriteBase /
 
+    # Redirect root / ke beranda.php
+    RewriteRule ^$ beranda.php [L]
+
     # Hilangkan .php dari URL
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}\.php -f

@@ -133,7 +133,7 @@ $csrf = $_SESSION['csrf_token'];
 						if (res.success) {
 							notyf.success(res.messages.join('<br>'));
 							setTimeout(() => {
-								window.location.href = 'Dashboard.php';
+								window.location.href = 'index.php';
 							}, 1000);
 						} else {
 							res.messages.forEach(msg => notyf.error(msg));

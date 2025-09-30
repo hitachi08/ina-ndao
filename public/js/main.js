@@ -60,7 +60,7 @@
   $(".event-carousel").owlCarousel({
     items: 3,
     margin: 20,
-    autoplay: false,
+    autoplay: true,
     smartSpeed: 1000,
     dots: true,
     loop: true,
