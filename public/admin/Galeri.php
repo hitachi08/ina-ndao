@@ -190,13 +190,25 @@ Auth::requireLogin();
                     contentType: false,
                     processData: false,
                     success: function (res) {
-                        Swal.fire('Sukses', res.message, 'success').then(() => {
-                            $('#galeriModal').modal('hide');
-                            table.ajax.reload();
-                        });
+                        // Jika res masih berupa string, parsing dulu
+                        if (typeof res === 'string') res = JSON.parse(res);
+
+                        if (res.status === 'success') {
+                            Swal.fire('Sukses', res.message, 'success').then(() => {
+                                $('#galeriModal').modal('hide');
+                                table.ajax.reload();
+                            });
+                        } else {
+                            Swal.fire('Error', res.message, 'error');
+                        }
                     },
-                    error: function () {
-                        Swal.fire('Error', 'Gagal menyimpan data.', 'error');
+                    error: function (xhr) {
+                        let msg = 'Gagal menyimpan data.';
+                        try {
+                            let res = JSON.parse(xhr.responseText);
+                            if (res.message) msg = res.message;
+                        } catch (e) { }
+                        Swal.fire('Error', msg, 'error');
                     }
                 });
             });
