@@ -5,6 +5,8 @@ Auth::startSession();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// ----------------- ROUTE EVENT ------------------ //
+
 // Route: /event/detail/{slug}
 if (preg_match('#^/event/detail/([\w\-]+)$#', $uri, $matches)) {
     $slug = $matches[1];
@@ -32,6 +34,22 @@ if ($uri === '/admin/event') {
     exit;
 }
 
-// Default 404
+// ----------------- ROUTE GALERI ------------------ //
+// Route: /galeri/{action}
+if (preg_match('#^/galeri/([a-z_]+)$#', $uri, $matches)) {
+    $action = $matches[1];
+    require_once __DIR__ . '/../app/Controllers/GaleriController.php';
+    $controller = new GaleriController($pdo);
+    $controller->handle($action);
+    exit;
+}
+
+// Route halaman admin Galeri
+if ($uri === '/admin/galeri') {
+    include __DIR__ . '/admin/Galeri.php';
+    exit;
+}
+
+// ----------------- DEFAULT 404 ------------------ //
 http_response_code(404);
 echo "Page not found";

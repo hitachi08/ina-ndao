@@ -106,29 +106,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
             $galeri_active = in_array($current_page, $galeri_pages) ? 'show' : '';
             ?>
             <li class="nav-item">
-                <span class="nav-link d-flex justify-content-between align-items-center <?= $galeri_active ? '' : 'collapsed' ?>"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-galeri">
-                    <span>
-                        <span class="sidebar-icon">
-                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"></path>
-                                <path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                            </svg>
-                        </span>
-                        <span class="sidebar-text">Galeri</span>
-                    </span>
-                    <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"></path>
+                <a href="../admin/galeri.php" class="nav-link d-flex align-items-center">
+                    <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6 2a1 1 0 00-1 1v2h10V3a1 1 0 00-1-1H6zM3 6h14v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6z"></path>
                         </svg>
                     </span>
-                </span>
-                <div class="multi-level collapse <?= $galeri_active ?>" id="submenu-galeri">
-                    <ul class="flex-column nav">
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'galeri-list.php') ? 'active' : '' ?>" href="../admin/galeri-list.php"><span class="sidebar-text">Daftar Galeri</span></a></li>
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'galeri-tambah.php') ? 'active' : '' ?>" href="../admin/galeri-tambah.php"><span class="sidebar-text">Tambah Galeri</span></a></li>
-                    </ul>
-                </div>
+                    <span class="sidebar-text">Galeri</span>
+                </a>
             </li>
 
             <!-- Event -->
