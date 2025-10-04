@@ -56,21 +56,6 @@
     loop: true,
     nav: false,
   });
-
-  $(".event-carousel").owlCarousel({
-    items: 3,
-    margin: 20,
-    autoplay: true,
-    smartSpeed: 1000,
-    dots: true,
-    loop: true,
-    nav: false,
-    responsive: {
-      0: { items: 1 },
-      768: { items: 2 },
-      992: { items: 3 },
-    },
-  });
 })(jQuery);
 
 $(document).ready(function () {

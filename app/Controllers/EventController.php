@@ -16,7 +16,7 @@ class EventController
     }
 
     /** Router Handler */
-    public function handle($action)
+    public function handle($action, $param = null)
     {
         try {
             switch ($action) {
@@ -82,6 +82,14 @@ class EventController
                     $this->deleteMultipleDokumentasi($ids);
                     break;
 
+                case 'detail':
+                    if (!$param) {
+                        echo json_encode(['status' => 'error', 'message' => 'Parameter tidak ditemukan']);
+                        return;
+                    }
+                    $this->detail($param);
+                    break;
+
                 default:
                     http_response_code(404);
                     echo json_encode(['status' => 'error', 'message' => 'Action tidak ditemukan']);
@@ -134,24 +142,16 @@ class EventController
     public function index()
     {
         try {
-            $events = $this->eventModel->fetchAll();
+            // Ambil event mendatang + dokumentasi
+            $upcoming = $this->eventModel->fetchUpcomingWithDocs();
 
-            foreach ($events as &$ev) {
-                $docs = $this->eventModel->getDokumentasi($ev['id_event']);
-                $today = date('Y-m-d');
-
-                if (count($docs) > 0) {
-                    $ev['status'] = "completed";
-                } elseif ($ev['tanggal'] >= $today) {
-                    $ev['status'] = "coming_soon";
-                } else {
-                    $ev['status'] = "pending_docs";
-                }
-            }
+            // Ambil event yang telah berlalu + dokumentasi
+            $past = $this->eventModel->fetchPastWithDocs();
 
             echo json_encode([
                 'status' => 'success',
-                'data'   => $events
+                'upcoming' => $upcoming, // Event yang akan datang
+                'past'     => $past      // Event yang sudah selesai
             ]);
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
@@ -204,6 +204,37 @@ class EventController
             echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    /** 4. Detail Event */
+    public function detail($idOrSlug)
+    {
+        try {
+            // Bisa ambil berdasarkan slug atau id_event
+            $event = $this->eventModel->findBySlugOrId($idOrSlug);
+
+            if (!$event) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Event tidak ditemukan'
+                ]);
+                return;
+            }
+
+            // Ambil dokumentasi event terkait
+            $docs = $this->docModel->getByEventId($event['id_event']);
+
+            echo json_encode([
+                'status' => 'success',
+                'event'  => $event,
+                'dokumentasi' => $docs
+            ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 

@@ -7,25 +7,6 @@ class EventDokumentasi
         $this->pdo = $pdo;
     }
 
-    /** Tambah dokumentasi */
-    public function add($id_event, $fileName)
-    {
-        $stmt = $this->pdo->prepare(
-            "INSERT INTO event_dokumentasi (id_event, gambar_dokumentasi) VALUES (?, ?)"
-        );
-        return $stmt->execute([$id_event, $fileName]);
-    }
-
-    /** Ambil semua dokumentasi untuk 1 event */
-    public function fetchByEvent($id_event)
-    {
-        $stmt = $this->pdo->prepare(
-            "SELECT * FROM event_dokumentasi WHERE id_event = ? ORDER BY uploaded_at DESC"
-        );
-        $stmt->execute([$id_event]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     /** Hapus 1 dokumentasi */
     public function delete($id_dokumentasi)
     {
@@ -60,6 +41,14 @@ class EventDokumentasi
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $stmt = $this->pdo->prepare("SELECT gambar_dokumentasi FROM event_dokumentasi WHERE id_dokumentasi IN ($placeholders)");
         $stmt->execute($ids);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getByEventId($eventId)
+    {
+        $sql = "SELECT * FROM event_dokumentasi WHERE id_event = :id_event";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id_event' => $eventId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -5,12 +5,24 @@ Auth::startSession();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// Route: /event/detail/{slug}
+if (preg_match('#^/event/detail/([\w\-]+)$#', $uri, $matches)) {
+    $slug = $matches[1];
+    $_GET['slug'] = $slug; // supaya bisa dipakai di Detail-Event.php
+    include __DIR__ . '/Detail-Event.php';
+    exit;
+}
+
 // Route: /event/{action}
 if (preg_match('#^/event/([a-z_]+)$#', $uri, $matches)) {
     $action = $matches[1];
     require_once __DIR__ . '/../app/Controllers/EventController.php';
     $controller = new EventController($pdo);
-    $controller->handle($action);
+
+    // ambil slug/id dari request body
+    $param = $_POST['idOrSlug'] ?? null;
+
+    $controller->handle($action, $param);
     exit;
 }
 

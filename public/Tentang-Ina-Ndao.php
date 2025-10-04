@@ -130,7 +130,7 @@
     </div>
     <!-- Tentang Ina Ndao End -->
 
-    <!-- Event Ina Ndao Start -->
+    <!-- Event PastComing Start -->
     <div class="container-fluid mt-5">
         <div class="container mt-5">
             <div class="row g-0">
@@ -149,113 +149,18 @@
 
                 <!-- Bagian Kanan -->
                 <div class="col-lg-7 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="project-wrapper overflow-auto">
-                        <div class="project-grid">
-                            <!-- Event 1 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-1.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Workshop Tenun</h4>
-                                    <small class="text-white">Pelatihan untuk generasi muda</small>
-                                </a>
-                            </div>
-                            <!-- Event 2 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-2.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Pameran Budaya</h4>
-                                    <small class="text-white">Kolaborasi seni & tenun</small>
-                                </a>
-                            </div>
-                            <!-- Event 3 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-3.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Festival NTT</h4>
-                                    <small class="text-white">Partisipasi dalam festival daerah</small>
-                                </a>
-                            </div>
-                            <!-- Event 4 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-4.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Kolaborasi Desainer</h4>
-                                    <small class="text-white">Karya bersama fashion designer</small>
-                                </a>
-                            </div>
-                            <!-- Event 5 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-5.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Pentas Seni</h4>
-                                    <small class="text-white">Pagelaran musik & tarian</small>
-                                </a>
-                            </div>
-                            <!-- Event 6 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-6.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Launching Produk</h4>
-                                    <small class="text-white">Koleksi terbaru Ina Ndao</small>
-                                </a>
-                            </div>
-                            <!-- Event 7 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-1.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Pameran Nasional</h4>
-                                    <small class="text-white">Partisipasi di Jakarta</small>
-                                </a>
-                            </div>
-                            <!-- Event 8 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-2.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Pelatihan Penenun</h4>
-                                    <small class="text-white">Pemberdayaan komunitas lokal</small>
-                                </a>
-                            </div>
-                            <!-- Event 9 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-3.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Fashion Show</h4>
-                                    <small class="text-white">Tenun di panggung internasional</small>
-                                </a>
-                            </div>
-                            <!-- Event 10 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-4.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Pameran UMKM</h4>
-                                    <small class="text-white">Dukungan ekonomi kreatif</small>
-                                </a>
-                            </div>
-                            <!-- Event 11 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-5.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Bazar Tenun</h4>
-                                    <small class="text-white">Promosi produk lokal</small>
-                                </a>
-                            </div>
-                            <!-- Event 12 -->
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/project-6.jpg" alt="">
-                                <a class="project-overlay text-decoration-none" href="#!">
-                                    <h4 class="text-white">Community Gathering</h4>
-                                    <small class="text-white">Silaturahmi & diskusi budaya</small>
-                                </a>
-                            </div>
+                    <div class="project-wrapper p-0 overflow-auto">
+                        <div class="project-grid" id="pastEvents">
+                            <!-- Event akan di-load via AJAX -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Event Ina Ndao End -->
+    <!-- Event PastComing End -->
 
-    <!-- Event Start -->
+    <!-- Event UpComing Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <h1 class="mb-5 text-center">Event
@@ -263,124 +168,12 @@
                 Yang Akan Datang
             </h1>
 
-            <div class="owl-carousel event-carousel wow fadeIn" data-wow-delay="0.1s">
-                <!-- Event 1 -->
-                <div class="item">
-                    <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
-                        <div class="position-relative">
-                            <img class="card-img-top rounded" src="img/hero-slider-4.jpg" alt="Event 1">
-                            <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Aktivasi Berkelanjutan - Diseminasi Kajian "Tantangan dan Peluang Green Jobs"</h5>
-                            <p class="card-text">Seminar nasional dan talkshow interaktif mengenai potensi green jobs dalam mendorong ekonomi berkelanjutan di NTT.</p>
-                            <ul class="list-unstyled small mb-3">
-                                <li><i class="fa fa-calendar text-primary me-2"></i> 12 – 15 November 2025</li>
-                                <li><i class="fa fa-map-marker-alt text-primary me-2"></i> Kupang Convention Center</li>
-                                <li><i class="fa fa-clock text-primary me-2"></i> Pukul 09.00 WITA</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event 2 -->
-                <div class="item">
-                    <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
-                        <div class="position-relative">
-                            <img class="card-img-top rounded" src="img/hero-slider-5.jpg" alt="Event 2">
-                            <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Festival Tenun Ikat Nusantara 2025</h5>
-                            <p class="card-text">Pameran tenun ikat dari berbagai provinsi Indonesia dengan fashion show, workshop menenun, dan bazar kuliner tradisional.</p>
-                            <ul class="list-unstyled small mb-3">
-                                <li><i class="fa fa-calendar text-primary me-2"></i> 20 – 25 Oktober 2025</li>
-                                <li><i class="fa fa-map-marker-alt text-primary me-2"></i> Lapangan Puputan, Kupang</li>
-                                <li><i class="fa fa-clock text-primary me-2"></i> Pukul 10.00 WITA</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event 3 -->
-                <div class="item">
-                    <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
-                        <div class="position-relative">
-                            <img class="card-img-top rounded" src="img/about-3.jpg" alt="Event 3">
-                            <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Lomba Desain Motif Tenun Digital</h5>
-                            <p class="card-text">Kompetisi desain motif tenun dengan media digital untuk generasi muda kreatif dengan hadiah jutaan rupiah.</p>
-                            <ul class="list-unstyled small mb-3">
-                                <li><i class="fa fa-calendar text-primary me-2"></i> 1 – 10 Desember 2025</li>
-                                <li><i class="fa fa-map-marker-alt text-primary me-2"></i> Online & Kupang Creative Hub</li>
-                                <li><i class="fa fa-clock text-primary me-2"></i> Pukul 13.00 WITA</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event 4 -->
-                <div class="item">
-                    <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
-                        <div class="position-relative">
-                            <img class="card-img-top rounded" src="img/about-4.jpg" alt="Event 4">
-                            <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Pameran Tenun & Kuliner Tradisional</h5>
-                            <p class="card-text">Acara yang mempertemukan pengrajin tenun lokal dengan pelaku UMKM kuliner khas NTT dalam satu festival budaya.</p>
-                            <ul class="list-unstyled small mb-3">
-                                <li><i class="fa fa-calendar text-primary me-2"></i> 5 – 7 September 2025</li>
-                                <li><i class="fa fa-map-marker-alt text-primary me-2"></i> Alun-Alun Kota Soe</li>
-                                <li><i class="fa fa-clock text-primary me-2"></i> Pukul 08.00 WITA</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event 5 -->
-                <div class="item">
-                    <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
-                        <div class="position-relative">
-                            <img class="card-img-top rounded" src="img/ina-ndao.jpg" alt="Event 5">
-                            <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Workshop Menenun untuk Generasi Muda</h5>
-                            <p class="card-text">Pelatihan langsung bersama pengrajin tenun ikat senior NTT untuk memperkenalkan teknik tradisional kepada pelajar dan mahasiswa.</p>
-                            <ul class="list-unstyled small mb-3">
-                                <li><i class="fa fa-calendar text-primary me-2"></i> 22 – 23 November 2025</li>
-                                <li><i class="fa fa-map-marker-alt text-primary me-2"></i> Aula Kampus Undana, Kupang</li>
-                                <li><i class="fa fa-clock text-primary me-2"></i> Pukul 14.00 WITA</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event 6 -->
-                <div class="item">
-                    <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
-                        <div class="position-relative">
-                            <img class="card-img-top rounded" src="img/ina-ndao2.jpg" alt="Event 6">
-                            <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Festival Tenun NTT 2025 - Event 6</h5>
-                            <p class="card-text">Nikmati koleksi tenun ikat terbaru, budaya, dan pameran dari pengrajin lokal.</p>
-                            <ul class="list-unstyled small mb-3">
-                                <li><i class="fa fa-calendar text-primary me-2"></i> 12 – 15 November 2025</li>
-                                <li><i class="fa fa-map-marker-alt text-primary me-2"></i> Kupang Convention Center</li>
-                                <li><i class="fa fa-clock text-primary me-2"></i> Pukul 09.30 WITA</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div class="owl-carousel event-carousel wow fadeIn" data-wow-delay="0.1s" id="upcomingEvents">
+                <!-- Event akan di-render di sini via JS -->
             </div>
         </div>
     </div>
-    <!-- Event End -->
+    <!-- Event UpComing End -->
 
     <!-- Footer Start -->
     <?php include "footer.html" ?>
@@ -391,15 +184,131 @@
 
 
     <!-- JavaScript Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: '/event/index',
+                method: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    if (res.status === 'success') {
+
+                        // ==== Event Yang Akan Datang ====
+                        const upcomingEvents = res.upcoming || [];
+                        let upcomingHTML = '';
+
+                        upcomingEvents.forEach(ev => {
+                            const tanggal = new Date(ev.tanggal).toLocaleDateString('id-ID', {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric'
+                            });
+
+                            upcomingHTML += `
+                    <div class="item">
+                        <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
+                            <div class="position-relative">
+                                <img class="card-img-top rounded" src="/img/event/${encodeURIComponent(ev.gambar_banner ?? 'no-image.png')}" alt="${ev.nama_event}">
+                                <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">${ev.nama_event}</h5>
+                                <p class="card-text">${ev.deskripsi}</p>
+                                <ul class="list-unstyled small mb-0 mt-auto">
+                                    <li><i class="fa fa-calendar text-primary me-2"></i> ${tanggal}</li>
+                                    <li><i class="fa fa-map-marker-alt text-primary me-2"></i> ${ev.tempat}</li>
+                                    <li><i class="fa fa-clock text-primary me-2"></i> ${ev.waktu}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>`;
+                        });
+
+                        $('#upcomingEvents').html(upcomingHTML);
+
+                        // ==== Inisialisasi Owl Carousel hanya setelah HTML tersedia ====
+                        var $carousel = $('#upcomingEvents');
+                        var itemCount = $carousel.find('.item').length;
+
+                        if (itemCount > 0) {
+                            $carousel.owlCarousel({
+                                items: 3,
+                                margin: 20,
+                                autoplay: false,
+                                smartSpeed: 1000,
+                                dots: true,
+                                loop: itemCount > 3,
+                                nav: false,
+                                responsive: {
+                                    0: {
+                                        items: 1
+                                    },
+                                    768: {
+                                        items: 2
+                                    },
+                                    992: {
+                                        items: 3
+                                    },
+                                },
+                            });
+                        }
+
+                        function slugify(text) {
+                            return text
+                                .toString()
+                                .toLowerCase()
+                                .normalize('NFD') // handle karakter unicode
+                                .replace(/[\u0300-\u036f]/g, '') // hapus accent
+                                .replace(/[^a-z0-9]+/g, '-') // ganti non-alfanumerik dengan "-"
+                                .replace(/^-+|-+$/g, ''); // trim "-" di awal/akhir
+                        }
+
+                        // ==== Event Yang Telah Berlangsung ====
+                        const pastEvents = res.past || [];
+                        let pastHTML = '';
+
+                        pastEvents.forEach(ev => {
+                            // Gunakan dokumentasi jika ada, jika tidak fallback ke banner, jika tidak ada gunakan no-image
+                            let docImg = (ev.dokumentasi && ev.dokumentasi.length > 0) ?
+                                ev.dokumentasi[0].gambar_dokumentasi :
+                                (ev.gambar_banner ?? 'no-image.png');
+
+                            let slug = slugify(ev.nama_event);
+
+                            pastHTML += `
+                            <div class="project-item position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="/img/event/${encodeURIComponent(docImg)}" alt="${ev.nama_event}">
+                                <a class="project-overlay justify-content-between text-decoration-none" href="/event/detail/${slug}">
+                                    <h4 class="text-white description-text fs-5">${ev.nama_event}</h4>
+                                    <small class="text-white description-text">${ev.deskripsi}</small>
+                                </a>
+                            </div>`;
+                        });
+
+                        $('#pastEvents').html(pastHTML);
+
+                    } else {
+                        Swal.fire('Oops...', res.message, 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Oops...', 'Terjadi kesalahan saat mengambil data event', 'error');
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
