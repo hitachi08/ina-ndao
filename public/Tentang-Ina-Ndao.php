@@ -41,11 +41,9 @@
     </div>
     <!-- Spinner End -->
 
-
     <!-- Navbar Start -->
     <?php include "navbar.php" ?>
     <!-- Navbar End -->
-
 
     <!-- Hero Start -->
     <div class="container-fluid pb-5 bg-primary hero-header">
@@ -204,6 +202,17 @@
                 success: function(res) {
                     if (res.status === 'success') {
 
+                        // ==== Fungsi untuk buat slug ====
+                        function slugify(text) {
+                            return text
+                                .toString()
+                                .toLowerCase()
+                                .normalize('NFD')
+                                .replace(/[\u0300-\u036f]/g, '')
+                                .replace(/[^a-z0-9]+/g, '-')
+                                .replace(/^-+|-+$/g, '');
+                        }
+
                         // ==== Event Yang Akan Datang ====
                         const upcomingEvents = res.upcoming || [];
                         let upcomingHTML = '';
@@ -215,29 +224,33 @@
                                 year: 'numeric'
                             });
 
+                            const slug = slugify(ev.nama_event);
+
                             upcomingHTML += `
                     <div class="item">
-                        <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
-                            <div class="position-relative">
-                                <img class="card-img-top rounded" src="/img/event/${encodeURIComponent(ev.gambar_banner ?? 'no-image.png')}" alt="${ev.nama_event}">
-                                <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
+                        <a href="/event/detail/${slug}" class="text-decoration-none text-dark">
+                            <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
+                                <div class="position-relative">
+                                    <img class="card-img-top rounded" src="/img/event/${encodeURIComponent(ev.gambar_banner ?? 'no-image.png')}" alt="${ev.nama_event}">
+                                    <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">${ev.nama_event}</h5>
+                                    <p class="card-text">${ev.deskripsi}</p>
+                                    <ul class="list-unstyled small mb-0 mt-auto">
+                                        <li><i class="fa fa-calendar text-primary me-2"></i> ${tanggal}</li>
+                                        <li><i class="fa fa-map-marker-alt text-primary me-2"></i> ${ev.tempat}</li>
+                                        <li><i class="fa fa-clock text-primary me-2"></i> ${ev.waktu}</li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">${ev.nama_event}</h5>
-                                <p class="card-text">${ev.deskripsi}</p>
-                                <ul class="list-unstyled small mb-0 mt-auto">
-                                    <li><i class="fa fa-calendar text-primary me-2"></i> ${tanggal}</li>
-                                    <li><i class="fa fa-map-marker-alt text-primary me-2"></i> ${ev.tempat}</li>
-                                    <li><i class="fa fa-clock text-primary me-2"></i> ${ev.waktu}</li>
-                                </ul>
-                            </div>
-                        </div>
+                        </a>
                     </div>`;
                         });
 
                         $('#upcomingEvents').html(upcomingHTML);
 
-                        // ==== Inisialisasi Owl Carousel hanya setelah HTML tersedia ====
+                        // ==== Inisialisasi Owl Carousel ====
                         var $carousel = $('#upcomingEvents');
                         var itemCount = $carousel.find('.item').length;
 
@@ -264,22 +277,11 @@
                             });
                         }
 
-                        function slugify(text) {
-                            return text
-                                .toString()
-                                .toLowerCase()
-                                .normalize('NFD') // handle karakter unicode
-                                .replace(/[\u0300-\u036f]/g, '') // hapus accent
-                                .replace(/[^a-z0-9]+/g, '-') // ganti non-alfanumerik dengan "-"
-                                .replace(/^-+|-+$/g, ''); // trim "-" di awal/akhir
-                        }
-
                         // ==== Event Yang Telah Berlangsung ====
                         const pastEvents = res.past || [];
                         let pastHTML = '';
 
                         pastEvents.forEach(ev => {
-                            // Gunakan dokumentasi jika ada, jika tidak fallback ke banner, jika tidak ada gunakan no-image
                             let docImg = (ev.dokumentasi && ev.dokumentasi.length > 0) ?
                                 ev.dokumentasi[0].gambar_dokumentasi :
                                 (ev.gambar_banner ?? 'no-image.png');
@@ -287,13 +289,13 @@
                             let slug = slugify(ev.nama_event);
 
                             pastHTML += `
-                            <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="/img/event/${encodeURIComponent(docImg)}" alt="${ev.nama_event}">
-                                <a class="project-overlay justify-content-between text-decoration-none" href="/event/detail/${slug}">
-                                    <h4 class="text-white description-text fs-5">${ev.nama_event}</h4>
-                                    <small class="text-white description-text">${ev.deskripsi}</small>
-                                </a>
-                            </div>`;
+                    <div class="project-item position-relative overflow-hidden">
+                        <img class="img-fluid w-100" src="/img/event/${encodeURIComponent(docImg)}" alt="${ev.nama_event}">
+                        <a class="project-overlay justify-content-between text-decoration-none" href="/event/detail/${slug}">
+                            <h4 class="text-white description-text fs-5">${ev.nama_event}</h4>
+                            <small class="text-white description-text">${ev.deskripsi}</small>
+                        </a>
+                    </div>`;
                         });
 
                         $('#pastEvents').html(pastHTML);

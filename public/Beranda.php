@@ -1,3 +1,51 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/Models/KontenModel.php';
+
+$model = new KontenModel($pdo);
+
+$sejarahData = $model->getByHalaman('beranda_sejarah')['konten'] ?? '<p>Belum ada konten sejarah.</p>';
+$promosiData = $model->getByHalaman('beranda_promosi')['konten'] ?? null;
+
+$narasi_singkat = strip_tags($sejarahData);
+
+$promosi = [];
+if ($promosiData) {
+  $decoded = json_decode($promosiData, true);
+  if (isset($decoded['promosi']) && is_array($decoded['promosi'])) {
+    $promosi = $decoded['promosi'];
+  }
+}
+
+$icons = [
+  'fa-history',
+  'fa-palette',
+  'fa-chalkboard-teacher',
+  'fa-users',
+  'fa-gem',
+  'fa-leaf'
+];
+
+$titles = [
+  '30+ Tahun Berpengalaman',
+  'Motif Otentik & Pewarna Alami',
+  'Edukasi Budaya',
+  'Pemberdayaan Masyarakat',
+  'Kualitas Kerajinan Tinggi',
+  'Tradisi Berkelanjutan'
+];
+
+$teamData = $model->getByHalaman('beranda_team')['konten'] ?? null;
+$team = [];
+
+if ($teamData) {
+  $decoded = json_decode($teamData, true);
+  if (isset($decoded['team']) && is_array($decoded['team'])) {
+    $team = $decoded['team'];
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -103,7 +151,8 @@
     </div>
   </div>
   <!-- Hero End -->
-  <!-- About Start -->
+
+  <!-- Sejarah Start -->
   <div class="container-fluid py-5">
     <div class="container">
       <div class="row g-5">
@@ -129,13 +178,7 @@
               Dibalik Ina Ndao
             </h1>
             <p class="mb-4 narasi-singkat">
-              Tenun Ikat Ina Ndao merupakan salah satu UKM tenun ikat ternama di Nusa Tenggara Timur,
-              berlokasi di Jl. Kebun Raja II, Kecamatan Naikoten I, Kota Kupang.
-              Usaha ini dirintis sejak tahun 1991 oleh pasangan Bapak Yus Lusi dan Ibu Dorce Lusi,
-              bersama seorang rekan kerja. Nama “Ina Ndao” memiliki makna khusus. Ina dalam bahasa Rote berarti Ibu
-              (Mama),
-              sedangkan Ndao adalah nama kampung asal pemilik. Secara filosofi,
-              Ina Ndao bermakna “Mama yang mengajar menenun dengan ketulusan hati”.
+              <?= htmlspecialchars($narasi_singkat) ?>
             </p>
             <div class="row g-3">
               <div class="col-sm-6">
@@ -189,75 +232,8 @@
 
               <!-- Narasi -->
               <div class="px-2">
-                <p style="text-align:justify; margin-bottom:15px;">
-                  Tenun Ikat Ina Ndao merupakan salah satu UKM tenun ikat ternama di Nusa Tenggara Timur,
-                  berlokasi di Jl. Kebun Raja II, Kecamatan Naikoten I, Kota Kupang.
-                  Usaha ini dirintis sejak tahun 1991 oleh pasangan Bapak Yus Lusi dan Ibu Dorce Lusi,
-                  bersama seorang rekan kerja.
-                </p>
-
-                <p style="text-align:justify; margin-bottom:15px;">
-                  Nama “Ina Ndao” memiliki makna khusus. Ina dalam bahasa Rote berarti Ibu (Mama),
-                  sedangkan Ndao adalah nama kampung asal pemilik. Secara filosofi,
-                  Ina Ndao bermakna “Mama yang mengajar menenun dengan ketulusan hati”.
-                </p>
-
-                <p style="text-align:justify; margin-bottom:15px;">
-                  Perjalanan usaha ini tidak mudah. Dengan modal awal hanya Rp20.000,
-                  Bapak Yus dan Ibu Dorce memulai dengan tekad, ketekunan,
-                  dan konsistensi untuk menghadirkan tenun ikat berkualitas.
-                  Pada masa awal, penjualan sangat minim—dalam sebulan hanya terjual
-                  1–2 lembar kain seharga Rp50.000–70.000.
-                </p>
-
-                <p style="text-align:justify; margin-bottom:15px;">
-                  Titik balik terjadi pada tahun 1997, saat krisis moneter.
-                  Ina Ndao menerima pesanan 200 lembar kain dari Ikatan Wanita Buruh Indonesia,
-                  dengan harga Rp500.000 per lembar. Dari sinilah Ina Ndao mulai dikenal luas
-                  dan mendapat dukungan dari berbagai pihak, baik pemerintah daerah maupun swasta.
-                </p>
-
-                <p style="text-align:justify; margin-bottom:15px;">
-                  Seiring waktu, Ina Ndao tidak hanya memproduksi tenun ikat,
-                  tetapi juga aktif dalam pelatihan menenun untuk siswa sekolah dasar hingga perguruan tinggi,
-                  serta masyarakat umum di berbagai daerah NTT. Pelatihan mencakup seluruh proses:
-                  mulai dari pemintalan benang, pewarnaan alami, perancangan motif, hingga teknik menenun yang halus dan
-                  rapi.
-                </p>
-
-                <p style="text-align:justify; margin-bottom:15px;">
-                  Kini, Sentra Tenun Ikat Ina Ndao telah berkembang menjadi pusat kerajinan yang mampu
-                  menghasilkan berbagai motif khas dari hampir seluruh daerah di NTT,
-                  sekaligus menjadi wadah pelestarian budaya dan pemberdayaan masyarakat.
-                </p>
+                <?= $sejarahData ?>
               </div>
-
-              <hr class="my-4">
-
-              <!-- <div class="d-flex justify-content-center">
-                <div class="text-start" style="min-width:320px;">
-                  <div class="d-flex mb-2">
-                    <div class="fw-bold" style="width:120px;">Asal Daerah</div>
-                    <div class="flex-grow-1">: Sumba, Nusa Tenggara Timur</div>
-                  </div>
-                  <div class="d-flex mb-2">
-                    <div class="fw-bold" style="width:120px;">Ukuran</div>
-                    <div class="flex-grow-1">: Panjang 152 cm x Lebar 125 cm</div>
-                  </div>
-                  <div class="d-flex mb-2">
-                    <div class="fw-bold" style="width:120px;">Bahan</div>
-                    <div class="flex-grow-1">: Benang Katun</div>
-                  </div>
-                  <div class="d-flex mb-2">
-                    <div class="fw-bold" style="width:120px;">Pewarnaan</div>
-                    <div class="flex-grow-1">: Alami</div>
-                  </div>
-                  <div class="d-flex">
-                    <div class="fw-bold" style="width:120px;">Kategori</div>
-                    <div class="flex-grow-1">: Sarung</div>
-                  </div>
-                </div>
-              </div> -->
             </div>
 
             <!-- Footer -->
@@ -269,8 +245,9 @@
       </div>
     </div>
   </div>
-  <!-- About End -->
-  <!-- Feature Start -->
+  <!-- Sejarah End -->
+
+  <!-- Promosi Start -->
   <div class="container-fluid py-5">
     <div class="container">
       <div class="text-center wow fadeIn" data-wow-delay="0.1s">
@@ -280,53 +257,19 @@
         </h1>
       </div>
       <div class="row g-5 align-items-center text-center">
-        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-          <i class="fa fa-history fa-5x text-primary mb-4"></i>
-          <h4>30+ Tahun Berpengalaman</h4>
-          <p class="mb-0">
-            Sejak 1991, Ina Ndao konsisten melestarikan dan mengembangkan tenun ikat khas NTT dengan kualitas terbaik.
-          </p>
-        </div>
-        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-          <i class="fa fa-palette fa-5x text-primary mb-4"></i>
-          <h4>Motif Otentik & Pewarna Alami</h4>
-          <p class="mb-0">
-            Setiap lembar kain dibuat dengan motif khas daerah dan menggunakan pewarna alami yang ramah lingkungan.
-          </p>
-        </div>
-        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-          <i class="fa fa-chalkboard-teacher fa-5x text-primary mb-4"></i>
-          <h4>Edukasi Budaya</h4>
-          <p class="mb-0">
-            Tidak hanya memproduksi, Ina Ndao aktif melatih generasi muda—dari anak sekolah hingga mahasiswa—agar budaya
-            tenun tetap lestari.
-          </p>
-        </div>
-        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-          <i class="fa fa-users fa-5x text-primary mb-4"></i>
-          <h4>Pemberdayaan Masyarakat</h4>
-          <p class="mb-0">
-            Ina Ndao memberdayakan masyarakat lokal, menciptakan lapangan kerja, sekaligus menjaga warisan budaya.
-          </p>
-        </div>
-        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-          <i class="fa fa-gem fa-5x text-primary mb-4"></i>
-          <h4>Kualitas Kerajinan Tinggi</h4>
-          <p class="mb-0">
-            Dikerjakan dengan teknik menenun yang halus dan rapi, menghasilkan tenun ikat bernilai seni tinggi.
-          </p>
-        </div>
-        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-          <i class="fa fa-leaf fa-5x text-primary mb-4"></i>
-          <h4>Tradisi Berkelanjutan</h4>
-          <p class="mb-0">
-            Mengutamakan proses ramah lingkungan dan menjaga kearifan lokal sebagai warisan budaya NTT.
-          </p>
-        </div>
+        <?php for ($i = 0; $i < 6; $i++): ?>
+          <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="<?= (0.1 + ($i % 3) * 0.2) ?>s">
+            <i class="fa <?= $icons[$i] ?> fa-5x text-primary mb-4"></i>
+            <h4><?= $titles[$i] ?></h4>
+            <p class="mb-0">
+              <?= !empty($promosi[$i]) ? htmlspecialchars($promosi[$i]) : 'Belum ada teks promosi.' ?>
+            </p>
+          </div>
+        <?php endfor; ?>
       </div>
     </div>
   </div>
-  <!-- Feature End -->
+  <!-- Promosi End -->
 
   <!-- Team Start -->
   <div class="container-fluid bg-light py-5">
@@ -335,52 +278,66 @@
         Pengrajin & Tim
         <span class="text-uppercase text-primary bg-light px-2">Ina Ndao</span>
       </h1>
-      <div class="row g-4">
-
-        <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-          <div class="team-item position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="img/team-1.jpg" alt="Pendiri" />
-            <div class="team-overlay">
-              <small class="mb-2">Pendiri & Penggerak</small>
-              <h4 class="lh-base text-light">Anggi Lifere</h4>
+      <div class="row flex-row flex-nowrap overflow-auto g-4">
+        <?php foreach ($team as $i => $anggota): ?>
+          <div class="col-6 col-sm-4 col-md-3 col-lg-3 flex-shrink-0">
+            <div class="team-item h-100 position-relative overflow-hidden">
+              <img class="img-fluid w-100 h-100 rounded" style="object-fit: cover;" src="<?= htmlspecialchars($anggota['foto']) ?>" alt="<?= htmlspecialchars($anggota['nama']) ?>" />
+              <div class="team-overlay position-absolute bottom-0 start-0 w-100 p-3">
+                <small class="mb-1 d-block"><?= htmlspecialchars($anggota['jabatan']) ?></small>
+                <h4 class="lh-base text-light"><?= htmlspecialchars($anggota['nama']) ?></h4>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-          <div class="team-item position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="img/team-2.jpg" alt="Pengrajin" />
-            <div class="team-overlay">
-              <small class="mb-2">Pengrajin Tenun</small>
-              <h4 class="lh-base text-light">Inka Nage</h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-          <div class="team-item position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="img/team-3.jpg" alt="Desainer Motif" />
-            <div class="team-overlay">
-              <small class="mb-2">Desainer Motif</small>
-              <h4 class="lh-base text-light">Herijuart Djawa</h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-          <div class="team-item position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="img/team-4.jpg" alt="Pewarna Alami" />
-            <div class="team-overlay">
-              <small class="mb-2">Ahli Pewarna Alami</small>
-              <h4 class="lh-base text-light">Beni Liufeto</h4>
-            </div>
-          </div>
-        </div>
-
+        <?php endforeach; ?>
       </div>
     </div>
   </div>
   <!-- Team End -->
+  <style>
+    /* Medium devices (≥768px) */
+    @media (min-width: 768px) {
+      .team-overlay small {
+        font-size: 0.6rem;
+      }
+
+      .team-overlay h4 {
+        font-size: 1rem;
+      }
+    }
+
+    /* Large devices (≥992px) */
+    @media (min-width: 992px) {
+      .team-overlay small {
+        font-size: 1.1rem;
+      }
+
+      .team-overlay h4 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Large devices (≥1024px) */
+    @media (min-width: 1024px) {
+      .team-overlay small {
+        font-size: 0.8rem;
+      }
+
+      .team-overlay h4 {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (min-width: 320px) and (max-width: 426px) {
+      .team-overlay small {
+        font-size: 0.4rem;
+      }
+
+      .team-overlay h4 {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
 
   <!-- Footer Start -->
   <?php include "footer.html" ?>

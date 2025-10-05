@@ -50,6 +50,21 @@ if ($uri === '/admin/galeri') {
     exit;
 }
 
+// ----------------- ROUTE KONTEN HALAMAN ------------------ //
+if (preg_match('#^/konten/([a-z_]+)$#', $uri, $matches)) {
+    $action = $matches[1];
+    require_once __DIR__ . '/../app/Controllers/KontenController.php';
+    $controller = new KontenController($pdo);
+    $controller->handle($action);
+    exit;
+}
+
+// Route halaman admin konten beranda
+if ($uri === '/admin/konten-beranda') {
+    include __DIR__ . '/admin/konten-beranda.php';
+    exit;
+}
+
 // ----------------- DEFAULT 404 ------------------ //
 http_response_code(404);
 echo "Page not found";

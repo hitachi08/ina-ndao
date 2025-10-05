@@ -101,11 +101,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </li>
 
             <!-- Galeri -->
-            <?php
-            $galeri_pages = ['galeri-list.php', 'galeri-tambah.php'];
-            $galeri_active = in_array($current_page, $galeri_pages) ? 'show' : '';
-            ?>
-            <li class="nav-item">
+            <li class="nav-item <?= ($current_page == 'galeri.php') ? 'active' : '' ?>">
                 <a href="../admin/galeri.php" class="nav-link d-flex align-items-center">
                     <span class="sidebar-icon">
                         <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
@@ -131,7 +127,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
             <!-- Konten Halaman -->
             <?php
-            $konten_pages = ['konten-beranda.php', 'konten-tentang.php', 'konten-banner.php'];
+            $konten_pages = ['konten-beranda.php', 'konten-tentang.php'];
             $konten_active = in_array($current_page, $konten_pages) ? 'show' : '';
             ?>
             <li class="nav-item">
@@ -139,23 +135,35 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     data-bs-toggle="collapse" data-bs-target="#submenu-konten">
                     <span>
                         <span class="sidebar-icon">
-                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M4 4h12v12H4V4z"></path>
+                            <!-- 🔄 Ikon Baru: file-text -->
+                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M3.5 0A1.5 1.5 0 0 0 2 1.5v13A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 12.5 0h-9zM3 1.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5V3H3V1.5z" />
                             </svg>
                         </span>
                         <span class="sidebar-text">Konten Halaman</span>
                     </span>
                     <span class="link-arrow">
                         <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"></path>
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 
+                    7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 
+                    010 1.414l-4 4a1 1 0 01-1.414 0z"></path>
                         </svg>
                     </span>
                 </span>
                 <div class="multi-level collapse <?= $konten_active ?>" id="submenu-konten">
                     <ul class="flex-column nav">
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'konten-beranda.php') ? 'active' : '' ?>" href="../admin/konten-beranda.php"><span class="sidebar-text">Beranda</span></a></li>
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'konten-tentang.php') ? 'active' : '' ?>" href="../admin/konten-tentang.php"><span class="sidebar-text">Tentang Kami</span></a></li>
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'konten-banner.php') ? 'active' : '' ?>" href="../admin/konten-banner.php"><span class="sidebar-text">Banner / Gambar</span></a></li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($current_page == 'konten-beranda.php') ? 'active' : '' ?>"
+                                href="../admin/konten-beranda.php">
+                                <span class="sidebar-text">Beranda</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($current_page == 'konten-tentang.php') ? 'active' : '' ?>"
+                                href="../admin/konten-tentang.php">
+                                <span class="sidebar-text">Tentang Kami</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>

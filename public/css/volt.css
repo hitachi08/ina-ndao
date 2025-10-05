@@ -23769,6 +23769,7 @@ fieldset:disabled .btn {
 
 .sidebar .nav-link.active {
   color: #f2f4f6;
+  background-color: #374151;
 }
 
 .sidebar .multi-level .nav-link {
