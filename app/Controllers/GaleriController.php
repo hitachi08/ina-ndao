@@ -13,199 +13,211 @@ class GaleriController
         header('Content-Type: application/json');
     }
 
+    // ============================
+    // Handle request utama
+    // ============================
     public function handle($action)
     {
-        try {
-            switch ($action) {
-
-                // ============================
-                // Fetch data
-                // ============================
-                case 'fetch_all':
-                    echo json_encode($this->galeriModel->fetchAll());
-                    break;
-
-                case 'fetch_single':
-                    $id = $_POST['id_variasi'] ?? 0;
-                    echo json_encode($this->galeriModel->fetchSingle($id));
-                    break;
-
-                // ============================
-                // Tambah Motif + Variasi
-                // ============================
-                case 'add_motif':
-                    $data = $this->sanitizeMotifInput($_POST);
-
-                    // Validasi semua field
-                    $valid = $this->validateMotifData($data);
-                    if (!$valid['status']) {
-                        echo json_encode(['status' => 'error', 'message' => $valid['message']]);
-                        exit;
-                    }
-
-                    // Jenis kain
-                    $jenis = $this->galeriModel->getJenisByName($data['nama_jenis']);
-                    $idJenisKain = $jenis ? $jenis['id_jenis_kain'] : $this->galeriModel->addJenisKain($data['nama_jenis']);
-
-                    // Daerah
-                    $daerah = $this->galeriModel->getDaerahByName($data['nama_daerah']);
-                    $idDaerah = $daerah ? $daerah['id_daerah'] : $this->galeriModel->addDaerah($data['nama_daerah']);
-
-                    // Kain
-                    $idKain = $this->galeriModel->getOrCreateKain($idJenisKain, $idDaerah);
-
-                    // Motif
-                    $dataMotif = [
-                        'id_kain' => $idKain,
-                        'nama_motif' => $data['nama_motif'],
-                        'cerita' => $data['cerita']
-                    ];
-                    $gambar = $this->uploadFile('gambar');
-                    $idMotif = $this->galeriModel->addMotif($dataMotif, $gambar);
-
-                    // Variasi
-                    $ukuran = $data['panjang'] . "x" . $data['lebar'] . " cm";
-                    $dataVariasi = [
-                        'id_motif' => $idMotif,
-                        'ukuran' => $ukuran,
-                        'bahan' => $data['bahan'],
-                        'jenis_pewarna' => $data['jenis_pewarna'],
-                        'harga' => $data['harga'],
-                        'stok' => $data['stok']
-                    ];
-                    $this->galeriModel->addVariasi($dataVariasi);
-
-                    echo json_encode(['status' => 'success', 'message' => 'Motif dan variasi berhasil ditambahkan']);
-                    break;
-
-                // ============================
-                // Update Variasi
-                // ============================
-                case 'update_variasi':
-                    $idVariasi = $_POST['id_variasi'] ?? 0;
-                    $data = $this->sanitizeMotifInput($_POST);
-
-                    // Validasi semua field
-                    $valid = $this->validateMotifData($data, true); // true = update
-                    if (!$valid['status']) {
-                        echo json_encode(['status' => 'error', 'message' => $valid['message']]);
-                        exit;
-                    }
-
-                    $ukuran = $data['panjang'] . "x" . $data['lebar'] . " cm";
-                    $dataUpdate = [
-                        'ukuran' => $ukuran,
-                        'bahan' => $data['bahan'],
-                        'jenis_pewarna' => $data['jenis_pewarna'],
-                        'harga' => $data['harga'],
-                        'stok' => $data['stok']
-                    ];
-                    $this->galeriModel->updateVariasi($idVariasi, $dataUpdate);
-
-                    echo json_encode(['status' => 'success', 'message' => 'Variasi berhasil diperbarui']);
-                    break;
-
-                // ============================
-                // Delete Variasi
-                // ============================
-                case 'delete_variasi':
-                    $idVariasi = $_POST['id_variasi'] ?? 0;
-                    if ($idVariasi <= 0) {
-                        echo json_encode(['status' => 'error', 'message' => 'ID variasi tidak valid']);
-                        exit;
-                    }
-                    $this->galeriModel->deleteVariasi($idVariasi);
-                    echo json_encode(['status' => 'success', 'message' => 'Variasi berhasil dihapus']);
-                    break;
-
-                default:
-                    echo json_encode(['status' => 'error', 'message' => 'Action tidak dikenal']);
-                    break;
-            }
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        switch ($action) {
+            case 'fetch_all':
+                return $this->fetchAll();
+            case 'add_motif':
+                return $this->addMotif();
+            case 'update_variasi':
+                echo json_encode($this->updateVariasi());
+                break;
+            case 'delete_variasi':
+                return $this->deleteVariasi();
+            case 'fetch_single':
+                return $this->fetchSingle();
+            default:
+                return ['status' => 'error', 'message' => 'Action tidak dikenali'];
         }
     }
 
     // ============================
-    // Sanitasi input
+    // Fetch all
     // ============================
-    private function sanitizeMotifInput($input)
+    private function fetchAll()
     {
-        $data = [];
-        $data['nama_jenis'] = $this->capitalizeWords($input['nama_jenis'] ?? '');
-        $data['nama_daerah'] = $this->capitalizeWords($input['nama_daerah'] ?? '');
-        $data['nama_motif'] = $this->capitalizeWords($input['nama_motif'] ?? '');
-        $data['cerita'] = trim($input['cerita'] ?? '');
-        $data['bahan'] = $this->capitalizeWords($input['bahan'] ?? '');
-        $data['jenis_pewarna'] = $this->capitalizeWords($input['jenis_pewarna'] ?? '');
-        $data['harga'] = isset($input['harga']) ? intval($input['harga']) : 0;
-        $data['stok'] = isset($input['stok']) ? intval($input['stok']) : 0;
-        $data['panjang'] = isset($input['panjang']) ? intval($input['panjang']) : 0;
-        $data['lebar'] = isset($input['lebar']) ? intval($input['lebar']) : 0;
-        return $data;
+        return $this->galeriModel->fetchAll();
+    }
+    private function fetchSingle()
+    {
+        $id_variasi = $_POST['id_variasi'] ?? 0;
+        return $this->galeriModel->fetchSingle($id_variasi) ?: [];
     }
 
     // ============================
-    // Validasi input
+    // Tambah motif + variasi + gambar
     // ============================
-    private function validateMotifData($data, $isUpdate = false)
+
+    private function addMotif()
     {
-        $fields = [
-            'nama_jenis' => 'Jenis Kain',
-            'nama_daerah' => 'Daerah',
-            'nama_motif' => 'Nama Motif',
-            'bahan' => 'Bahan',
-            'jenis_pewarna' => 'Jenis Pewarna',
-            'harga' => 'Harga',
-            'stok' => 'Stok',
-            'panjang' => 'Panjang',
-            'lebar' => 'Lebar'
+        $data = $this->sanitizeMotifInput($_POST);
+
+        // validasi data
+        $errors = $this->validateMotifData($data);
+        if (!empty($errors)) {
+            return ['status' => 'error', 'errors' => $errors];
+        }
+
+        // cek / buat jenis kain
+        $jenis = $this->galeriModel->getJenisByName($data['jenis_kain']);
+        $idJenisKain = $jenis ? $jenis['id_jenis_kain'] : $this->galeriModel->addJenisKain($data['jenis_kain']);
+
+        // cek / buat daerah
+        $daerah = $this->galeriModel->getDaerahByName($data['daerah']);
+        $idDaerah = $daerah ? $daerah['id_daerah'] : $this->galeriModel->addDaerah($data['daerah']);
+
+        // cek / buat kain
+        $idKain = $this->galeriModel->getOrCreateKain($idJenisKain, $idDaerah);
+
+        // cek / buat motif
+        $motif = $this->galeriModel->getMotifByName($data['nama_motif']);
+        if ($motif) {
+            $idMotif = $motif['id_motif'];
+        } else {
+            $idMotif = $this->galeriModel->addMotif([
+                'nama_motif' => $data['nama_motif'],
+                'cerita' => $data['cerita']
+            ]);
+        }
+
+        // cek / buat relasi kain_motif
+        $kainMotif = $this->galeriModel->getKainMotif($idKain, $idMotif);
+        $idKainMotif = $kainMotif ? $kainMotif['id_kain_motif'] : $this->galeriModel->addKainMotif($idKain, $idMotif);
+
+        // tambah variasi
+        $this->galeriModel->addVariasi([
+            'id_kain_motif' => $idKainMotif,
+            'ukuran' => $data['ukuran'],
+            'bahan' => $data['bahan'],
+            'jenis_pewarna' => $data['jenis_pewarna'],
+            'harga' => $data['harga'],
+            'stok' => $data['stok']
+        ]);
+
+        // upload multi gambar motif
+        if (!empty($_FILES['gambar']['name'][0])) {
+            $this->uploadMultiFiles($idMotif, $_FILES['gambar']);
+        }
+
+        return ['status' => 'success', 'message' => 'Motif berhasil ditambahkan'];
+    }
+
+    // ============================
+    // Update variasi & motif
+    // ============================
+    private function updateVariasi()
+    {
+        $id_variasi = $_POST['id_variasi'] ?? null;
+        if (!$id_variasi) {
+            return ['status' => 'error', 'message' => 'ID variasi tidak ditemukan'];
+        }
+
+        $data = $this->sanitizeMotifInput($_POST);
+
+        // update variasi
+        $this->galeriModel->updateVariasi($id_variasi, $data);
+
+        // update motif
+        $idMotif = $_POST['id_motif'] ?? null;
+        if ($idMotif) {
+            $this->galeriModel->updateMotif($idMotif, [
+                'nama_motif' => $data['nama_motif'],
+                'cerita' => $data['cerita']
+            ]);
+        }
+
+        // update gambar motif
+        if (!empty($_FILES['gambar']['name'][0])) {
+            $this->uploadMultiFiles($idMotif, $_FILES['gambar']);
+        }
+
+        return ['status' => 'success', 'message' => 'Variasi berhasil diperbarui'];
+    }
+
+    // ============================
+    // Delete variasi + motif
+    // ============================
+    private function deleteVariasi()
+    {
+        $idMotif = $_POST['id_motif'] ?? null;
+        $idKainMotif = $_POST['id_kain_motif'] ?? null;
+
+        if (!$idMotif || !$idKainMotif) {
+            return ['status' => 'error', 'message' => 'Data tidak lengkap'];
+        }
+
+        // hapus variasi
+        $this->galeriModel->deleteVariasiByKainMotif($idKainMotif);
+
+        // hapus semua gambar motif
+        $this->galeriModel->deleteAllMotifGambar($idMotif);
+
+        // hapus motif
+        $this->galeriModel->deleteMotif($idMotif);
+
+        return ['status' => 'success', 'message' => 'Motif & variasi berhasil dihapus'];
+    }
+
+    // ============================
+    // Upload multi file
+    // ============================
+    private function uploadMultiFiles($idMotif, $files)
+    {
+        $uploadDir = __DIR__ . '/../../public/img/motif/';
+        $baseUrl = '/img/motif/'; // URL relatif ke folder public
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        for ($i = 0; $i < count($files['name']); $i++) {
+            if ($files['error'][$i] === UPLOAD_ERR_OK) {
+                $fileName = time() . '_' . basename($files['name'][$i]);
+                move_uploaded_file($files['tmp_name'][$i], $uploadDir . $fileName);
+
+                // Simpan URL lengkap ke database
+                $fileUrl = $baseUrl . $fileName;
+                $this->galeriModel->addMotifGambar($idMotif, $fileUrl);
+            }
+        }
+    }
+
+
+    // ============================
+    // Sanitasi & validasi
+    // ============================
+    private function sanitizeMotifInput($data)
+    {
+        return [
+            'nama_motif' => ucwords(strtolower(trim($data['nama_motif'] ?? ''))),
+            'cerita' => trim($data['cerita'] ?? ''),
+            'jenis_kain' => ucwords(strtolower(trim($data['jenis_kain'] ?? ''))),
+            'daerah' => ucwords(strtolower(trim($data['daerah'] ?? ''))),
+            'ukuran' => trim($data['ukuran'] ?? ''),
+            'bahan' => trim($data['bahan'] ?? ''),
+            'jenis_pewarna' => trim($data['jenis_pewarna'] ?? ''),
+            'harga' => $data['harga'] ?? 0,
+            'stok' => $data['stok'] ?? 0
         ];
-
-        foreach ($fields as $key => $label) {
-            if (!isset($data[$key]) || $data[$key] === '' || $data[$key] === 0) {
-                if ($key === 'harga' && $isUpdate)
-                    continue; // boleh 0 jika update tapi di form pasti >=0
-                return ['status' => false, 'message' => "$label wajib diisi dan valid"];
-            }
-        }
-
-        if (!is_numeric($data['harga']) || $data['harga'] <= 0) {
-            return ['status' => false, 'message' => "Harga harus angka dan > 0"];
-        }
-        if (!is_numeric($data['stok']) || $data['stok'] < 0) {
-            return ['status' => false, 'message' => "Stok harus angka dan ≥ 0"];
-        }
-        if (!is_numeric($data['panjang']) || $data['panjang'] <= 0 || !is_numeric($data['lebar']) || $data['lebar'] <= 0) {
-            return ['status' => false, 'message' => "Panjang dan lebar harus > 0"];
-        }
-
-        return ['status' => true, 'message' => 'Valid'];
     }
 
-    // ============================
-    // Upload gambar
-    // ============================
-    private function uploadFile($field)
+    private function validateMotifData($data)
     {
-        if (isset($_FILES[$field]) && $_FILES[$field]['name'] != '') {
-            $filename = time() . '_' . basename($_FILES[$field]['name']);
-            $targetDir = __DIR__ . '/../../public/img/motif/';
-            if (!is_dir($targetDir))
-                mkdir($targetDir, 0777, true);
-            move_uploaded_file($_FILES[$field]['tmp_name'], $targetDir . $filename);
-            return $filename;
-        }
-        return null;
-    }
-
-    // ============================
-    // Kapitalisasi awal kata
-    // ============================
-    private function capitalizeWords($str)
-    {
-        $str = strtolower(trim($str));
-        return ucwords($str);
+        $errors = [];
+        if (empty($data['nama_motif']))
+            $errors[] = 'Nama motif wajib diisi';
+        if (empty($data['jenis_kain']))
+            $errors[] = 'Jenis kain wajib diisi';
+        if (empty($data['daerah']))
+            $errors[] = 'Daerah wajib diisi';
+        if (empty($data['ukuran']))
+            $errors[] = 'Ukuran wajib diisi';
+        if (empty($data['harga']) || !is_numeric($data['harga']))
+            $errors[] = 'Harga tidak valid';
+        return $errors;
     }
 }
