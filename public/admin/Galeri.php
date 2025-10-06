@@ -17,6 +17,9 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <link type="text/css" href="../css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" href="../css/volt.css" rel="stylesheet">
     <link type="text/css" href="../css/sweetalert2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
 
     <style>
         .card-img-top {
@@ -87,17 +90,20 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
                     <div class="mb-3">
                         <label for="nama_jenis">Jenis Kain</label>
-                        <input type="text" class="form-control" name="nama_jenis" id="nama_jenis" required>
+                        <input list="list_jenis" class="form-control" name="nama_jenis" id="nama_jenis" required>
+                        <datalist id="list_jenis"></datalist>
                     </div>
 
                     <div class="mb-3">
                         <label for="nama_daerah">Daerah</label>
-                        <input type="text" class="form-control" name="nama_daerah" id="nama_daerah" required>
+                        <input list="list_daerah" class="form-control" name="nama_daerah" id="nama_daerah" required>
+                        <datalist id="list_daerah"></datalist>
                     </div>
 
                     <div class="mb-3">
                         <label for="nama_motif">Nama Motif</label>
-                        <input type="text" class="form-control" name="nama_motif" id="nama_motif" required>
+                        <input list="list_motif" class="form-control" name="nama_motif" id="nama_motif" required>
+                        <datalist id="list_motif"></datalist>
                     </div>
 
                     <div class="mb-3">
@@ -168,10 +174,10 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         </div>
     </div>
 
-
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -404,6 +410,54 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     }
                 });
             });
+
+            function loadSelectOptions() {
+                $.ajax({
+                    url: routeUrl + "/get_options",
+                    type: "POST",
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            // Isi Jenis Kain
+                            $('#list_jenis').empty();
+                            res.jenis.forEach(function (j) {
+                                $('#list_jenis').append(`<option value="${j.nama_jenis}">`);
+                            });
+
+                            // Isi Daerah
+                            $('#list_daerah').empty();
+                            res.daerah.forEach(function (d) {
+                                $('#list_daerah').append(`<option value="${d.nama_daerah}">`);
+                            });
+
+                            // Isi Motif
+                            $('#list_motif').empty();
+                            res.motif.forEach(function (m) {
+                                $('#list_motif').append(`<option value="${m.nama_motif}" data-cerita="${m.cerita || ''}">`);
+                            });
+                        }
+                    },
+                    error: function () {
+                        console.error("Gagal memuat data dropdown");
+                    }
+                });
+            }
+
+            // Saat modal dibuka, load data
+            $('#galeriModal').on('shown.bs.modal', function () {
+                loadSelectOptions();
+            });
+
+            // Auto isi cerita ketika nama motif cocok
+            $('#nama_motif').on('input', function () {
+                var val = $(this).val();
+                var cerita = $('#list_motif option').filter(function () {
+                    return $(this).val() === val;
+                }).data('cerita') || '';
+                $('#cerita').val(cerita);
+            });
+
+
 
         });
     </script>

@@ -30,6 +30,8 @@ class GaleriController
                 return $this->deleteVariasi();
             case 'fetch_single':
                 return $this->fetchSingle();
+            case 'get_options':
+                return $this->getOptions();
             default:
                 return ['status' => 'error', 'message' => 'Action tidak dikenali'];
         }
@@ -252,17 +254,79 @@ class GaleriController
     // ============================
     private function sanitizeMotifInput($data)
     {
-        return [
+        // Sanitasi awal (bersihkan dan ubah format huruf)
+        $result = [
             'nama_motif' => ucwords(strtolower(trim($data['nama_motif'] ?? ''))),
             'cerita' => trim($data['cerita'] ?? ''),
             'jenis_kain' => ucwords(strtolower(trim($data['jenis_kain'] ?? ''))),
             'daerah' => ucwords(strtolower(trim($data['daerah'] ?? ''))),
             'ukuran' => trim($data['ukuran'] ?? ''),
-            'bahan' => trim($data['bahan'] ?? ''),
-            'jenis_pewarna' => trim($data['jenis_pewarna'] ?? ''),
-            'harga' => $data['harga'] ?? 0,
-            'stok' => $data['stok'] ?? 0
+            'bahan' => ucwords(strtolower(trim($data['bahan'] ?? ''))),
+            'jenis_pewarna' => ucwords(strtolower(trim($data['jenis_pewarna'] ?? ''))),
+            'harga' => trim($data['harga'] ?? 0),
+            'stok' => trim($data['stok'] ?? 0),
         ];
+
+        // ==== VALIDASI FORMAT ====
+
+        // 1️⃣ Field yang hanya boleh huruf dan spasi (tanpa angka/simbol)
+        $alphaOnlyFields = ['nama_motif', 'jenis_kain', 'daerah'];
+        foreach ($alphaOnlyFields as $field) {
+            if (!preg_match('/^[a-zA-Z\s]+$/u', $result[$field])) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => ucfirst(str_replace('_', ' ', $field)) . ' hanya boleh berisi huruf dan spasi (tanpa angka atau simbol).'
+                ]);
+                exit;
+            }
+        }
+
+        // 2️⃣ Field yang tidak boleh ada angka (bahan & jenis pewarna)
+        $noNumberFields = ['bahan', 'jenis_pewarna'];
+        foreach ($noNumberFields as $field) {
+            if (preg_match('/\d/', $result[$field])) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => ucfirst(str_replace('_', ' ', $field)) . ' tidak boleh mengandung angka.'
+                ]);
+                exit;
+            }
+        }
+
+        // 3️⃣ Harga & stok harus angka positif
+        if (!is_numeric($result['harga']) || $result['harga'] < 0) {
+            echo json_encode(['status' => 'error', 'message' => 'Harga harus berupa angka positif.']);
+            exit;
+        }
+
+        if (!is_numeric($result['stok']) || $result['stok'] < 0) {
+            echo json_encode(['status' => 'error', 'message' => 'Stok harus berupa angka positif.']);
+            exit;
+        }
+
+        // 4️⃣ Validasi format ukuran (misal: "100x50")
+        if (!empty($result['ukuran']) && !preg_match('/^\d+\s*[xX]\s*\d+$/', $result['ukuran'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Format ukuran tidak valid. Gunakan format contoh: 100x50.']);
+            exit;
+        }
+
+        return $result;
+    }
+
+
+    public function getOptions()
+    {
+        $jenis = $this->galeriModel->getAllJenisKain();
+        $daerah = $this->galeriModel->getAllDaerah();
+        $motif = $this->galeriModel->getAllMotif();
+
+        echo json_encode([
+            'status' => 'success',
+            'jenis' => $jenis,
+            'daerah' => $daerah,
+            'motif' => $motif
+        ]);
+        exit;
     }
 
     private function validateMotifData($data)

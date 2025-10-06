@@ -194,6 +194,7 @@ class Galeri
             $data['stok']
         ]);
     }
+    
 
     public function updateVariasi($idVar, $data)
     {
@@ -289,6 +290,25 @@ class Galeri
         $stmt = $this->pdo->prepare("UPDATE kain SET id_daerah=? WHERE id_kain=?");
         return $stmt->execute([$idDaerah, $idKain]);
     }
+
+    public function getAllJenisKain()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM jenis_kain ORDER BY nama_jenis ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllDaerah()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM daerah ORDER BY nama_daerah ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllMotif()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM motif ORDER BY nama_motif ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 
 }
