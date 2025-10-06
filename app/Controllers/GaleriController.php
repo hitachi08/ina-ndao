@@ -111,56 +111,116 @@ class GaleriController
     // ============================
     private function updateVariasi()
     {
+        $requiredFields = ['nama_motif', 'nama_jenis', 'nama_daerah', 'ukuran', 'panjang', 'lebar'];
+        foreach ($requiredFields as $field) {
+            if (empty($_POST[$field])) {
+                echo json_encode(['status' => 'error', 'message' => "Field '$field' wajib diisi"]);
+                exit;
+            }
+        }
+
         $id_variasi = $_POST['id_variasi'] ?? null;
         if (!$id_variasi) {
-            return ['status' => 'error', 'message' => 'ID variasi tidak ditemukan'];
+            echo json_encode(['status' => 'error', 'message' => 'ID variasi tidak ditemukan']);
+            exit;
         }
 
         $data = $this->sanitizeMotifInput($_POST);
 
-        // update variasi
+        // Ambil data variasi_motif
+        $variasi = $this->galeriModel->getVariasiById($id_variasi);
+        if (!$variasi) {
+            echo json_encode(['status' => 'error', 'message' => 'Variasi tidak ditemukan']);
+            exit;
+        }
+
+        $id_kain_motif = $variasi['id_kain_motif'];
+
+        // Ambil id_kain dan id_motif dari tabel kain_motif
+        $kainMotif = $this->galeriModel->getKainMotifById($id_kain_motif);
+        if (!$kainMotif) {
+            echo json_encode(['status' => 'error', 'message' => 'Data kain_motif tidak ditemukan']);
+            exit;
+        }
+        $id_kain = $kainMotif['id_kain'] ?? null;
+        $id_motif = $kainMotif['id_motif'] ?? null;
+
+        // Update variasi_motif
         $this->galeriModel->updateVariasi($id_variasi, $data);
 
-        // update motif
-        $idMotif = $_POST['id_motif'] ?? null;
-        if ($idMotif) {
-            $this->galeriModel->updateMotif($idMotif, [
+        // Update motif
+        if ($id_motif) {
+            $this->galeriModel->updateMotif($id_motif, [
                 'nama_motif' => $data['nama_motif'],
                 'cerita' => $data['cerita']
             ]);
         }
 
-        // update gambar motif
-        if (!empty($_FILES['gambar']['name'][0])) {
-            $this->uploadMultiFiles($idMotif, $_FILES['gambar']);
+        // Update jenis_kain
+        if (!empty($data['jenis_kain']) && $id_kain) {
+            $idJenis = $this->galeriModel->getOrCreateJenisKain($data['jenis_kain']);
+            $this->galeriModel->updateKainJenis($id_kain, $idJenis);
         }
 
-        return ['status' => 'success', 'message' => 'Variasi berhasil diperbarui'];
+        // Update daerah
+        if (!empty($data['daerah']) && $id_kain) {
+            $idDaerah = $this->galeriModel->getOrCreateDaerah($data['daerah']);
+            $this->galeriModel->updateKainDaerah($id_kain, $idDaerah);
+        }
+
+        // Upload gambar motif
+        if (!empty($_FILES['gambar']['name'][0])) {
+            $this->uploadMultiFiles($id_motif, $_FILES['gambar']);
+        }
+
+        echo json_encode(['status' => 'success', 'message' => 'Variasi berhasil diperbarui']);
+        exit;
     }
+
 
     // ============================
     // Delete variasi + motif
     // ============================
     private function deleteVariasi()
     {
-        $idMotif = $_POST['id_motif'] ?? null;
-        $idKainMotif = $_POST['id_kain_motif'] ?? null;
+        $idVariasi = $_POST['id_variasi'] ?? null;
 
-        if (!$idMotif || !$idKainMotif) {
-            return ['status' => 'error', 'message' => 'Data tidak lengkap'];
+        if (!$idVariasi) {
+            echo json_encode(['status' => 'error', 'message' => 'ID variasi tidak ditemukan']);
+            exit;
         }
 
-        // hapus variasi
+        // Ambil data variasi untuk tahu id_kain_motif
+        $variasi = $this->galeriModel->getVariasiById($idVariasi);
+        if (!$variasi) {
+            echo json_encode(['status' => 'error', 'message' => 'Variasi tidak ditemukan']);
+            exit;
+        }
+
+        $idKainMotif = $variasi['id_kain_motif'];
+
+        // Ambil data kain_motif untuk tahu id_motif
+        $kainMotif = $this->galeriModel->getKainMotifById($idKainMotif);
+        if (!$kainMotif) {
+            echo json_encode(['status' => 'error', 'message' => 'Data kain motif tidak ditemukan']);
+            exit;
+        }
+
+        $idMotif = $kainMotif['id_motif'];
+
+        // Hapus variasi
         $this->galeriModel->deleteVariasiByKainMotif($idKainMotif);
 
-        // hapus semua gambar motif
+        // Hapus semua gambar motif
         $this->galeriModel->deleteAllMotifGambar($idMotif);
 
-        // hapus motif
+        // Hapus motif
         $this->galeriModel->deleteMotif($idMotif);
 
-        return ['status' => 'success', 'message' => 'Motif & variasi berhasil dihapus'];
+        echo json_encode(['status' => 'success', 'message' => 'Motif & variasi berhasil dihapus']);
+        exit;
     }
+
 
     // ============================
     // Upload multi file
