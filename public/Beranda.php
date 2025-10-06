@@ -278,14 +278,19 @@ if ($teamData) {
         Pengrajin & Tim
         <span class="text-uppercase text-primary bg-light px-2">Ina Ndao</span>
       </h1>
+
       <div class="row flex-row flex-nowrap overflow-auto g-4">
         <?php foreach ($team as $i => $anggota): ?>
           <div class="col-6 col-sm-4 col-md-3 col-lg-3 flex-shrink-0">
-            <div class="team-item h-100 position-relative overflow-hidden">
-              <img class="img-fluid w-100 h-100 rounded" style="object-fit: cover;" src="<?= htmlspecialchars($anggota['foto']) ?>" alt="<?= htmlspecialchars($anggota['nama']) ?>" />
+            <div class="team-item h-100 position-relative overflow-hidden rounded shadow-sm" style="aspect-ratio: 3 / 4;">
+              <img
+                src="<?= htmlspecialchars($anggota['foto']) ?>"
+                alt="<?= htmlspecialchars($anggota['nama']) ?>"
+                class="img-fluid w-100 h-100 rounded"
+                style="object-fit: cover; object-position: center;" />
               <div class="team-overlay position-absolute bottom-0 start-0 w-100 p-3">
-                <small class="mb-1 d-block"><?= htmlspecialchars($anggota['jabatan']) ?></small>
-                <h4 class="lh-base text-light"><?= htmlspecialchars($anggota['nama']) ?></h4>
+                <small class="mb-1 d-block text-light"><?= htmlspecialchars($anggota['jabatan']) ?></small>
+                <h4 class="lh-base text-light mb-0"><?= htmlspecialchars($anggota['nama']) ?></h4>
               </div>
             </div>
           </div>
@@ -294,6 +299,7 @@ if ($teamData) {
     </div>
   </div>
   <!-- Team End -->
+
   <style>
     /* Medium devices (≥768px) */
     @media (min-width: 768px) {

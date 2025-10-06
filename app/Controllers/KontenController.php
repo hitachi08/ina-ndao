@@ -21,6 +21,29 @@ class KontenController
         if ($action === 'update') {
             $halaman = $_POST['halaman'] ?? '';
             $konten = $_POST['konten'] ?? '';
+
+            if ($halaman === 'tentang_ina_ndao' && !empty($_FILES)) {
+                $konten = json_decode($konten, true);
+
+                foreach ($_FILES as $key => $file) {
+                    if ($file['error'] === UPLOAD_ERR_OK) {
+                        $index = (int) str_replace('gambar_', '', $key);
+                        $targetDir = __DIR__ . '/../../public/img/tentang/';
+                        if (!file_exists($targetDir)) mkdir($targetDir, 0777, true);
+
+                        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                        $filename = uniqid('tentang_') . '.' . $ext;
+                        $targetFile = $targetDir . $filename;
+
+                        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+                            $konten[$index]['gambar'] = '/img/tentang/' . $filename;
+                        }
+                    }
+                }
+
+                $konten = json_encode($konten);
+            }
+
             $ok = $this->model->updateKonten($halaman, $konten);
 
             echo json_encode([

@@ -65,13 +65,13 @@ $csrf = $_SESSION['csrf_token'];
 	<link rel="stylesheet" href="../css/notyf.min.css">
 </head>
 
-<body class="img js-fullheight" style="background-image: url(../img/bg.jpg);">
+<body class="img js-fullheight" style="background-image: url(../img/assets/bg-login.JPG);">
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
-						<h3 class="mb-4 text-center">Selamat Datang di Ina Ndao</h3>
+						<h3 class="mb-4 text-center">Selamat Datang di Rumah Tenun Ina Ndao</h3>
 
 						<form id="loginForm" novalidate>
 							<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf) ?>">

@@ -47,37 +47,32 @@ if (!$slug) {
     <style>
         .event-banner {
             width: 100%;
+            height: 100%;
             max-height: 400px;
             object-fit: cover;
-            border-radius: 10px;
         }
 
         .event-doc {
             width: 100%;
             height: 200px;
-            aspect-ratio: 1 / 1;
-            /* tampil persegi */
             object-fit: cover;
             border-radius: 10px;
             transition: all 0.4s ease;
             cursor: pointer;
-            z-index: 1;
             position: relative;
+            z-index: 1;
         }
 
         .event-doc:hover {
             position: relative;
             z-index: 10;
             transform: scale(1.5);
-            /* efek timbul */
-            aspect-ratio: auto;
-            /* tampilkan ukuran asli (16:9) */
             object-fit: contain;
-            /* tampilkan seluruh gambar */
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             background: #fff;
         }
     </style>
+
 </head>
 
 <body>
@@ -121,14 +116,13 @@ if (!$slug) {
     <!-- Back to Top -->
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-
     <script src="/js/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             let slug = "<?= htmlspecialchars($slug) ?>";
 
             $.ajax({
-                url: "/event/detail", // route ke controller
+                url: "/event/detail",
                 type: "POST",
                 data: {
                     idOrSlug: slug
@@ -138,51 +132,77 @@ if (!$slug) {
                     if (res.status === "success") {
                         let ev = res.event;
 
-                        // Render detail event
-                        // Buat tanggal event & tanggal sekarang
+                        // 🔹 Format tanggal: Sabtu, 08 November 2025
                         const eventDate = new Date(ev.tanggal);
-                        const today = new Date();
+                        const formattedDate = new Intl.DateTimeFormat("id-ID", {
+                            weekday: "long",
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric"
+                        }).format(eventDate);
 
-                        // Bandingkan
+                        // 🔹 Format waktu: 08.00
+                        let formattedTime = "";
+                        if (ev.waktu) {
+                            const [hour, minute] = ev.waktu.split(":");
+                            formattedTime = `${hour.padStart(2, "0")}.${minute.padStart(2, "0")}`;
+                        }
+
+                        const today = new Date();
                         const isUpcoming = eventDate >= today;
 
-                        // Badge tampil hanya jika event masih akan datang
                         const badgeHTML = isUpcoming ?
                             `<span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>` :
-                            '';
+                            "";
 
                         let html = `
-                            <div class="card shadow-sm wow fadeIn position-relative">
+                            <div class="card shadow-sm wow fadeIn position-relative overflow-hidden">
                                 ${badgeHTML}
-                                <img src="/img/event/${ev.gambar_banner}" class="event-banner" alt="${ev.nama_event}">
-                                <div class="card-body">
-                                    <h2 class="card-title">${ev.nama_event}</h2>
-                                    <p><strong>Tempat:</strong> ${ev.tempat}</p>
-                                    <p><strong>Tanggal:</strong> ${ev.tanggal} ${ev.waktu ? '('+ev.waktu+')' : ''}</p>
-                                    <p>${ev.deskripsi}</p>
+                                <div class="row g-4 align-items-start flex-column flex-md-row">
+                                    <!-- Gambar Event -->
+                                    <div class="col-12 col-md-5">
+                                        <img src="/img/event/${ev.gambar_banner}" 
+                                             class="event-banner shadow-sm rounded w-100" 
+                                             alt="${ev.nama_event}">
+                                    </div>
+
+                                    <!-- Konten Detail -->
+                                    <div class="col-12 col-md-7 p-3">
+                                        <h2 class="card-title mb-3 fw-bold" style="font-size: 1.8rem;">${ev.nama_event}</h2>
+
+                                        <p class="mb-2">
+                                            <i class="bi bi-geo-alt-fill me-2"></i>
+                                            <strong>${ev.tempat}</strong>
+                                        </p>
+
+                                        <p class="mb-1 text-primary">
+                                            <strong>${formattedDate}</strong>
+                                        </p>
+
+                                        <p class="mb-3 text-muted">
+                                            ${formattedTime ? formattedTime + ' WITA' : '-'}
+                                        </p>
+
+                                        <p class="mt-3">${ev.deskripsi}</p>
+                                    </div>
                                 </div>
                             </div>
                         `;
-
                         $("#event-detail").html(html);
 
-                        // Render dokumentasi (jika ada)
                         if (res.dokumentasi && res.dokumentasi.length > 0) {
                             res.dokumentasi.forEach(doc => {
                                 $("#event-docs").append(`
-                                <div class="col-md-3 mb-3">
-                                    <img src="/img/event/${doc.gambar_dokumentasi}" class="event-doc shadow" alt="Dokumentasi">
-                                </div>
-                            `);
+                    <div class="col-md-3 mb-3">
+                        <img src="/img/event/${doc.gambar_dokumentasi}" class="event-doc shadow" alt="Dokumentasi">
+                    </div>
+                `);
                             });
                         }
                     } else {
                         $("#event-detail").html(`<div class="alert alert-danger">${res.message}</div>`);
                     }
                 },
-                error: function() {
-                    $("#event-detail").html(`<div class="alert alert-danger">Gagal mengambil data event</div>`);
-                }
             });
         });
     </script>

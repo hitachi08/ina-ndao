@@ -1,3 +1,23 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/Models/KontenModel.php';
+
+$model = new KontenModel($pdo);
+$data = $model->getByHalaman('tentang_ina_ndao');
+
+// Pastikan konten tidak null dan valid JSON
+if (!empty($data['konten'])) {
+    $rows = json_decode($data['konten'], true);
+    // Jika gagal decode (bukan JSON valid), jadikan array kosong
+    if (!is_array($rows)) {
+        $rows = [];
+    }
+} else {
+    $rows = [];
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,64 +86,46 @@
     </div>
     <!-- Hero End -->
 
+    <style>
+        .image-wrapper {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
     <!-- Tentang Ina Ndao Start -->
     <div class="container-fluid py-5">
         <div class="container">
-            <!-- Row 1 -->
-            <div class="row align-items-center g-5 mb-5">
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
-                    <img src="img/ina-ndao.jpg" alt="Ina Ndao" class="img-fluid w-50 rounded shadow mx-auto d-block">
-                </div>
-                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.4s">
-                    <h2 class="mb-4">Peran <span class="text-primary bg-light px-2"> INA NDAO</span></h2>
-                    <p class="fs-6">
-                        Ina Ndao hadir sebagai pelestari dan penggerak budaya tenun ikat khas Nusa Tenggara Timur.
-                        Kami tidak hanya menjaga warisan leluhur melalui tenunan, tetapi juga memberikan nilai tambah
-                        dengan desain modern yang tetap mengakar pada tradisi.
-                    </p>
-                    <p class="fs-6">
-                        Melalui setiap helai benang, Ina Ndao membawa cerita, identitas, dan jati diri masyarakat NTT
-                        agar terus hidup dan dikenal luas oleh dunia.
-                    </p>
-                </div>
-            </div>
+            <?php foreach ($rows as $i => $row):
+                $reverse = ($i % 2 == 1) ? 'flex-lg-row-reverse' : '';
+            ?>
+                <div class="row align-items-center g-5 mb-5 <?= $reverse ?> d-flex">
+                    <!-- Kolom Gambar -->
+                    <div class="col-lg-6 col-md-12 text-center wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="image-wrapper mx-auto">
+                            <img src="<?= htmlspecialchars($row['gambar']) ?>"
+                                alt="<?= htmlspecialchars($row['judul']) ?>"
+                                class="img-fluid shadow"
+                                loading="lazy" style="height: 400px; object-fit: cover; border-radius: 5px;">
+                        </div>
+                    </div>
 
-            <!-- Row 2 -->
-            <div class="row align-items-center g-5 flex-lg-row-reverse mb-5">
-                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
-                    <img src="img/ina-ndao2.jpg" alt="Kolaborasi Ina Ndao" class="img-fluid w-50 rounded shadow mx-auto d-block">
+                    <!-- Kolom Teks -->
+                    <div class="col-lg-6 col-md-12 wow fadeInRight" data-wow-delay="0.4s">
+                        <h2 class="mb-4 text-primary text-center text-lg-start"><?= htmlspecialchars($row['judul']) ?></h2>
+                        <p class="fs-6 text-justify"><?= nl2br(htmlspecialchars($row['paragraf1'])) ?></p>
+                        <p class="fs-6 text-justify"><?= nl2br(htmlspecialchars($row['paragraf2'])) ?></p>
+                    </div>
                 </div>
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.4s">
-                    <h2 class="mb-4 text-primary">Kolaborasi & Kerja Sama</h2>
-                    <p class="fs-6">
-                        Ina Ndao telah menjalin kerja sama dengan berbagai komunitas, perajin lokal, desainer,
-                        hingga mitra usaha di tingkat nasional dan internasional.
-                        Tujuannya adalah memperluas jangkauan pemasaran sekaligus meningkatkan kesejahteraan para penenun.
-                    </p>
-                    <p class="fs-6">
-                        Kami percaya bahwa kolaborasi adalah kunci untuk menjaga keberlanjutan budaya dan memperkuat
-                        ekonomi kreatif di daerah.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Row 3 -->
-            <div class="row align-items-center g-5 mb-5">
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
-                    <img src="img/ina-ndao3.jpg" alt="Visi Masa Depan Ina Ndao" class="img-fluid w-50 rounded shadow mx-auto d-block">
-                </div>
-                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.4s">
-                    <h2 class="mb-4 text-primary">Visi ke Depan</h2>
-                    <p class="fs-6">
-                        Dengan semangat inovasi, Ina Ndao berkomitmen untuk terus mengembangkan produk-produk
-                        berbasis tenun ikat yang relevan dengan gaya hidup modern tanpa meninggalkan akar tradisi.
-                    </p>
-                    <p class="fs-6">
-                        Kami ingin menjadikan tenun ikat sebagai simbol kebanggaan dan identitas, tidak hanya di NTT,
-                        tetapi juga di kancah internasional.
-                    </p>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
     <!-- Tentang Ina Ndao End -->

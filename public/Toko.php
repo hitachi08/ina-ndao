@@ -217,7 +217,7 @@
                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="product-list">
                         <!-- Produk 1 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-alor.png" class="card-img-top product-img" alt="Sarung Alor">
                                 <div class="card-body">
                                     <h6 class="card-title">Sarung Alor</h6>
@@ -236,7 +236,7 @@
                         </div>
                         <!-- Produk 2 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-maumere.png" class="card-img-top product-img" alt="Selendang Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Sumba</h5>
@@ -256,7 +256,7 @@
 
                         <!-- Produk 3 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-ende.png" class="card-img-top product-img" alt="Sarung Flores">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Flores</h5>
@@ -276,7 +276,7 @@
 
                         <!-- Produk 4 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/buna-nunkolo.png" class="card-img-top product-img" alt="Selendang Putih Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Putih</h5>
@@ -296,7 +296,7 @@
 
                         <!-- Produk 5 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-sumba.png" class="card-img-top product-img" alt="Sarung Timor">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Timor</h5>
@@ -316,7 +316,7 @@
 
                         <!-- Produk 6 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-amarasi.png" class="card-img-top product-img" alt="Selendang Ina Ndao">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Ina Ndao</h5>
@@ -335,7 +335,7 @@
                         </div>
                         <!-- Produk 1 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-alor.png" class="card-img-top product-img" alt="Sarung Alor">
                                 <div class="card-body">
                                     <h6 class="card-title">Sarung Alor</h6>
@@ -354,7 +354,7 @@
                         </div>
                         <!-- Produk 2 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-maumere.png" class="card-img-top product-img" alt="Selendang Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Sumba</h5>
@@ -374,7 +374,7 @@
 
                         <!-- Produk 3 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-ende.png" class="card-img-top product-img" alt="Sarung Flores">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Flores</h5>
@@ -394,7 +394,7 @@
 
                         <!-- Produk 4 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/buna-nunkolo.png" class="card-img-top product-img" alt="Selendang Putih Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Putih</h5>
@@ -414,7 +414,7 @@
 
                         <!-- Produk 5 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-sumba.png" class="card-img-top product-img" alt="Sarung Timor">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Timor</h5>
@@ -434,7 +434,7 @@
 
                         <!-- Produk 6 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-amarasi.png" class="card-img-top product-img" alt="Selendang Ina Ndao">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Ina Ndao</h5>
@@ -453,7 +453,7 @@
                         </div>
                         <!-- Produk 1 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-alor.png" class="card-img-top product-img" alt="Sarung Alor">
                                 <div class="card-body">
                                     <h6 class="card-title">Sarung Alor</h6>
@@ -472,7 +472,7 @@
                         </div>
                         <!-- Produk 2 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-maumere.png" class="card-img-top product-img" alt="Selendang Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Sumba</h5>
@@ -492,7 +492,7 @@
 
                         <!-- Produk 3 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-ende.png" class="card-img-top product-img" alt="Sarung Flores">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Flores</h5>
@@ -512,7 +512,7 @@
 
                         <!-- Produk 4 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/buna-nunkolo.png" class="card-img-top product-img" alt="Selendang Putih Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Putih</h5>
@@ -532,7 +532,7 @@
 
                         <!-- Produk 5 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-sumba.png" class="card-img-top product-img" alt="Sarung Timor">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Timor</h5>
@@ -552,7 +552,7 @@
 
                         <!-- Produk 6 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-amarasi.png" class="card-img-top product-img" alt="Selendang Ina Ndao">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Ina Ndao</h5>
@@ -571,7 +571,7 @@
                         </div>
                         <!-- Produk 1 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-alor.png" class="card-img-top product-img" alt="Sarung Alor">
                                 <div class="card-body">
                                     <h6 class="card-title">Sarung Alor</h6>
@@ -590,7 +590,7 @@
                         </div>
                         <!-- Produk 2 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-maumere.png" class="card-img-top product-img" alt="Selendang Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Sumba</h5>
@@ -610,7 +610,7 @@
 
                         <!-- Produk 3 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-ende.png" class="card-img-top product-img" alt="Sarung Flores">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Flores</h5>
@@ -630,7 +630,7 @@
 
                         <!-- Produk 4 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/buna-nunkolo.png" class="card-img-top product-img" alt="Selendang Putih Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Putih</h5>
@@ -650,7 +650,7 @@
 
                         <!-- Produk 5 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-sumba.png" class="card-img-top product-img" alt="Sarung Timor">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Timor</h5>
@@ -670,7 +670,7 @@
 
                         <!-- Produk 6 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-amarasi.png" class="card-img-top product-img" alt="Selendang Ina Ndao">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Ina Ndao</h5>
@@ -689,7 +689,7 @@
                         </div>
                         <!-- Produk 1 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-alor.png" class="card-img-top product-img" alt="Sarung Alor">
                                 <div class="card-body">
                                     <h6 class="card-title">Sarung Alor</h6>
@@ -708,7 +708,7 @@
                         </div>
                         <!-- Produk 2 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-maumere.png" class="card-img-top product-img" alt="Selendang Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Sumba</h5>
@@ -728,7 +728,7 @@
 
                         <!-- Produk 3 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-ende.png" class="card-img-top product-img" alt="Sarung Flores">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Flores</h5>
@@ -748,7 +748,7 @@
 
                         <!-- Produk 4 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/buna-nunkolo.png" class="card-img-top product-img" alt="Selendang Putih Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Putih</h5>
@@ -768,7 +768,7 @@
 
                         <!-- Produk 5 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-sumba.png" class="card-img-top product-img" alt="Sarung Timor">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Timor</h5>
@@ -788,7 +788,7 @@
 
                         <!-- Produk 6 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-amarasi.png" class="card-img-top product-img" alt="Selendang Ina Ndao">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Ina Ndao</h5>
@@ -807,7 +807,7 @@
                         </div>
                         <!-- Produk 1 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-alor.png" class="card-img-top product-img" alt="Sarung Alor">
                                 <div class="card-body">
                                     <h6 class="card-title">Sarung Alor</h6>
@@ -826,7 +826,7 @@
                         </div>
                         <!-- Produk 2 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-maumere.png" class="card-img-top product-img" alt="Selendang Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Sumba</h5>
@@ -846,7 +846,7 @@
 
                         <!-- Produk 3 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-ende.png" class="card-img-top product-img" alt="Sarung Flores">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Flores</h5>
@@ -866,7 +866,7 @@
 
                         <!-- Produk 4 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/buna-nunkolo.png" class="card-img-top product-img" alt="Selendang Putih Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Putih</h5>
@@ -886,7 +886,7 @@
 
                         <!-- Produk 5 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-sumba.png" class="card-img-top product-img" alt="Sarung Timor">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Timor</h5>
@@ -906,7 +906,7 @@
 
                         <!-- Produk 6 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-amarasi.png" class="card-img-top product-img" alt="Selendang Ina Ndao">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Ina Ndao</h5>
@@ -925,7 +925,7 @@
                         </div>
                         <!-- Produk 1 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-alor.png" class="card-img-top product-img" alt="Sarung Alor">
                                 <div class="card-body">
                                     <h6 class="card-title">Sarung Alor</h6>
@@ -944,7 +944,7 @@
                         </div>
                         <!-- Produk 2 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-maumere.png" class="card-img-top product-img" alt="Selendang Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Sumba</h5>
@@ -964,7 +964,7 @@
 
                         <!-- Produk 3 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-ende.png" class="card-img-top product-img" alt="Sarung Flores">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Flores</h5>
@@ -984,7 +984,7 @@
 
                         <!-- Produk 4 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/buna-nunkolo.png" class="card-img-top product-img" alt="Selendang Putih Sumba">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Putih</h5>
@@ -1004,7 +1004,7 @@
 
                         <!-- Produk 5 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/sarung-sumba.png" class="card-img-top product-img" alt="Sarung Timor">
                                 <div class="card-body">
                                     <h5 class="card-title">Sarung Timor</h5>
@@ -1024,7 +1024,7 @@
 
                         <!-- Produk 6 -->
                         <div class="col-6 col-md-3 col-lg-2">
-                            <div class="card product-card h-100 border-0 shadow-sm text-center cursor-pointer">
+                            <div class="card product-card2 h-100 border-0 shadow-sm text-center cursor-pointer">
                                 <img src="img/produk/kain-amarasi.png" class="card-img-top product-img" alt="Selendang Ina Ndao">
                                 <div class="card-body">
                                     <h5 class="card-title">Selendang Ina Ndao</h5>

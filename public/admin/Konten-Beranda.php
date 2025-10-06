@@ -10,7 +10,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
 <head>
     <meta charset="UTF-8">
-    <title>Kelola Konten Beranda - Ina Ndao</title>
+    <title>Kelola Konten - Ina Ndao</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -19,6 +19,13 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <link type="text/css" href="../css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" href="../css/volt.css" rel="stylesheet">
     <link type="text/css" href="../css/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        .foto-preview {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,10 +43,10 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     <a class="nav-link active" id="sejarah-tab" data-bs-toggle="tab" href="#tabSejarah" role="tab">Sejarah Ina Ndao</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="promosi-tab" data-bs-toggle="tab" href="#tabPromosi" role="tab">Promosi Ina Ndao</a>
+                    <a class="nav-link" id="team-tab" data-bs-toggle="tab" href="#tabTeam" role="tab">Team Ina Ndao</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="team-tab" data-bs-toggle="tab" href="#tabTeam" role="tab">Team Ina Ndao</a>
+                    <a class="nav-link" id="promosi-tab" data-bs-toggle="tab" href="#tabPromosi" role="tab">Promosi Ina Ndao</a>
                 </li>
             </ul>
 
@@ -50,6 +57,39 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                         <input type="hidden" name="halaman" value="beranda_sejarah">
                         <textarea id="editorSejarah" name="konten" rows="20" class="form-control"></textarea>
                         <button type="submit" class="btn btn-success mt-3">Simpan Sejarah</button>
+                    </form>
+                </div>
+
+                <!-- TAB TEAM -->
+                <div class="tab-pane fade" id="tabTeam" role="tabpanel">
+                    <form id="formTeam">
+                        <input type="hidden" name="halaman" value="beranda_team">
+
+                        <div id="teamWrapper">
+                            <!-- Template anggota team -->
+                            <div class="team-member row g-2 mb-3 align-items-end">
+                                <div class="col-md-4">
+                                    <label>Nama</label>
+                                    <input type="text" class="form-control nama" placeholder="Nama anggota">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Jabatan</label>
+                                    <input type="text" class="form-control jabatan" placeholder="Jabatan">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Foto</label>
+                                    <input type="file" class="form-control fotoFile" accept="image/*">
+                                    <input type="hidden" class="foto" value="">
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-danger btn-sm remove-member">×</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-secondary btn-sm mb-3" id="addMember">Tambah Anggota</button>
+                        <br>
+                        <button type="submit" class="btn btn-success">Simpan Team</button>
                     </form>
                 </div>
 
@@ -89,39 +129,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                         </div>
 
                         <button type="submit" class="btn btn-success mt-3">Simpan Promosi</button>
-                    </form>
-                </div>
-
-                <!-- TAB TEAM -->
-                <div class="tab-pane fade" id="tabTeam" role="tabpanel">
-                    <form id="formTeam">
-                        <input type="hidden" name="halaman" value="beranda_team">
-
-                        <div id="teamWrapper">
-                            <!-- Template anggota team -->
-                            <div class="team-member row g-2 mb-3 align-items-end">
-                                <div class="col-md-4">
-                                    <label>Nama</label>
-                                    <input type="text" class="form-control nama" placeholder="Nama anggota">
-                                </div>
-                                <div class="col-md-4">
-                                    <label>Jabatan</label>
-                                    <input type="text" class="form-control jabatan" placeholder="Jabatan">
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Foto</label>
-                                    <input type="file" class="form-control fotoFile" accept="image/*">
-                                    <input type="hidden" class="foto" value="">
-                                </div>
-                                <div class="col-md-1">
-                                    <button type="button" class="btn btn-danger btn-sm remove-member">×</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="button" class="btn btn-secondary btn-sm mb-3" id="addMember">Tambah Anggota</button>
-                        <br>
-                        <button type="submit" class="btn btn-success">Simpan Team</button>
                     </form>
                 </div>
             </div>
@@ -214,23 +221,27 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     try {
                         const data = JSON.parse(res.konten);
                         $('#teamWrapper').empty();
+
                         data.team.forEach(member => {
                             const row = `
-                            <div class="team-member row g-2 mb-3 align-items-end">
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control nama" value="${member.nama}" placeholder="Nama anggota">
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control jabatan" value="${member.jabatan}" placeholder="Jabatan">
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="file" class="form-control fotoFile" accept="image/*">
-                                    <input type="hidden" class="foto" value="${member.foto}">
-                                </div>
-                                <div class="col-md-1">
-                                    <button type="button" class="btn btn-danger btn-sm remove-member">×</button>
-                                </div>
-                            </div>`;
+                    <div class="team-member row g-2 align-items-start mb-4">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control nama" value="${member.nama}" placeholder="Nama anggota">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control jabatan" value="${member.jabatan}" placeholder="Jabatan">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" class="form-control fotoFile" accept="image/*">
+                            <input type="hidden" class="foto" value="${member.foto}">
+                        </div>
+                        <div class="col-md-1 text-center preview-container">
+                            ${member.foto ? `<img src="${member.foto}" class="foto-preview" alt="Preview">` : ''}
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger btn-sm remove-member">×</button>
+                        </div>
+                    </div>`;
                             $('#teamWrapper').append(row);
                         });
                     } catch (e) {
@@ -248,21 +259,22 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         // =====================================================
         $('#addMember').on('click', function() {
             const template = `
-            <div class="team-member row g-2 mb-3 align-items-end">
-                <div class="col-md-4">
-                    <input type="text" class="form-control nama" placeholder="Nama anggota">
-                </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control jabatan" placeholder="Jabatan">
-                </div>
-                <div class="col-md-3">
-                    <input type="file" class="form-control fotoFile" accept="image/*">
-                    <input type="hidden" class="foto" value="">
-                </div>
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-danger btn-sm remove-member">×</button>
-                </div>
-            </div>`;
+                <div class="team-member row g-2 align-items-start mb-4">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control nama" placeholder="Nama anggota">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control jabatan" placeholder="Jabatan">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="file" class="form-control fotoFile" accept="image/*">
+                        <input type="hidden" class="foto" value="">
+                    </div>
+                    <div class="col-md-1 text-center preview-container"></div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-danger btn-sm remove-member">×</button>
+                    </div>
+                </div>`;
             $('#teamWrapper').append(template);
         });
 
@@ -276,13 +288,24 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         $(document).on('change', '.fotoFile', function() {
             const fileInput = this;
             const hiddenInput = $(this).siblings('.foto');
+            const previewContainer = $(this).closest('.team-member').find('.preview-container');
 
             if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Hapus preview lama & tampilkan baru
+                    previewContainer.html(`<img src="${e.target.result}" class="foto-preview" alt="Preview">`);
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+
+                // Upload ke server
                 const formData = new FormData();
                 formData.append('file', fileInput.files[0]);
 
                 $.ajax({
-                    url: '/konten/upload_team_foto', // endpoint PHP
+                    url: '/konten/upload_team_foto',
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -290,7 +313,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     dataType: 'json',
                     success: function(res) {
                         if (res.filePath) {
-                            hiddenInput.val(res.filePath); // simpan path file ke input hidden
+                            hiddenInput.val(res.filePath);
                         } else {
                             Swal.fire('Error', 'Gagal upload foto', 'error');
                         }
@@ -359,7 +382,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             $('#teamWrapper .team-member').each(function() {
                 const nama = $(this).find('.nama').val();
                 const jabatan = $(this).find('.jabatan').val();
-                const foto = $(this).find('.foto').val(); // path yang sudah tersimpan di server
+                const foto = $(this).find('.foto').val();
                 if (nama) team.push({
                     nama,
                     jabatan,

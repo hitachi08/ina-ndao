@@ -63,7 +63,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
 <body>
     <?php include "sidebar.php"; ?>
-    <main class="content p-4">
+    <main class="content">
         <?php include "navbar.php" ?>
         <h2>Kelola Galeri</h2>
         <button class="btn btn-primary mb-3" id="btnAdd">Tambah Motif / Variasi</button>
