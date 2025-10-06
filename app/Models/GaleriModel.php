@@ -123,14 +123,6 @@ class Galeri
         return $this->pdo->lastInsertId();
     }
 
-    // ============================
-    // UPDATE KAIN
-    // ============================
-    public function updateKain($idKain, $idJenis, $idDaerah)
-    {
-        $stmt = $this->pdo->prepare("UPDATE kain SET id_jenis_kain=?, id_daerah=? WHERE id_kain=?");
-        return $stmt->execute([$idJenis, $idDaerah, $idKain]);
-    }
 
     // ============================
     // MOTIF
@@ -177,17 +169,6 @@ class Galeri
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updateMotifGambar($idGambar, $gambarBaru)
-    {
-        $stmt = $this->pdo->prepare("UPDATE motif_gambar SET gambar=? WHERE id_gambar=?");
-        return $stmt->execute([$gambarBaru, $idGambar]);
-    }
-
-    public function deleteMotifGambar($idGambar)
-    {
-        $stmt = $this->pdo->prepare("DELETE FROM motif_gambar WHERE id_gambar=?");
-        return $stmt->execute([$idGambar]);
-    }
 
     public function deleteAllMotifGambar($idMotif)
     {
@@ -213,6 +194,7 @@ class Galeri
             $data['stok']
         ]);
     }
+    
 
     public function updateVariasi($idVar, $data)
     {
@@ -254,9 +236,79 @@ class Galeri
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function deleteKainMotif($idKainMotif)
+
+    public function getKainMotifById($idKainMotif)
     {
-        $stmt = $this->pdo->prepare("DELETE FROM kain_motif WHERE id_kain_motif=?");
-        return $stmt->execute([$idKainMotif]);
+        $stmt = $this->pdo->prepare("SELECT * FROM kain_motif WHERE id_kain_motif=?");
+        $stmt->execute([$idKainMotif]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    // Ambil data variasi_motif berdasarkan id_variasi
+    public function getVariasiById($idVariasi)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM variasi_motif WHERE id_variasi=?");
+        $stmt->execute([$idVariasi]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Ambil id_jenis_kain dari nama_jenis (insert jika belum ada)
+    public function getOrCreateJenisKain($namaJenis)
+    {
+        $stmt = $this->pdo->prepare("SELECT id_jenis_kain FROM jenis_kain WHERE nama_jenis=?");
+        $stmt->execute([$namaJenis]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
+            $stmt = $this->pdo->prepare("INSERT INTO jenis_kain(nama_jenis) VALUES(?)");
+            $stmt->execute([$namaJenis]);
+            return $this->pdo->lastInsertId();
+        }
+        return $row['id_jenis_kain'];
+    }
+
+    // Ambil id_daerah dari nama_daerah (insert jika belum ada)
+    public function getOrCreateDaerah($namaDaerah)
+    {
+        $stmt = $this->pdo->prepare("SELECT id_daerah FROM daerah WHERE nama_daerah=?");
+        $stmt->execute([$namaDaerah]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
+            $stmt = $this->pdo->prepare("INSERT INTO daerah(nama_daerah) VALUES(?)");
+            $stmt->execute([$namaDaerah]);
+            return $this->pdo->lastInsertId();
+        }
+        return $row['id_daerah'];
+    }
+    public function updateKainJenis($idKain, $idJenis)
+    {
+        $stmt = $this->pdo->prepare("UPDATE kain SET id_jenis_kain=? WHERE id_kain=?");
+        return $stmt->execute([$idJenis, $idKain]);
+    }
+
+    public function updateKainDaerah($idKain, $idDaerah)
+    {
+        $stmt = $this->pdo->prepare("UPDATE kain SET id_daerah=? WHERE id_kain=?");
+        return $stmt->execute([$idDaerah, $idKain]);
+    }
+
+    public function getAllJenisKain()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM jenis_kain ORDER BY nama_jenis ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllDaerah()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM daerah ORDER BY nama_daerah ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllMotif()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM motif ORDER BY nama_motif ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+
 }

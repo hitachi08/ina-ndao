@@ -17,6 +17,9 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <link type="text/css" href="../css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" href="../css/volt.css" rel="stylesheet">
     <link type="text/css" href="../css/sweetalert2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
 
     <style>
         .card-img-top {
@@ -87,17 +90,20 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
                     <div class="mb-3">
                         <label for="nama_jenis">Jenis Kain</label>
-                        <input type="text" class="form-control" name="nama_jenis" id="nama_jenis" required>
+                        <input list="list_jenis" class="form-control" name="nama_jenis" id="nama_jenis" required>
+                        <datalist id="list_jenis"></datalist>
                     </div>
 
                     <div class="mb-3">
                         <label for="nama_daerah">Daerah</label>
-                        <input type="text" class="form-control" name="nama_daerah" id="nama_daerah" required>
+                        <input list="list_daerah" class="form-control" name="nama_daerah" id="nama_daerah" required>
+                        <datalist id="list_daerah"></datalist>
                     </div>
 
                     <div class="mb-3">
                         <label for="nama_motif">Nama Motif</label>
-                        <input type="text" class="form-control" name="nama_motif" id="nama_motif" required>
+                        <input list="list_motif" class="form-control" name="nama_motif" id="nama_motif" required>
+                        <datalist id="list_motif"></datalist>
                     </div>
 
                     <div class="mb-3">
@@ -108,7 +114,9 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     <div class="mb-3">
                         <label for="gambar">Gambar Motif</label>
                         <input type="file" class="form-control" name="gambar[]" id="gambar" multiple>
+                        <div id="previewGambar" class="mt-2 d-flex flex-wrap gap-2"></div>
                     </div>
+
 
                     <div class="mb-3">
                         <label>Ukuran (cm)</label>
@@ -166,10 +174,10 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         </div>
     </div>
 
-
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -199,33 +207,33 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                                 : '/img/no-image.png';
 
                             var card = `
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                            <div class="card h-100 shadow-sm border-0 rounded-0 product-card">
-                                <img src="${gambarUtama}" 
-                                     class="card-img-top detail-image" 
-                                     alt="${item.nama_motif}"
-                                     data-nama="${item.nama_motif}"
-                                     data-cerita="${item.cerita || ''}"
-                                     data-gambar='${JSON.stringify(item.motif_gambar)}'>
-                                <div class="card-body d-flex flex-column">
-                                    <h6 class="card-title text-truncate">${item.nama_motif}</h6>
-                                    <p class="card-text text-truncate2">${item.cerita || ''}</p>
-                                    <ul class="list-unstyled small text-muted mb-2">
-                                        <li><strong>Jenis:</strong> ${item.nama_jenis}</li>
-                                        <li><strong>Daerah:</strong> ${item.nama_daerah}</li>
-                                        <li><strong>Ukuran:</strong> ${item.ukuran}</li>
-                                        <li><strong>Bahan:</strong> ${item.bahan}</li>
-                                        <li><strong>Pewarna:</strong> ${item.jenis_pewarna}</li>
-                                        <li><strong>Harga:</strong> ${item.harga}</li>
-                                        <li><strong>Stok:</strong> ${item.stok}</li>
-                                    </ul>
-                                    <div class="mt-auto d-flex gap-2">
-                                        <button class="btn btn-warning btn-sm btnEdit w-50" data-id="${item.id_variasi}">Edit</button>
-                                        <button class="btn btn-danger btn-sm btnDelete w-50" data-id="${item.id_variasi}">Hapus</button>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                                <div class="card h-100 shadow-sm border-0 rounded-0 product-card">
+                                    <img src="${gambarUtama}" 
+                                         class="card-img-top detail-image" 
+                                         alt="${item.nama_motif}"
+                                         data-nama="${item.nama_motif}"
+                                         data-cerita="${item.cerita || ''}"
+                                         data-gambar='${JSON.stringify(item.motif_gambar)}'>
+                                    <div class="card-body d-flex flex-column">
+                                        <h6 class="card-title text-truncate">${item.nama_motif}</h6>
+                                        <p class="card-text text-truncate2">${item.cerita || ''}</p>
+                                        <ul class="list-unstyled small text-muted mb-2">
+                                            <li><strong>Jenis:</strong> ${item.nama_jenis}</li>
+                                            <li><strong>Daerah:</strong> ${item.nama_daerah}</li>
+                                            <li><strong>Ukuran:</strong> ${item.ukuran}</li>
+                                            <li><strong>Bahan:</strong> ${item.bahan}</li>
+                                            <li><strong>Pewarna:</strong> ${item.jenis_pewarna}</li>
+                                            <li><strong>Harga:</strong> ${item.harga}</li>
+                                            <li><strong>Stok:</strong> ${item.stok}</li>
+                                        </ul>
+                                        <div class="mt-auto d-flex gap-2">
+                                            <button class="btn btn-warning btn-sm btnEdit w-50" data-id="${item.id_variasi}">Edit</button>
+                                            <button class="btn btn-danger btn-sm btnDelete w-50" data-id="${item.id_variasi}">Hapus</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     `;
                             container.append(card);
                         });
@@ -300,6 +308,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     data: formData,
                     contentType: false,
                     processData: false,
+                    dataType: "json",
                     success: function (res) {
                         if (typeof res === 'string') res = JSON.parse(res);
                         if (res.status === 'success') {
@@ -346,6 +355,22 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                                 $('#panjang').val(parts[0]);
                                 $('#lebar').val(parts[1]);
                             }
+                            // 🔥 Tampilkan gambar lama
+                            var previewContainer = $('#previewGambar');
+                            previewContainer.empty();
+
+                            if (res.motif_gambar && res.motif_gambar.length > 0) {
+                                res.motif_gambar.forEach(function (img) {
+                                    previewContainer.append(`
+                            <div class="position-relative">
+                                <img src="${img}" class="rounded border" 
+                                     style="width: 80px; height: 80px; object-fit: cover;">
+                            </div>
+                        `);
+                                });
+                            } else {
+                                previewContainer.html('<p class="text-muted">Belum ada gambar.</p>');
+                            }
 
                             $('#galeriModal').modal('show');
                         } else {
@@ -385,6 +410,54 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     }
                 });
             });
+
+            function loadSelectOptions() {
+                $.ajax({
+                    url: routeUrl + "/get_options",
+                    type: "POST",
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            // Isi Jenis Kain
+                            $('#list_jenis').empty();
+                            res.jenis.forEach(function (j) {
+                                $('#list_jenis').append(`<option value="${j.nama_jenis}">`);
+                            });
+
+                            // Isi Daerah
+                            $('#list_daerah').empty();
+                            res.daerah.forEach(function (d) {
+                                $('#list_daerah').append(`<option value="${d.nama_daerah}">`);
+                            });
+
+                            // Isi Motif
+                            $('#list_motif').empty();
+                            res.motif.forEach(function (m) {
+                                $('#list_motif').append(`<option value="${m.nama_motif}" data-cerita="${m.cerita || ''}">`);
+                            });
+                        }
+                    },
+                    error: function () {
+                        console.error("Gagal memuat data dropdown");
+                    }
+                });
+            }
+
+            // Saat modal dibuka, load data
+            $('#galeriModal').on('shown.bs.modal', function () {
+                loadSelectOptions();
+            });
+
+            // Auto isi cerita ketika nama motif cocok
+            $('#nama_motif').on('input', function () {
+                var val = $(this).val();
+                var cerita = $('#list_motif option').filter(function () {
+                    return $(this).val() === val;
+                }).data('cerita') || '';
+                $('#cerita').val(cerita);
+            });
+
+
 
         });
     </script>
