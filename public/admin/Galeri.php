@@ -17,7 +17,8 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <link type="text/css" href="../css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" href="../css/volt.css" rel="stylesheet">
     <link type="text/css" href="../css/sweetalert2.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="../css/select2.min.css" rel="stylesheet" />
+
 
 
 
@@ -43,23 +44,13 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         }
 
         .detail-image-modal {
-            width: 200px;
-            height: 200px;
+            width: 48%;
+            height: 50%;
             object-fit: cover;
-            border-radius: 10px;
             transition: all 0.4s ease;
             cursor: pointer;
             position: relative;
             z-index: 1;
-        }
-
-        .detail-image-modal:hover {
-            transform: scale(1.5);
-            z-index: 10;
-            aspect-ratio: auto;
-            object-fit: contain;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            background: #fff;
         }
     </style>
 </head>
@@ -109,20 +100,17 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="nama_jenis" class="form-label">Jenis Kain</label>
-                            <input list="list_jenis" class="form-control" name="nama_jenis" id="nama_jenis" required>
-                            <datalist id="list_jenis"></datalist>
+                            <select class="form-select" name="nama_jenis" id="nama_jenis" required></select>
                         </div>
 
                         <div class="col-md-6">
                             <label for="nama_daerah" class="form-label">Daerah</label>
-                            <input list="list_daerah" class="form-control" name="nama_daerah" id="nama_daerah" required>
-                            <datalist id="list_daerah"></datalist>
+                            <select class="form-select" name="nama_daerah" id="nama_daerah" required></select>
                         </div>
 
                         <div class="col-md-6">
                             <label for="nama_motif" class="form-label">Nama Motif</label>
-                            <input list="list_motif" class="form-control" name="nama_motif" id="nama_motif" required>
-                            <datalist id="list_motif"></datalist>
+                            <select class="form-select" name="nama_motif" id="nama_motif" required></select>
                         </div>
 
                         <div class="col-md-6">
@@ -138,8 +126,10 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                         <div class="col-md-6">
                             <label>Ukuran (cm)</label>
                             <div class="d-flex gap-2">
-                                <input type="number" class="form-control" name="panjang" id="panjang" placeholder="Panjang" required>
-                                <input type="number" class="form-control" name="lebar" id="lebar" placeholder="Lebar" required>
+                                <input type="number" class="form-control" name="panjang" id="panjang"
+                                    placeholder="Panjang" required>
+                                <input type="number" class="form-control" name="lebar" id="lebar" placeholder="Lebar"
+                                    required>
                             </div>
                         </div>
 
@@ -188,7 +178,9 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     <!-- Judul cerita -->
                     <h6 id="detailMotifStoryTitle" class="fw-bold mb-2 text-center"></h6>
                     <!-- Cerita -->
-                    <p id="detailMotifCerita"></p>
+                    <p id="detailMotifCerita"
+                        style="max-height: 300px; overflow-y: auto; overflow-x: hidden; word-wrap: break-word; white-space: pre-wrap;">
+                    </p>
                 </div>
             </div>
         </div>
@@ -196,8 +188,9 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/select2.min.js"></script>
     <script src="../js/sweetalert2.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="../js/volt.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -230,7 +223,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                                 <div class="card h-100 shadow-sm border-0 rounded-0 product-card">
                                     <img src="${gambarUtama}" 
-                                         class="card-img-top detail-image" 
+                                         class="card-img-top detail-image rounded-0" 
                                          alt="${item.nama_motif}"
                                          data-nama="${item.nama_motif}"
                                          data-cerita="${item.cerita || ''}"
@@ -248,8 +241,8 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                                             <li><strong>Stok:</strong> ${item.stok}</li>
                                         </ul>
                                         <div class="mt-auto d-flex gap-2">
-                                            <button class="btn btn-warning btn-sm btnEdit w-50" data-id="${item.id_variasi}">Edit</button>
-                                            <button class="btn btn-danger btn-sm btnDelete w-50" data-id="${item.id_variasi}">Hapus</button>
+                                            <button class="btn btn-warning btn-sm btnEdit w-50 rounded-0" data-id="${item.id_variasi}">Edit</button>
+                                            <button class="btn btn-danger btn-sm btnDelete w-50 rounded-0" data-id="${item.id_variasi}">Hapus</button>
                                         </div>
                                     </div>
                                 </div>
@@ -263,36 +256,88 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     }
                 });
             }
-
             loadGaleri();
 
-            // =========================
-            // Detail Modal
-            // =========================
-            $('#galeriContainer').on('click', '.detail-image', function(e) {
-                e.stopPropagation();
+            function loadSelectOptions(callback) {
+                $.ajax({
+                    url: routeUrl + "/get_options",
+                    type: "POST",
+                    dataType: "json",
+                    success: function(res) {
+                        if (res.status === 'success') {
 
-                var nama = $(this).data('nama');
-                var cerita = $(this).data('cerita');
-                var gambar = $(this).data('gambar');
+                            // --- Jenis Kain ---
+                            let jenisOptions = res.jenis.map(j => ({
+                                id: j.nama_jenis, // tetap pakai nama_jenis karena inputnya text
+                                text: j.nama_jenis
+                            }));
+                            $('#nama_jenis').empty().select2({
+                                data: jenisOptions,
+                                tags: true,
+                                width: '100%',
+                                placeholder: 'Pilih atau ketik jenis kain...',
+                                dropdownParent: $('#galeriModal')
+                            });
 
-                $('#detailMotifTitle').text(nama);
-                $('#detailMotifStoryTitle').text(`CERITA LENGKAP DIBALIK MOTIF ${nama.toUpperCase()}`);
+                            // --- Daerah ---
+                            let daerahOptions = res.daerah.map(d => ({
+                                id: d.nama_daerah,
+                                text: d.nama_daerah
+                            }));
+                            $('#nama_daerah').empty().select2({
+                                data: daerahOptions,
+                                tags: true,
+                                width: '100%',
+                                placeholder: 'Pilih atau ketik daerah...',
+                                dropdownParent: $('#galeriModal')
+                            });
 
-                var imagesContainer = $('#detailMotifImages');
-                imagesContainer.empty();
+                            // --- Motif ---
+                            let motifOptions = res.motif.map(m => ({
+                                id: m.id_motif,
+                                text: m.nama_motif,
+                                cerita: m.cerita || '' // pastikan dikirim
+                            }));
 
-                if (gambar && gambar.length > 0) {
-                    gambar.forEach(function(img) {
-                        imagesContainer.append(`<img src="${img}" class="detail-image-modal me-1 mb-1">`);
-                    });
-                } else {
-                    imagesContainer.append('<img src="/img/no-image.png" class="detail-image-modal">');
-                }
+                            $('#nama_motif').empty().select2({
+                                data: motifOptions,
+                                tags: true,
+                                width: '100%',
+                                placeholder: 'Pilih atau ketik nama motif...',
+                                dropdownParent: $('#galeriModal')
+                            });
 
-                $('#detailMotifCerita').text(cerita || '');
-                $('#detailMotifModal').modal('show');
-            });
+                            // === AUTO ISI CERITA ===
+
+                            //  Saat memilih dari daftar
+                            $('#nama_motif').off('select2:select').on('select2:select', function(e) {
+                                let data = e.params.data;
+                                if (data && data.cerita) {
+                                    $('#cerita').val(data.cerita);
+                                } else {
+                                    $('#cerita').val('');
+                                }
+                            });
+
+                            // Saat mengetik manual (tags: true)
+                            $('#nama_motif').off('change').on('change', function() {
+                                let data = $('#nama_motif').select2('data')[0];
+                                if (data && data.cerita) {
+                                    $('#cerita').val(data.cerita);
+                                } else {
+                                    $('#cerita').val('');
+                                }
+                            });
+
+                            // Jalankan callback jika ada (misal untuk edit data)
+                            if (typeof callback === 'function') callback();
+                        }
+                    },
+                    error: function() {
+                        console.error("Gagal memuat data dropdown");
+                    }
+                });
+            }
 
             // =========================
             // Tambah Modal
@@ -300,7 +345,13 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             $('#btnAdd').click(function() {
                 $('#galeriForm')[0].reset();
                 $('#id_variasi').val('');
-                $('#galeriModal').modal('show');
+                $('#previewGambar').empty();
+                $('#cerita').val('');
+
+                //Load select2 baru
+                loadSelectOptions(function() {
+                    $('#galeriModal').modal('show'); // modal kosong muncul setelah select2 siap
+                });
             });
 
             // =========================
@@ -310,15 +361,13 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                 e.preventDefault();
                 var formData = new FormData(this);
 
-                // gabungkan panjang x lebar
                 var panjang = $('#panjang').val();
                 var lebar = $('#lebar').val();
                 formData.set('ukuran', panjang + 'x' + lebar);
 
-                // ubah nama_jenis -> jenis_kain
                 formData.set('jenis_kain', $('#nama_jenis').val());
-                // ubah nama_daerah -> daerah
                 formData.set('daerah', $('#nama_daerah').val());
+                formData.set('nama_motif', $('#nama_motif').select2('data')[0].text);
 
                 var action = $('#id_variasi').val() === '' ? 'add_motif' : 'update_variasi';
 
@@ -343,68 +392,73 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     }
                 });
             });
-
             // =========================
-            // Edit
+            // Tombol Edit
             // =========================
             $('#galeriContainer').on('click', '.btnEdit', function(e) {
+                e.preventDefault();
                 e.stopPropagation();
+
                 var id = $(this).data('id');
 
-                $.ajax({
-                    url: routeUrl + "/fetch_single",
-                    type: "POST",
-                    data: {
-                        id_variasi: id
-                    },
-                    dataType: "json",
-                    success: function(res) {
-                        if (res && Object.keys(res).length > 0) {
-                            $('#galeriForm')[0].reset();
-                            $('#id_variasi').val(res.id_variasi);
-                            $('#id_motif').val(res.id_motif);
-                            $('#nama_jenis').val(res.nama_jenis);
-                            $('#nama_daerah').val(res.nama_daerah);
-                            $('#nama_motif').val(res.nama_motif);
-                            $('#cerita').val(res.cerita);
-                            $('#bahan').val(res.bahan);
-                            $('#jenis_pewarna').val(res.jenis_pewarna);
-                            $('#harga').val(res.harga);
-                            $('#stok').val(res.stok);
+                // Load select options dulu, supaya saat isi data, select2-nya sudah siap
+                loadSelectOptions(function() {
+                    $.ajax({
+                        url: routeUrl + "/fetch_single",
+                        type: "POST",
+                        data: {
+                            id_variasi: id
+                        },
+                        dataType: "json",
+                        success: function(res) {
+                            if (res && Object.keys(res).length > 0) {
+                                // Isi form setelah data dan select2 siap
+                                $('#galeriForm')[0].reset();
+                                $('#id_variasi').val(res.id_variasi);
+                                $('#id_motif').val(res.id_motif);
+                                $('#nama_jenis').val(res.nama_jenis).trigger('change');
+                                $('#nama_daerah').val(res.nama_daerah).trigger('change');
+                                $('#nama_motif').val(res.nama_motif).trigger('change');
+                                $('#cerita').val(res.cerita);
+                                $('#bahan').val(res.bahan);
+                                $('#jenis_pewarna').val(res.jenis_pewarna);
+                                $('#harga').val(res.harga);
+                                $('#stok').val(res.stok);
 
-                            if (res.ukuran && res.ukuran.includes("x")) {
-                                let parts = res.ukuran.split("x");
-                                $('#panjang').val(parts[0]);
-                                $('#lebar').val(parts[1]);
-                            }
-                            // 🔥 Tampilkan gambar lama
-                            var previewContainer = $('#previewGambar');
-                            previewContainer.empty();
+                                if (res.ukuran && res.ukuran.includes("x")) {
+                                    let parts = res.ukuran.split("x");
+                                    $('#panjang').val(parts[0]);
+                                    $('#lebar').val(parts[1]);
+                                }
 
-                            if (res.motif_gambar && res.motif_gambar.length > 0) {
-                                res.motif_gambar.forEach(function(img) {
-                                    previewContainer.append(`
-                            <div class="position-relative">
-                                <img src="${img}" class="rounded border" 
-                                     style="width: 80px; height: 80px; object-fit: cover;">
-                            </div>
-                        `);
-                                });
+                                // Gambar lama
+                                var previewContainer = $('#previewGambar');
+                                previewContainer.empty();
+                                if (res.motif_gambar && res.motif_gambar.length > 0) {
+                                    res.motif_gambar.forEach(function(img) {
+                                        previewContainer.append(`
+                                <div class="position-relative">
+                                    <img src="${img}" class="rounded border" 
+                                        style="width: 80px; height: 80px; object-fit: cover;">
+                                </div>
+                            `);
+                                    });
+                                } else {
+                                    previewContainer.html('<p class="text-muted">Belum ada gambar.</p>');
+                                }
+
+                                // ✅ Modal baru muncul setelah semuanya siap
+                                $('#galeriModal').modal('show');
                             } else {
-                                previewContainer.html('<p class="text-muted">Belum ada gambar.</p>');
+                                Swal.fire('Error', 'Data variasi tidak ditemukan', 'error');
                             }
-
-                            $('#galeriModal').modal('show');
-                        } else {
-                            Swal.fire('Error', 'Data variasi tidak ditemukan', 'error');
+                        },
+                        error: function(xhr) {
+                            Swal.fire('Error', 'Gagal memuat data variasi: ' + xhr.responseText, 'error');
                         }
-                    },
-                    error: function(xhr) {
-                        Swal.fire('Error', 'Gagal memuat data variasi: ' + xhr.responseText, 'error');
-                    }
+                    });
                 });
             });
-
             // =========================
             // Hapus
             // =========================
@@ -435,52 +489,33 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                 });
             });
 
-            function loadSelectOptions() {
-                $.ajax({
-                    url: routeUrl + "/get_options",
-                    type: "POST",
-                    dataType: "json",
-                    success: function(res) {
-                        if (res.status === 'success') {
-                            // Isi Jenis Kain
-                            $('#list_jenis').empty();
-                            res.jenis.forEach(function(j) {
-                                $('#list_jenis').append(`<option value="${j.nama_jenis}">`);
-                            });
 
-                            // Isi Daerah
-                            $('#list_daerah').empty();
-                            res.daerah.forEach(function(d) {
-                                $('#list_daerah').append(`<option value="${d.nama_daerah}">`);
-                            });
+            // Detail Modal
+            // =========================
+            $('#galeriContainer').on('click', '.detail-image', function(e) {
+                e.stopPropagation();
 
-                            // Isi Motif
-                            $('#list_motif').empty();
-                            res.motif.forEach(function(m) {
-                                $('#list_motif').append(`<option value="${m.nama_motif}" data-cerita="${m.cerita || ''}">`);
-                            });
-                        }
-                    },
-                    error: function() {
-                        console.error("Gagal memuat data dropdown");
-                    }
-                });
-            }
+                var nama = $(this).data('nama');
+                var cerita = $(this).data('cerita');
+                var gambar = $(this).data('gambar');
 
-            // Saat modal dibuka, load data
-            $('#galeriModal').on('shown.bs.modal', function() {
-                loadSelectOptions();
+                $('#detailMotifTitle').text(nama);
+                $('#detailMotifStoryTitle').text(`CERITA LENGKAP DIBALIK MOTIF ${nama.toUpperCase()}`);
+
+                var imagesContainer = $('#detailMotifImages');
+                imagesContainer.empty();
+
+                if (gambar && gambar.length > 0) {
+                    gambar.forEach(function(img) {
+                        imagesContainer.append(`<img src="${img}" class="detail-image-modal me-1 mb-1">`);
+                    });
+                } else {
+                    imagesContainer.append('<img src="/img/no-image.png" class="detail-image-modal">');
+                }
+
+                $('#detailMotifCerita').text(cerita || '');
+                $('#detailMotifModal').modal('show');
             });
-
-            // Auto isi cerita ketika nama motif cocok
-            $('#nama_motif').on('input', function() {
-                var val = $(this).val();
-                var cerita = $('#list_motif option').filter(function() {
-                    return $(this).val() === val;
-                }).data('cerita') || '';
-                $('#cerita').val(cerita);
-            });
-
 
 
         });
