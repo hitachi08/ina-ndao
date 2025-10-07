@@ -82,7 +82,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 </head>
 
 <body>
-    <!-- Sidebar -->
+
     <?php include "sidebar.php"; ?>
 
     <main class="content">
@@ -113,7 +113,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
     <!-- Modal Tambah/Edit Event -->
     <div class="modal fade" id="eventModal" tabindex="-1">
-        <div class="modal-dialog modal-md">
+        <div class="modal-dialog modal-md modal-dialog-scrollable">
             <form id="eventForm" enctype="multipart/form-data" class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah / Edit Event</h5>
@@ -156,7 +156,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     <div class="mb-3">
                         <label>Gambar Banner</label>
                         <input type="file" class="form-control" name="gambar_banner" id="gambar_banner">
-                        <img id="bannerPreview" src="" alt="Preview Banner" class="img-fluid mt-4 rounded-2" style="max-height:150px; display:none;">
+                        <img id="bannerPreview" src="" alt="Preview Banner" class="img-fluid mt-4" style="width: 100px; height:150px; object-fit: cover; display:none;">
                     </div>
 
                 </div>
@@ -170,7 +170,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
     <!-- Modal Dokumentasi -->
     <div class="modal fade" id="docModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <form id="docForm" enctype="multipart/form-data" class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Kelola Dokumentasi Event</h5>
@@ -208,10 +208,43 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         </div>
     </div>
 
+    <!-- Modal Detail Event -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-md">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Detail Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <img id="detailGambar" src="" class="img-fluid shadow-sm" alt="Gambar Event" style="width: 200px; height: 250px; object-fit: cover;">
+                    </div>
+                    <h4 id="detailNama" class="mb-3 text-center"></h4>
+                    <p id="detailDeskripsi" class="text-muted mb-3"></p>
+                    <ul class="list-unstyled small">
+                        <li><i class="fa fa-calendar text-primary me-2"></i><span id="detailTanggal"></span></li>
+                        <li><i class="fa fa-clock text-primary me-2"></i><span id="detailWaktu"></span></li>
+                        <li><i class="fa fa-map-marker-alt text-primary me-2"></i><span id="detailTempat"></span></li>
+                    </ul>
+                    <hr>
+                    <h6 class="fw-bold mb-3"><i class="fa fa-images text-primary me-2"></i> Dokumentasi Event</h6>
+                    <div id="detailDokumentasi" class="row g-3">
+                        <!-- Gambar dokumentasi akan muncul di sini -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- JS -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/sweetalert2.all.min.js"></script>
+    <script src="../js/volt.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -246,7 +279,15 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                         events.forEach(function(ev) {
                             var card = `
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
-                                    <div class="card h-100 shadow-sm border-0 rounded-0 product-card cursor-pointer">
+                                    <div class="card h-100 shadow-sm border-0 rounded-0 product-card cursor-pointer"
+                                        data-id="${ev.id_event}"
+                                        data-nama="${ev.nama_event}"
+                                        data-deskripsi="${ev.deskripsi || ''}"
+                                        data-tanggal="${ev.tanggal}"
+                                        data-waktu="${ev.waktu}"
+                                        data-tempat="${ev.tempat}"
+                                        data-gambar="${ev.gambar_banner ? `../img/event/${ev.gambar_banner}` : `../img/no-image.png`}"
+                                        data-open-modal="true">
                                         ${ev.gambar_banner 
                                             ? `<img src="../img/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
                                             : `<img src="../img/no-image.png" class="card-img-top" alt="no image">`}
@@ -274,7 +315,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                                         </div>
                                     </div>
                                 </div>
-                            `;
+                                `;
                             container.append(card);
                         });
 
@@ -587,6 +628,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Ya, hapus',
+                    cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -674,6 +716,59 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                 $('#eventModal').modal('show');
             });
 
+            // Klik card untuk buka detail modal
+            $(document).on('click', '.product-card', function(e) {
+                if ($(e.target).closest('button').length) return;
+
+                const card = $(this);
+                const id_event = card.data('id');
+
+                $('#detailNama').text(card.data('nama'));
+                $('#detailDeskripsi').text(card.data('deskripsi') || 'Tidak ada deskripsi.');
+                $('#detailTanggal').text(card.data('tanggal'));
+                $('#detailWaktu').text(card.data('waktu'));
+                $('#detailTempat').text(card.data('tempat'));
+                $('#detailGambar').attr('src', card.data('gambar'));
+                $('#detailDokumentasi').html('<p class="text-muted">Memuat dokumentasi...</p>');
+
+                $('#detailModal').modal('show');
+
+                $.ajax({
+                    url: routeUrl + "/fetch_single",
+                    type: "POST",
+                    data: {
+                        id_event: id_event
+                    },
+                    dataType: "json",
+                    success: function(res) {
+                        if (res.status === "success" && res.data) {
+                            const docs = res.data.dokumentasi || [];
+                            let html = "";
+
+                            if (docs.length > 0) {
+                                docs.forEach(doc => {
+                                    html += `
+                            <div class="col-6 col-md-4 col-lg-3">
+                                <img src="../img/event/${doc.gambar_dokumentasi}" 
+                                     class="img-fluid shadow-sm"
+                                     style="width: 100px; height: 150px; object-fit: cover;" 
+                                     alt="Dokumentasi ${card.data('nama')}">
+                            </div>`;
+                                });
+                            } else {
+                                html = `<p class="text-muted fst-italic">Belum ada dokumentasi tersedia.</p>`;
+                            }
+
+                            $("#detailDokumentasi").html(html);
+                        } else {
+                            $("#detailDokumentasi").html(`<p class="text-muted fst-italic">Tidak ada dokumentasi ditemukan.</p>`);
+                        }
+                    },
+                    error: function() {
+                        $("#detailDokumentasi").html(`<p class="text-danger">Gagal memuat dokumentasi.</p>`);
+                    }
+                });
+            });
         });
     </script>
 

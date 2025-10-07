@@ -30420,4 +30420,10 @@ article .h6 {
 .datepicker-dropdown {
   z-index: 9999;
 }
+.swal2-styled.swal2-confirm {
+  background-color: #2361ce !important;
+}
+.swal2-styled.swal2-confirm:focus {
+    box-shadow: 0 0 0 3px lch(42 64.48 281.29 / 0.5) !important;
+}
 /*# sourceMappingURL=volt.css.map */

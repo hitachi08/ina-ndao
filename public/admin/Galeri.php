@@ -65,11 +65,28 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 </head>
 
 <body>
+
     <?php include "sidebar.php"; ?>
+
     <main class="content">
+
         <?php include "navbar.php" ?>
-        <h2>Kelola Galeri</h2>
-        <button class="btn btn-primary mb-3" id="btnAdd">Tambah Motif / Variasi</button>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center py-4 gap-3">
+            <button class="btn btn-primary d-inline-flex align-items-center" id="btnAdd">
+                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                Tambah Produk
+            </button>
+
+            <!-- Pagination responsif -->
+            <nav>
+                <ul class="pagination mb-0 flex-wrap justify-content-center" id="pagination"></ul>
+            </nav>
+        </div>
 
         <!-- Container card galeri -->
         <div class="row" id="galeriContainer"></div>
@@ -79,82 +96,85 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
     <!-- Modal Tambah/Edit Galeri -->
     <div class="modal fade" id="galeriModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <form id="galeriForm" enctype="multipart/form-data" class="modal-content">
+        <div class="modal-dialog modal-md modal-dialog-scrollable">
+            <form id="galeriForm" enctype="multipart/form-data" class="modal-content rounded-2 shadow-lg">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah / Edit Galeri</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
+
+                <div class="modal-body px-4 py-3">
                     <input type="hidden" name="id_variasi" id="id_variasi">
 
-                    <div class="mb-3">
-                        <label for="nama_jenis">Jenis Kain</label>
-                        <input list="list_jenis" class="form-control" name="nama_jenis" id="nama_jenis" required>
-                        <datalist id="list_jenis"></datalist>
-                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nama_jenis" class="form-label">Jenis Kain</label>
+                            <input list="list_jenis" class="form-control" name="nama_jenis" id="nama_jenis" required>
+                            <datalist id="list_jenis"></datalist>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="nama_daerah">Daerah</label>
-                        <input list="list_daerah" class="form-control" name="nama_daerah" id="nama_daerah" required>
-                        <datalist id="list_daerah"></datalist>
-                    </div>
+                        <div class="col-md-6">
+                            <label for="nama_daerah" class="form-label">Daerah</label>
+                            <input list="list_daerah" class="form-control" name="nama_daerah" id="nama_daerah" required>
+                            <datalist id="list_daerah"></datalist>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="nama_motif">Nama Motif</label>
-                        <input list="list_motif" class="form-control" name="nama_motif" id="nama_motif" required>
-                        <datalist id="list_motif"></datalist>
-                    </div>
+                        <div class="col-md-6">
+                            <label for="nama_motif" class="form-label">Nama Motif</label>
+                            <input list="list_motif" class="form-control" name="nama_motif" id="nama_motif" required>
+                            <datalist id="list_motif"></datalist>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="cerita">Cerita</label>
-                        <textarea class="form-control" name="cerita" id="cerita" rows="4"></textarea>
-                    </div>
+                        <div class="col-md-6">
+                            <label for="bahan" class="form-label">Bahan</label>
+                            <input type="text" class="form-control" name="bahan" id="bahan">
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="gambar">Gambar Motif</label>
-                        <input type="file" class="form-control" name="gambar[]" id="gambar" multiple>
-                        <div id="previewGambar" class="mt-2 d-flex flex-wrap gap-2"></div>
-                    </div>
+                        <div class="col-md-6">
+                            <label for="jenis_pewarna" class="form-label">Jenis Pewarna</label>
+                            <input type="text" class="form-control" name="jenis_pewarna" id="jenis_pewarna">
+                        </div>
 
+                        <div class="col-md-6">
+                            <label>Ukuran (cm)</label>
+                            <div class="d-flex gap-2">
+                                <input type="number" class="form-control" name="panjang" id="panjang" placeholder="Panjang" required>
+                                <input type="number" class="form-control" name="lebar" id="lebar" placeholder="Lebar" required>
+                            </div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label>Ukuran (cm)</label>
-                        <div class="d-flex gap-2">
-                            <input type="number" class="form-control" name="panjang" id="panjang" placeholder="Panjang"
-                                required>
-                            <input type="number" class="form-control" name="lebar" id="lebar" placeholder="Lebar"
-                                required>
+                        <div class="col-12">
+                            <label for="cerita" class="form-label">Cerita</label>
+                            <textarea class="form-control" name="cerita" id="cerita" rows="3"></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="gambar" class="form-label">Gambar Motif</label>
+                            <input type="file" class="form-control" name="gambar[]" id="gambar" multiple>
+                            <div id="previewGambar" class="mt-2 d-flex flex-wrap gap-2"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="harga" class="form-label">Harga</label>
+                            <input type="number" class="form-control" name="harga" id="harga">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="stok" class="form-label">Stok</label>
+                            <input type="number" class="form-control" name="stok" id="stok">
                         </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="bahan">Bahan</label>
-                        <input type="text" class="form-control" name="bahan" id="bahan">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="jenis_pewarna">Jenis Pewarna</label>
-                        <input type="text" class="form-control" name="jenis_pewarna" id="jenis_pewarna">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="harga">Harga</label>
-                        <input type="number" class="form-control" name="harga" id="harga">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="stok">Stok</label>
-                        <input type="number" class="form-control" name="stok" id="stok">
-                    </div>
                 </div>
+
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary px-4">Simpan</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 </div>
             </form>
         </div>
     </div>
+
+
     <!-- Modal Detail Motif -->
     <div class="modal fade" id="detailMotifModal" tabindex="-1">
         <div class="modal-dialog modal-md">
@@ -177,10 +197,11 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/sweetalert2.all.min.js"></script>
+    <script src="../js/volt.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             var routeUrl = "/galeri";
 
             // =========================
@@ -191,7 +212,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     url: routeUrl + "/fetch_all",
                     type: "GET",
                     dataType: "json",
-                    success: function (res) {
+                    success: function(res) {
                         var container = $('#galeriContainer');
                         container.empty();
                         var data = Array.isArray(res) ? res : res.data || [];
@@ -201,10 +222,10 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                             return;
                         }
 
-                        data.forEach(function (item) {
-                            var gambarUtama = (item.motif_gambar && item.motif_gambar.length > 0)
-                                ? item.motif_gambar[0]
-                                : '/img/no-image.png';
+                        data.forEach(function(item) {
+                            var gambarUtama = (item.motif_gambar && item.motif_gambar.length > 0) ?
+                                item.motif_gambar[0] :
+                                '/img/no-image.png';
 
                             var card = `
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
@@ -238,7 +259,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                             container.append(card);
                         });
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         Swal.fire('Error', 'Gagal memuat galeri: ' + xhr.responseText, 'error');
                     }
                 });
@@ -249,7 +270,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             // =========================
             // Detail Modal
             // =========================
-            $('#galeriContainer').on('click', '.detail-image', function (e) {
+            $('#galeriContainer').on('click', '.detail-image', function(e) {
                 e.stopPropagation();
 
                 var nama = $(this).data('nama');
@@ -263,7 +284,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                 imagesContainer.empty();
 
                 if (gambar && gambar.length > 0) {
-                    gambar.forEach(function (img) {
+                    gambar.forEach(function(img) {
                         imagesContainer.append(`<img src="${img}" class="detail-image-modal me-1 mb-1">`);
                     });
                 } else {
@@ -277,7 +298,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             // =========================
             // Tambah Modal
             // =========================
-            $('#btnAdd').click(function () {
+            $('#btnAdd').click(function() {
                 $('#galeriForm')[0].reset();
                 $('#id_variasi').val('');
                 $('#galeriModal').modal('show');
@@ -286,7 +307,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             // =========================
             // Submit Add/Edit
             // =========================
-            $('#galeriForm').submit(function (e) {
+            $('#galeriForm').submit(function(e) {
                 e.preventDefault();
                 var formData = new FormData(this);
 
@@ -309,7 +330,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     contentType: false,
                     processData: false,
                     dataType: "json",
-                    success: function (res) {
+                    success: function(res) {
                         if (typeof res === 'string') res = JSON.parse(res);
                         if (res.status === 'success') {
                             Swal.fire('Sukses', res.message, 'success').then(loadGaleri);
@@ -318,7 +339,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                             Swal.fire('Error', res.message, 'error');
                         }
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         Swal.fire('Error', 'Gagal menyimpan data: ' + xhr.responseText, 'error');
                     }
                 });
@@ -327,16 +348,18 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             // =========================
             // Edit
             // =========================
-            $('#galeriContainer').on('click', '.btnEdit', function (e) {
+            $('#galeriContainer').on('click', '.btnEdit', function(e) {
                 e.stopPropagation();
                 var id = $(this).data('id');
 
                 $.ajax({
                     url: routeUrl + "/fetch_single",
                     type: "POST",
-                    data: { id_variasi: id },
+                    data: {
+                        id_variasi: id
+                    },
                     dataType: "json",
-                    success: function (res) {
+                    success: function(res) {
                         if (res && Object.keys(res).length > 0) {
                             $('#galeriForm')[0].reset();
                             $('#id_variasi').val(res.id_variasi);
@@ -360,7 +383,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                             previewContainer.empty();
 
                             if (res.motif_gambar && res.motif_gambar.length > 0) {
-                                res.motif_gambar.forEach(function (img) {
+                                res.motif_gambar.forEach(function(img) {
                                     previewContainer.append(`
                             <div class="position-relative">
                                 <img src="${img}" class="rounded border" 
@@ -377,7 +400,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                             Swal.fire('Error', 'Data variasi tidak ditemukan', 'error');
                         }
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         Swal.fire('Error', 'Gagal memuat data variasi: ' + xhr.responseText, 'error');
                     }
                 });
@@ -386,7 +409,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             // =========================
             // Hapus
             // =========================
-            $('#galeriContainer').on('click', '.btnDelete', function () {
+            $('#galeriContainer').on('click', '.btnDelete', function() {
                 var id = $(this).data('id');
                 Swal.fire({
                     title: 'Yakin ingin menghapus?',
@@ -398,12 +421,14 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                         $.ajax({
                             url: routeUrl + "/delete_variasi",
                             type: "POST",
-                            data: { id_variasi: id },
-                            success: function (res) {
+                            data: {
+                                id_variasi: id
+                            },
+                            success: function(res) {
                                 if (typeof res === 'string') res = JSON.parse(res);
                                 Swal.fire('Sukses', res.message, 'success').then(loadGaleri);
                             },
-                            error: function (xhr) {
+                            error: function(xhr) {
                                 Swal.fire('Error', 'Gagal menghapus data: ' + xhr.responseText, 'error');
                             }
                         });
@@ -416,42 +441,42 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     url: routeUrl + "/get_options",
                     type: "POST",
                     dataType: "json",
-                    success: function (res) {
+                    success: function(res) {
                         if (res.status === 'success') {
                             // Isi Jenis Kain
                             $('#list_jenis').empty();
-                            res.jenis.forEach(function (j) {
+                            res.jenis.forEach(function(j) {
                                 $('#list_jenis').append(`<option value="${j.nama_jenis}">`);
                             });
 
                             // Isi Daerah
                             $('#list_daerah').empty();
-                            res.daerah.forEach(function (d) {
+                            res.daerah.forEach(function(d) {
                                 $('#list_daerah').append(`<option value="${d.nama_daerah}">`);
                             });
 
                             // Isi Motif
                             $('#list_motif').empty();
-                            res.motif.forEach(function (m) {
+                            res.motif.forEach(function(m) {
                                 $('#list_motif').append(`<option value="${m.nama_motif}" data-cerita="${m.cerita || ''}">`);
                             });
                         }
                     },
-                    error: function () {
+                    error: function() {
                         console.error("Gagal memuat data dropdown");
                     }
                 });
             }
 
             // Saat modal dibuka, load data
-            $('#galeriModal').on('shown.bs.modal', function () {
+            $('#galeriModal').on('shown.bs.modal', function() {
                 loadSelectOptions();
             });
 
             // Auto isi cerita ketika nama motif cocok
-            $('#nama_motif').on('input', function () {
+            $('#nama_motif').on('input', function() {
                 var val = $(this).val();
-                var cerita = $('#list_motif option').filter(function () {
+                var cerita = $('#list_motif option').filter(function() {
                     return $(this).val() === val;
                 }).data('cerita') || '';
                 $('#cerita').val(cerita);
