@@ -194,7 +194,7 @@ class Galeri
             $data['stok']
         ]);
     }
-    
+
 
     public function updateVariasi($idVar, $data)
     {
@@ -305,7 +305,11 @@ class Galeri
 
     public function getAllMotif()
     {
-        $stmt = $this->pdo->query("SELECT * FROM motif ORDER BY nama_motif ASC");
+        $stmt = $this->pdo->query("
+        SELECT id_motif, nama_motif, COALESCE(cerita, '') AS cerita
+        FROM motif
+        ORDER BY nama_motif ASC
+    ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
