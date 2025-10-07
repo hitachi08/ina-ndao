@@ -114,27 +114,6 @@ class Event
         return $stmt->execute([$id]);
     }
 
-    /** Ambil 1 Event + Dokumentasi */
-    public function fetchSingle($id)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM event WHERE id_event=?");
-        $stmt->execute([$id]);
-        $event = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($event) {
-            $event['dokumentasi'] = $this->getDokumentasi($id);
-        }
-
-        return $event;
-    }
-
-    /** Ambil semua Event */
-    public function fetchAll()
-    {
-        $stmt = $this->pdo->query("SELECT * FROM event ORDER BY tanggal DESC");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     /** Ambil data Event per halaman */
     public function fetchPaginated($limit, $offset)
     {
@@ -217,21 +196,6 @@ class Event
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /** Hapus dokumentasi */
-    public function deleteDokumentasi($idDokumentasi)
-    {
-        $stmt = $this->pdo->prepare("SELECT gambar_dokumentasi FROM event_dokumentasi WHERE id_dokumentasi=?");
-        $stmt->execute([$idDokumentasi]);
-        $doc = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($doc && $doc['gambar_dokumentasi']) {
-            @unlink(__DIR__ . "/../../public/img/event/" . $doc['gambar_dokumentasi']);
-        }
-
-        $stmt = $this->pdo->prepare("DELETE FROM event_dokumentasi WHERE id_dokumentasi=?");
-        return $stmt->execute([$idDokumentasi]);
-    }
-
     public function findBySlugOrId($idOrSlug)
     {
         $sql = "SELECT * FROM event WHERE slug = :slug OR id_event = :id LIMIT 1";
@@ -241,5 +205,19 @@ class Event
             ':id'   => is_numeric($idOrSlug) ? $idOrSlug : 0
         ]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /** 🔍 Cari event berdasarkan nama_event (LIKE) */
+    public function searchByName($keyword)
+    {
+        $keyword = "%{$keyword}%";
+        $stmt = $this->pdo->prepare("
+        SELECT id_event, nama_event, tempat, tanggal, waktu, deskripsi, gambar_banner
+        FROM event
+        WHERE nama_event LIKE ?
+        ORDER BY tanggal DESC
+    ");
+        $stmt->execute([$keyword]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

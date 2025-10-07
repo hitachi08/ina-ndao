@@ -20,13 +20,11 @@ if (preg_match('#^/event/([a-z_]+)$#', $uri, $matches)) {
     $action = $matches[1];
     require_once __DIR__ . '/../app/Controllers/EventController.php';
     $controller = new EventController($pdo);
-
-    // ambil slug/id dari request body
     $param = $_POST['idOrSlug'] ?? null;
-
     $controller->handle($action, $param);
     exit;
 }
+
 
 // Route halaman admin Event
 if ($uri === '/admin/event') {

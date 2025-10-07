@@ -4,6 +4,8 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Auth.php';
 Auth::startSession();
 
+$current_page = basename($_SERVER['PHP_SELF']);
+
 // Ambil slug dari URL
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $segments = explode('/', trim($uri, '/'));
@@ -76,8 +78,47 @@ if (!$slug) {
 </head>
 
 <body>
+
     <!-- Navbar Start -->
-    <?php include "navbar.php" ?>
+    <div class="container-fluid sticky-top">
+        <div class="container">
+            <nav
+                class="navbar navbar-expand-lg navbar-light border-bottom border-2 border-white">
+                <a href="Beranda.php" class="navbar-brand">
+                    <h1>Ina Ndao</h1>
+                </a>
+                <button
+                    type="button"
+                    class="navbar-toggler ms-auto me-0"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto">
+                        <a href="/Beranda.php" class="nav-item nav-link 
+                        <?php if ($current_page == '/Beranda.php') {
+                            echo 'active';
+                        } ?>">Beranda</a>
+                        <a href="/Tentang-Ina-Ndao.php" class="nav-item nav-link 
+                        <?php if ($current_page == '/Tentang-Ina-Ndao.php') {
+                            echo 'active';
+                        } ?>">Tentang Kami</a>
+                        <a href="/Toko.php" class="nav-item nav-link 
+                        <?php if ($current_page == '/Toko.php') {
+                            echo 'active';
+                        } ?>">Toko</a>
+                        <a href="/Galeri-Ina-Ndao.php" class="nav-item nav-link 
+                        <?php if ($current_page == '/Galeri-Ina-Ndao.php') {
+                            echo 'active';
+                        } ?>">Galeri</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
     <!-- Navbar End -->
 
     <!-- Hero Start -->
@@ -117,6 +158,15 @@ if (!$slug) {
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <script src="/js/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/wow/wow.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
+
     <script>
         $(document).ready(function() {
             let slug = "<?= htmlspecialchars($slug) ?>";
@@ -150,59 +200,74 @@ if (!$slug) {
 
                         const today = new Date();
                         const isUpcoming = eventDate >= today;
-
                         const badgeHTML = isUpcoming ?
                             `<span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>` :
                             "";
 
+                        // 🔹 HTML detail event
                         let html = `
-                            <div class="card shadow-sm wow fadeIn position-relative overflow-hidden">
-                                ${badgeHTML}
-                                <div class="row g-4 align-items-start flex-column flex-md-row">
-                                    <!-- Gambar Event -->
-                                    <div class="col-12 col-md-5">
-                                        <img src="/img/event/${ev.gambar_banner}" 
-                                             class="event-banner shadow-sm rounded w-100" 
-                                             alt="${ev.nama_event}">
-                                    </div>
-
-                                    <!-- Konten Detail -->
-                                    <div class="col-12 col-md-7 p-3">
-                                        <h2 class="card-title mb-3 fw-bold" style="font-size: 1.8rem;">${ev.nama_event}</h2>
-
-                                        <p class="mb-2">
-                                            <i class="bi bi-geo-alt-fill me-2"></i>
-                                            <strong>${ev.tempat}</strong>
-                                        </p>
-
-                                        <p class="mb-1 text-primary">
-                                            <strong>${formattedDate}</strong>
-                                        </p>
-
-                                        <p class="mb-3 text-muted">
-                                            ${formattedTime ? formattedTime + ' WITA' : '-'}
-                                        </p>
-
-                                        <p class="mt-3">${ev.deskripsi}</p>
-                                    </div>
-                                </div>
+                    <div class="card shadow-sm wow fadeIn position-relative overflow-hidden">
+                        ${badgeHTML}
+                        <div class="row g-4 align-items-start flex-column flex-md-row">
+                            <!-- Gambar Event -->
+                            <div class="col-12 col-md-5">
+                                <img src="/img/event/${ev.gambar_banner}" 
+                                     class="event-banner shadow-sm rounded w-100" 
+                                     alt="${ev.nama_event}">
                             </div>
-                        `;
+
+                            <!-- Konten Detail -->
+                            <div class="col-12 col-md-7 p-3">
+                                <h2 class="card-title mb-3 fw-bold" style="font-size: 1.8rem;">${ev.nama_event}</h2>
+
+                                <p class="mb-2">
+                                    <i class="bi bi-geo-alt-fill me-2"></i>
+                                    <strong>${ev.tempat}</strong>
+                                </p>
+
+                                <p class="mb-1 text-primary">
+                                    <strong>${formattedDate}</strong>
+                                </p>
+
+                                <p class="mb-3 text-muted">
+                                    ${formattedTime ? formattedTime + ' WITA' : '-'}
+                                </p>
+
+                                <p class="mt-3">${ev.deskripsi}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
                         $("#event-detail").html(html);
+
+                        // 🔹 Dokumentasi
+                        $("#event-docs").empty(); // Bersihkan isi sebelumnya
 
                         if (res.dokumentasi && res.dokumentasi.length > 0) {
                             res.dokumentasi.forEach(doc => {
                                 $("#event-docs").append(`
-                    <div class="col-md-3 mb-3">
-                        <img src="/img/event/${doc.gambar_dokumentasi}" class="event-doc shadow" alt="Dokumentasi">
-                    </div>
-                `);
+                            <div class="col-md-3 mb-3">
+                                <img src="/img/event/${doc.gambar_dokumentasi}" class="event-doc shadow" alt="Dokumentasi">
+                            </div>
+                        `);
                             });
+                        } else {
+                            // 🔸 Jika kosong, tampilkan pesan
+                            $("#event-docs").html(`
+                        <div class="col-12 text-center text-muted py-4">
+                            <i class="bi bi-image" style="font-size: 2rem;"></i>
+                            <p class="mt-2 mb-0">Belum ada dokumentasi untuk event ini.</p>
+                        </div>
+                    `);
                         }
+
                     } else {
                         $("#event-detail").html(`<div class="alert alert-danger">${res.message}</div>`);
                     }
                 },
+                error: function() {
+                    $("#event-detail").html(`<div class="alert alert-danger">Terjadi kesalahan saat memuat data event.</div>`);
+                }
             });
         });
     </script>

@@ -90,6 +90,10 @@ class EventController
                     $this->detail($param);
                     break;
 
+                case 'search':
+                    $this->search();
+                    break;
+
                 default:
                     http_response_code(404);
                     echo json_encode(['status' => 'error', 'message' => 'Action tidak ditemukan']);
@@ -392,6 +396,23 @@ class EventController
             echo json_encode([
                 'status' => 'success',
                 'message' => count($ids) . " dokumentasi berhasil dihapus"
+            ]);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    /** 🔍 Pencarian Event berdasarkan nama_event */
+    public function search()
+    {
+        try {
+            $keyword = $_GET['keyword'] ?? '';
+
+            $results = $this->eventModel->searchByName($keyword);
+
+            echo json_encode([
+                'status' => 'success',
+                'data'   => $results
             ]);
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
