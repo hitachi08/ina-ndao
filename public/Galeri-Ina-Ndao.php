@@ -218,9 +218,16 @@
             </div>
         </div>
     </div>
+
+
+
     <!-- Testimonial End -->
     <div class="container py-5">
-        <div class="row g-4 limit-container">
+        <nav>
+            <ul class="pagination justify-content-end" id="pagination-galeri"></ul>
+        </nav>
+
+        <div class="row g-4" id="galeri-list">
             <!-- Item 1 -->
             <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.1s">
                 <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
@@ -374,6 +381,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Item 7 -->
             <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.1s">
                 <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">

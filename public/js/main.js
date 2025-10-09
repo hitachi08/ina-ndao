@@ -58,31 +58,53 @@
   });
 })(jQuery);
 
-$(document).ready(function () {
-  var itemsPerPage = 18;
-  var items = $("#product-list .col-6");
-  var numItems = items.length;
-  var numPages = Math.ceil(numItems / itemsPerPage);
 
-  for (var i = 1; i <= numPages; i++) {
-    $("#pagination").append(
-      `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`
-    );
+
+$(document).ready(function () {
+  function initPagination(
+    containerSelector,
+    itemSelector,
+    paginationSelector,
+    itemsPerPage = 18
+  ) {
+    const items = $(`${containerSelector} ${itemSelector}`);
+    const numItems = items.length;
+    const numPages = Math.ceil(numItems / itemsPerPage);
+
+    // Kosongkan pagination
+    $(paginationSelector).empty();
+
+    if (numPages <= 1) {
+      items.show(); // Kalau cuma 1 halaman, tampilkan semua tanpa pagination
+      return;
+    }
+
+    // Buat tombol pagination
+    for (let i = 1; i <= numPages; i++) {
+      $(paginationSelector).append(
+        `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`
+      );
+    }
+
+    // Tampilkan halaman pertama
+    items.hide().slice(0, itemsPerPage).show();
+    $(`${paginationSelector} li:first`).addClass("active");
+
+    // Event klik pagination
+    $(`${paginationSelector} li`).on("click", function (e) {
+      e.preventDefault();
+      $(`${paginationSelector} li`).removeClass("active");
+      $(this).addClass("active");
+
+      const page = $(this).text();
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+
+      items.hide().slice(start, end).show();
+    });
   }
 
-  items.hide();
-  items.slice(0, itemsPerPage).show();
-  $("#pagination li:first").addClass("active");
-
-  $("#pagination li").click(function (e) {
-    e.preventDefault();
-    $("#pagination li").removeClass("active");
-    $(this).addClass("active");
-
-    var page = $(this).text();
-    var start = (page - 1) * itemsPerPage;
-    var end = start + itemsPerPage;
-
-    items.hide().slice(start, end).show();
-  });
+  initPagination("#galeri-list", ".col-lg-6", "#pagination-galeri", 6);
+  initPagination("#product-list", ".col-6", "#pagination", 18);
 });
+
