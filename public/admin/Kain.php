@@ -11,7 +11,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
 <head>
     <meta charset="UTF-8">
-    <title>Kelola Galeri - Ina Ndao</title>
+    <title>Manajemen Data - Ina Ndao</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="../img/ina_ndao_logo.jpeg" rel="icon" />
     
@@ -71,7 +71,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
-                Tambah Produk
+                Tambah Kain
             </button>
 
             <nav>

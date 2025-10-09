@@ -70,7 +70,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
             <!-- Toko / Produk -->
             <?php
-            $produk_pages = ['produk-list.php', 'produk-tambah.php', 'kategori-produk.php'];
+            $produk_pages = ['Kain.php', 'Produk.php'];
             $produk_active = in_array($current_page, $produk_pages) ? 'show' : '';
             ?>
             <li class="nav-item">
@@ -83,7 +83,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                 <path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                             </svg>
                         </span>
-                        <span class="sidebar-text">Toko / Produk</span>
+                        <span class="sidebar-text">Manajemen Data</span>
                     </span>
                     <span class="link-arrow">
                         <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20">
@@ -93,23 +93,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </span>
                 <div class="multi-level collapse <?= $produk_active ?>" id="submenu-produk">
                     <ul class="flex-column nav">
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'produk-list.php') ? 'active' : '' ?>" href="../admin/produk-list.php"><span class="sidebar-text">Daftar Produk</span></a></li>
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'produk-tambah.php') ? 'active' : '' ?>" href="../admin/produk-tambah.php"><span class="sidebar-text">Tambah Produk</span></a></li>
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'kategori-produk.php') ? 'active' : '' ?>" href="../admin/kategori-produk.php"><span class="sidebar-text">Kategori Produk</span></a></li>
+                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'Kain.php') ? 'active' : '' ?>" href="../admin/Kain.php"><span class="sidebar-text">Kain</span></a></li>
+                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'Produk.php') ? 'active' : '' ?>" href="../admin/Produk.php"><span class="sidebar-text">Produk</span></a></li>
                     </ul>
                 </div>
-            </li>
-
-            <!-- Galeri -->
-            <li class="nav-item <?= ($current_page == 'galeri.php') ? 'active' : '' ?>">
-                <a href="../admin/galeri.php" class="nav-link d-flex align-items-center">
-                    <span class="sidebar-icon">
-                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M6 2a1 1 0 00-1 1v2h10V3a1 1 0 00-1-1H6zM3 6h14v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6z"></path>
-                        </svg>
-                    </span>
-                    <span class="sidebar-text">Galeri</span>
-                </a>
             </li>
 
             <!-- Event -->
