@@ -29,66 +29,66 @@ $(document).ready(function () {
 
         events.forEach(function (ev) {
           var card = `
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
-                                    <div class="card h-100 shadow-sm border-0 rounded-0 product-card cursor-pointer"
-                                        data-id="${ev.id_event}"
-                                        data-nama="${ev.nama_event}"
-                                        data-deskripsi="${ev.deskripsi || ""}"
-                                        data-tanggal="${ev.tanggal}"
-                                        data-waktu="${ev.waktu}"
-                                        data-tempat="${ev.tempat}"
-                                        data-gambar="${
-                                          ev.gambar_banner
-                                            ? `../img/event/${ev.gambar_banner}`
-                                            : `../img/no-image.png`
-                                        }"
-                                        data-open-modal="true">
-                                        ${
-                                          ev.gambar_banner
-                                            ? `<img src="../img/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
-                                            : `<img src="../img/no-image.png" class="card-img-top" alt="no image">`
-                                        }
-                                        <div class="card-body d-flex justify-content-between flex-column">
-                                            <div> 
-                                                <h6 class="card-title mb-1 text-truncate">${
-                                                  ev.nama_event
-                                                }</h6>
-                                                <p class="card-text small mb-2 text-muted text-truncate2">${
-                                                  ev.deskripsi || ""
-                                                }</p>
-                                            </div>
-                                            <div class="small text-muted">
-                                                <span class="d-block mb-1">
-                                                    <i class="fa fa-calendar text-primary me-2"></i>${
-                                                      ev.tanggal
-                                                    }
-                                                </span>
-                                                <span class="d-block mb-1">
-                                                    <i class="fa fa-clock text-primary me-2"></i>${
-                                                      ev.waktu
-                                                    }
-                                                </span>
-                                                <span class="d-block">
-                                                    <i class="fa fa-map-marker-alt text-primary me-2"></i>${
-                                                      ev.tempat
-                                                    }
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between gap-2">
-                                            <button class="btn btn-info btn-sm w-100 m-auto rounded-0 btnDoc" data-id="${
-                                              ev.id_event
-                                            }">Dokumentasi</button>
-                                            <button class="btn btn-warning btn-sm w-100 m-auto rounded-0 btnEdit" data-id="${
-                                              ev.id_event
-                                            }">Edit</button>
-                                            <button class="btn btn-danger btn-sm w-100 m-auto rounded-0 btnDelete" data-id="${
-                                              ev.id_event
-                                            }">Hapus</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                `;
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 rounded-0 product-card cursor-pointer"
+                    data-id="${ev.id_event}"
+                    data-nama="${ev.nama_event}"
+                    data-deskripsi="${ev.deskripsi || ""}"
+                    data-tanggal="${ev.tanggal}"
+                    data-waktu="${ev.waktu}"
+                    data-tempat="${ev.tempat}"
+                    data-gambar="${
+                      ev.gambar_banner
+                        ? `../img/event/${ev.gambar_banner}`
+                        : `../img/no-image.png`
+                    }"
+                    data-open-modal="true">
+                    ${
+                      ev.gambar_banner
+                        ? `<img src="../img/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
+                        : `<img src="../img/no-image.png" class="card-img-top" alt="no image">`
+                    }
+                    <div class="card-body d-flex justify-content-between flex-column">
+                        <div> 
+                            <h6 class="card-title mb-1 text-truncate">${
+                              ev.nama_event
+                            }</h6>
+                            <p class="card-text small mb-2 text-muted text-truncate2">${
+                              ev.deskripsi || ""
+                            }</p>
+                        </div>
+                        <div class="small text-muted">
+                            <span class="d-block mb-1">
+                                <i class="fa fa-calendar text-primary me-2"></i>${
+                                  ev.tanggal
+                                }
+                            </span>
+                            <span class="d-block mb-1">
+                                <i class="fa fa-clock text-primary me-2"></i>${
+                                  ev.waktu
+                                }
+                            </span>
+                            <span class="d-block">
+                                <i class="fa fa-map-marker-alt text-primary me-2"></i>${
+                                  ev.tempat
+                                }
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between gap-2">
+                        <button class="btn btn-info btn-sm w-100 m-auto rounded-0 btnDoc" data-id="${
+                          ev.id_event
+                        }">Dokumentasi</button>
+                        <button class="btn btn-warning btn-sm w-100 m-auto rounded-0 btnEdit" data-id="${
+                          ev.id_event
+                        }">Edit</button>
+                        <button class="btn btn-danger btn-sm w-100 m-auto rounded-0 btnDelete" data-id="${
+                          ev.id_event
+                        }">Hapus</button>
+                    </div>
+                </div>
+            </div>
+          `;
           container.append(card);
         });
 
@@ -115,24 +115,24 @@ $(document).ready(function () {
     // Tombol First
     var firstDisabled = current === 1 ? "disabled" : "";
     pagination.append(`
-                    <li class="page-item ${firstDisabled}">
-                        <a class="page-link rounded-2" href="#" data-page="1">
-                            <i class="bi bi-chevron-double-left"></i>
-                        </a>
-                    </li>
-                `);
+        <li class="page-item ${firstDisabled}">
+            <a class="page-link rounded-2" href="#" data-page="1">
+                <i class="bi bi-chevron-double-left"></i>
+            </a>
+        </li>
+    `);
 
     // Tombol Prev
     var prevDisabled = current === 1 ? "disabled" : "";
     pagination.append(`
-                    <li class="page-item ${prevDisabled}">
-                        <a class="page-link rounded-2" href="#" data-page="${
-                          current - 1
-                        }">
-                            <i class="bi bi-chevron-left"></i>
-                        </a>
-                    </li>
-                `);
+        <li class="page-item ${prevDisabled}">
+            <a class="page-link rounded-2" href="#" data-page="${
+              current - 1
+            }">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+        </li>
+    `);
 
     // Jika start > 1, tampilkan "..."
     if (start > 1) {
@@ -145,10 +145,10 @@ $(document).ready(function () {
     for (var i = start; i <= end; i++) {
       var active = i === current ? "active" : "";
       pagination.append(`
-                    <li class="page-item ${active}">
-                        <a class="page-link rounded-2" href="#" data-page="${i}">${i}</a>
-                    </li>
-                `);
+          <li class="page-item ${active}">
+              <a class="page-link rounded-2" href="#" data-page="${i}">${i}</a>
+          </li>
+      `);
     }
 
     // Jika end < total, tampilkan "..."
@@ -161,24 +161,24 @@ $(document).ready(function () {
     // Tombol Next
     var nextDisabled = current === total ? "disabled" : "";
     pagination.append(`
-                    <li class="page-item ${nextDisabled}">
-                        <a class="page-link rounded-2" href="#" data-page="${
-                          current + 1
-                        }">
-                            <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </li>
-                `);
+        <li class="page-item ${nextDisabled}">
+            <a class="page-link rounded-2" href="#" data-page="${
+              current + 1
+            }">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        </li>
+    `);
 
     // Tombol Last
     var lastDisabled = current === total ? "disabled" : "";
     pagination.append(`
-                    <li class="page-item ${lastDisabled}">
-                        <a class="page-link rounded-2" href="#" data-page="${total}">
-                            <i class="bi bi-chevron-double-right"></i>
-                        </a>
-                    </li>
-                `);
+        <li class="page-item ${lastDisabled}">
+            <a class="page-link rounded-2" href="#" data-page="${total}">
+                <i class="bi bi-chevron-double-right"></i>
+            </a>
+        </li>
+    `);
   }
 
   // Klik pagination
@@ -353,17 +353,17 @@ $(document).ready(function () {
             // Render dokumentasi dengan checkbox
             docs.forEach(function (doc) {
               list += `
-                                    <div class="col-6 col-md-4 col-lg-3">
-                                        <div class="position-relative dokumentasi-wrapper">
-                                            <input type="checkbox" class="doc-checkbox position-absolute top-0 start-0 m-1" data-id="${doc.id_dokumentasi}" data-event="${id}">
-                                            <img src="../img/event/${doc.gambar_dokumentasi}" class="dokumentasi-thumb img-fluid">
-                                            <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 btnDelDoc" 
-                                                    data-id="${doc.id_dokumentasi}" data-event="${id}">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                `;
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="position-relative dokumentasi-wrapper">
+                        <input type="checkbox" class="doc-checkbox position-absolute top-0 start-0 m-1" data-id="${doc.id_dokumentasi}" data-event="${id}">
+                        <img src="../img/event/${doc.gambar_dokumentasi}" class="dokumentasi-thumb img-fluid">
+                        <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 btnDelDoc" 
+                                data-id="${doc.id_dokumentasi}" data-event="${id}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
             });
           } else {
             list = "<p class='text-muted'>Belum ada dokumentasi.</p>";
@@ -545,14 +545,14 @@ $(document).ready(function () {
           if (docs.length > 0) {
             docs.forEach((doc) => {
               html += `
-                            <div class="col-6 col-md-4 col-lg-3">
-                                <img src="../img/event/${
-                                  doc.gambar_dokumentasi
-                                }" 
-                                     class="img-fluid shadow-sm"
-                                     style="width: 100px; height: 150px; object-fit: cover;" 
-                                     alt="Dokumentasi ${card.data("nama")}">
-                            </div>`;
+              <div class="col-6 col-md-4 col-lg-3">
+                  <img src="../img/event/${
+                    doc.gambar_dokumentasi
+                  }" 
+                       class="img-fluid shadow-sm"
+                       style="width: 100px; height: 150px; object-fit: cover;" 
+                       alt="Dokumentasi ${card.data("nama")}">
+              </div>`;
             });
           } else {
             html = `<p class="text-muted fst-italic">Belum ada dokumentasi tersedia.</p>`;
@@ -612,66 +612,66 @@ $(document).ready(function () {
         // Render hasil pencarian sama seperti loadEvents
         events.forEach(function (ev) {
           var card = `
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
-                                    <div class="card h-100 shadow-sm border-0 rounded-0 product-card cursor-pointer"
-                                        data-id="${ev.id_event}"
-                                        data-nama="${ev.nama_event}"
-                                        data-deskripsi="${ev.deskripsi || ""}"
-                                        data-tanggal="${ev.tanggal}"
-                                        data-waktu="${ev.waktu}"
-                                        data-tempat="${ev.tempat}"
-                                        data-gambar="${
-                                          ev.gambar_banner
-                                            ? `../img/event/${ev.gambar_banner}`
-                                            : `../img/no-image.png`
-                                        }"
-                                        data-open-modal="true">
-                                        ${
-                                          ev.gambar_banner
-                                            ? `<img src="../img/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
-                                            : `<img src="../img/no-image.png" class="card-img-top" alt="no image">`
-                                        }
-                                        <div class="card-body d-flex justify-content-between flex-column">
-                                            <div> 
-                                                <h6 class="card-title mb-1 text-truncate">${
-                                                  ev.nama_event
-                                                }</h6>
-                                                <p class="card-text small mb-2 text-muted text-truncate2">${
-                                                  ev.deskripsi || ""
-                                                }</p>
-                                            </div>
-                                            <div class="small text-muted">
-                                                <span class="d-block mb-1">
-                                                    <i class="fa fa-calendar text-primary me-2"></i>${
-                                                      ev.tanggal
-                                                    }
-                                                </span>
-                                                <span class="d-block mb-1">
-                                                    <i class="fa fa-clock text-primary me-2"></i>${
-                                                      ev.waktu
-                                                    }
-                                                </span>
-                                                <span class="d-block">
-                                                    <i class="fa fa-map-marker-alt text-primary me-2"></i>${
-                                                      ev.tempat
-                                                    }
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between gap-2">
-                                            <button class="btn btn-info btn-sm w-100 m-auto rounded-0 btnDoc" data-id="${
-                                              ev.id_event
-                                            }">Dokumentasi</button>
-                                            <button class="btn btn-warning btn-sm w-100 m-auto rounded-0 btnEdit" data-id="${
-                                              ev.id_event
-                                            }">Edit</button>
-                                            <button class="btn btn-danger btn-sm w-100 m-auto rounded-0 btnDelete" data-id="${
-                                              ev.id_event
-                                            }">Hapus</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 rounded-0 product-card cursor-pointer"
+                    data-id="${ev.id_event}"
+                    data-nama="${ev.nama_event}"
+                    data-deskripsi="${ev.deskripsi || ""}"
+                    data-tanggal="${ev.tanggal}"
+                    data-waktu="${ev.waktu}"
+                    data-tempat="${ev.tempat}"
+                    data-gambar="${
+                      ev.gambar_banner
+                        ? `../img/event/${ev.gambar_banner}`
+                        : `../img/no-image.png`
+                    }"
+                    data-open-modal="true">
+                    ${
+                      ev.gambar_banner
+                        ? `<img src="../img/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
+                        : `<img src="../img/no-image.png" class="card-img-top" alt="no image">`
+                    }
+                    <div class="card-body d-flex justify-content-between flex-column">
+                        <div> 
+                            <h6 class="card-title mb-1 text-truncate">${
+                              ev.nama_event
+                            }</h6>
+                            <p class="card-text small mb-2 text-muted text-truncate2">${
+                              ev.deskripsi || ""
+                            }</p>
+                        </div>
+                        <div class="small text-muted">
+                            <span class="d-block mb-1">
+                                <i class="fa fa-calendar text-primary me-2"></i>${
+                                  ev.tanggal
+                                }
+                            </span>
+                            <span class="d-block mb-1">
+                                <i class="fa fa-clock text-primary me-2"></i>${
+                                  ev.waktu
+                                }
+                            </span>
+                            <span class="d-block">
+                                <i class="fa fa-map-marker-alt text-primary me-2"></i>${
+                                  ev.tempat
+                                }
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between gap-2">
+                        <button class="btn btn-info btn-sm w-100 m-auto rounded-0 btnDoc" data-id="${
+                          ev.id_event
+                        }">Dokumentasi</button>
+                        <button class="btn btn-warning btn-sm w-100 m-auto rounded-0 btnEdit" data-id="${
+                          ev.id_event
+                        }">Edit</button>
+                        <button class="btn btn-danger btn-sm w-100 m-auto rounded-0 btnDelete" data-id="${
+                          ev.id_event
+                        }">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        `;
           container.append(card);
         });
 

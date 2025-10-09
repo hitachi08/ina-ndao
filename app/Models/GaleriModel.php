@@ -1,5 +1,5 @@
 <?php
-class Galeri
+class GaleriModel
 {
     private $pdo;
 
@@ -8,311 +8,233 @@ class Galeri
         $this->pdo = $pdo;
     }
 
-    // ============================
-    // FETCH DATA
-    // ============================
-    public function fetchAll()
+    public function getPDO()
     {
-        $stmt = $this->pdo->query("
-            SELECT v.id_variasi,
-                   j.nama_jenis,
-                   d.nama_daerah,
-                   m.id_motif,
-                   m.nama_motif,
-                   m.cerita,
-                   v.ukuran, 
-                   v.bahan, 
-                   v.jenis_pewarna, 
-                   v.harga, 
-                   v.stok,
-                   GROUP_CONCAT(mg.gambar) AS motif_gambar
-            FROM variasi_motif v
-            JOIN kain_motif km ON v.id_kain_motif = km.id_kain_motif
-            JOIN motif m ON km.id_motif = m.id_motif
-            JOIN kain k ON km.id_kain = k.id_kain
-            JOIN jenis_kain j ON k.id_jenis_kain = j.id_jenis_kain
-            JOIN daerah d ON k.id_daerah = d.id_daerah
-            LEFT JOIN motif_gambar mg ON m.id_motif = mg.id_motif
-            GROUP BY v.id_variasi
-        ");
-
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($result as &$row) {
-            $row['motif_gambar'] = $row['motif_gambar'] ? explode(',', $row['motif_gambar']) : [];
-        }
-
-        return $result;
+        return $this->pdo;
     }
 
-    public function fetchSingle($idVariasi)
+    // ============================
+    // CRUD KAIN
+    // ============================
+
+    public function getAllKain()
     {
         $stmt = $this->pdo->prepare("
-            SELECT v.id_variasi,
-                   j.nama_jenis,
-                   d.nama_daerah,
-                   m.id_motif,
-                   m.nama_motif,
-                   m.cerita,
-                   v.ukuran, 
-                   v.bahan, 
-                   v.jenis_pewarna, 
-                   v.harga, 
-                   v.stok,
-                   GROUP_CONCAT(mg.gambar) AS motif_gambar
-            FROM variasi_motif v
-            JOIN kain_motif km ON v.id_kain_motif = km.id_kain_motif
-            JOIN motif m ON km.id_motif = m.id_motif
-            JOIN kain k ON km.id_kain = k.id_kain
+            SELECT k.*, j.nama_jenis, d.nama_daerah, m.nama_motif, mm.makna
+            FROM kain k
             JOIN jenis_kain j ON k.id_jenis_kain = j.id_jenis_kain
             JOIN daerah d ON k.id_daerah = d.id_daerah
-            LEFT JOIN motif_gambar mg ON m.id_motif = mg.id_motif
-            WHERE v.id_variasi = ?
-            GROUP BY v.id_variasi
+            JOIN motif m ON k.id_motif = m.id_motif
+            LEFT JOIN makna_motif mm ON k.id_motif = mm.id_motif AND k.id_daerah = mm.id_daerah
         ");
-        $stmt->execute([$idVariasi]);
-
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            $row['motif_gambar'] = $row['motif_gambar'] ? explode(',', $row['motif_gambar']) : [];
-        }
-        return $row;
-    }
-
-    // ============================
-    // JENIS KAIN & DAERAH HELPER
-    // ============================
-    public function getJenisByName($nama)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM jenis_kain WHERE nama_jenis = ?");
-        $stmt->execute([$nama]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function addJenisKain($nama)
-    {
-        $stmt = $this->pdo->prepare("INSERT INTO jenis_kain (nama_jenis) VALUES (?)");
-        $stmt->execute([$nama]);
-        return $this->pdo->lastInsertId();
-    }
-
-    public function getDaerahByName($nama)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM daerah WHERE nama_daerah = ?");
-        $stmt->execute([$nama]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function addDaerah($nama)
-    {
-        $stmt = $this->pdo->prepare("INSERT INTO daerah (nama_daerah) VALUES (?)");
-        $stmt->execute([$nama]);
-        return $this->pdo->lastInsertId();
-    }
-
-    public function getOrCreateKain($idJenis, $idDaerah)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM kain WHERE id_jenis_kain=? AND id_daerah=?");
-        $stmt->execute([$idJenis, $idDaerah]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row)
-            return $row['id_kain'];
-
-        $stmt = $this->pdo->prepare("INSERT INTO kain (id_jenis_kain, id_daerah) VALUES (?, ?)");
-        $stmt->execute([$idJenis, $idDaerah]);
-        return $this->pdo->lastInsertId();
-    }
-
-
-    // ============================
-    // MOTIF
-    // ============================
-    public function getMotifByName($namaMotif)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM motif WHERE nama_motif = ?");
-        $stmt->execute([$namaMotif]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function addMotif($data)
-    {
-        $stmt = $this->pdo->prepare("INSERT INTO motif (nama_motif, cerita) VALUES (?, ?)");
-        $stmt->execute([$data['nama_motif'], $data['cerita']]);
-        return $this->pdo->lastInsertId();
-    }
-
-    public function updateMotif($idMotif, $data)
-    {
-        $stmt = $this->pdo->prepare("UPDATE motif SET nama_motif=?, cerita=? WHERE id_motif=?");
-        return $stmt->execute([$data['nama_motif'], $data['cerita'], $idMotif]);
-    }
-
-    public function deleteMotif($idMotif)
-    {
-        $stmt = $this->pdo->prepare("DELETE FROM motif WHERE id_motif=?");
-        return $stmt->execute([$idMotif]);
-    }
-
-    // ============================
-    // MOTIF GAMBAR
-    // ============================
-    public function addMotifGambar($idMotif, $gambar)
-    {
-        $stmt = $this->pdo->prepare("INSERT INTO motif_gambar (id_motif, gambar) VALUES (?, ?)");
-        return $stmt->execute([$idMotif, $gambar]);
-    }
-
-    public function getMotifGambar($idMotif)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM motif_gambar WHERE id_motif = ?");
-        $stmt->execute([$idMotif]);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    public function deleteAllMotifGambar($idMotif)
-    {
-        $stmt = $this->pdo->prepare("DELETE FROM motif_gambar WHERE id_motif=?");
-        return $stmt->execute([$idMotif]);
-    }
-
-    // ============================
-    // VARIASI
-    // ============================
-    public function addVariasi($data)
+    public function getKainById($id)
     {
         $stmt = $this->pdo->prepare("
-            INSERT INTO variasi_motif (id_kain_motif, ukuran, bahan, jenis_pewarna, harga, stok)
-            VALUES (?, ?, ?, ?, ?, ?)
+            SELECT k.*, j.nama_jenis, d.nama_daerah, m.nama_motif, mm.makna
+            FROM kain k
+            JOIN jenis_kain j ON k.id_jenis_kain = j.id_jenis_kain
+            JOIN daerah d ON k.id_daerah = d.id_daerah
+            JOIN motif m ON k.id_motif = m.id_motif
+            LEFT JOIN makna_motif mm ON k.id_motif = mm.id_motif AND k.id_daerah = mm.id_daerah
+            WHERE k.id_kain = ?
+        ");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function insertKain($data)
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO kain 
+            (id_jenis_kain, id_daerah, id_motif, panjang_cm, lebar_cm, bahan, jenis_pewarna, harga, stok)
+            VALUES (:id_jenis_kain, :id_daerah, :id_motif, :panjang, :lebar, :bahan, :jenis_pewarna, :harga, :stok)
         ");
         return $stmt->execute([
-            $data['id_kain_motif'],
-            $data['ukuran'],
-            $data['bahan'],
-            $data['jenis_pewarna'],
-            $data['harga'],
-            $data['stok']
+            ':id_jenis_kain' => $data['id_jenis_kain'],
+            ':id_daerah' => $data['id_daerah'],
+            ':id_motif' => $data['id_motif'],
+            ':panjang' => $data['panjang'],
+            ':lebar' => $data['lebar'],
+            ':bahan' => $data['bahan'],
+            ':jenis_pewarna' => $data['jenis_pewarna'],
+            ':harga' => $data['harga'],
+            ':stok' => $data['stok']
         ]);
     }
 
-
-    public function updateVariasi($idVar, $data)
+    public function getAllJenis()
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE variasi_motif 
-            SET ukuran=?, bahan=?, jenis_pewarna=?, harga=?, stok=? 
-            WHERE id_variasi=?
-        ");
-        return $stmt->execute([
-            $data['ukuran'],
-            $data['bahan'],
-            $data['jenis_pewarna'],
-            $data['harga'],
-            $data['stok'],
-            $idVar
-        ]);
-    }
-
-    public function deleteVariasiByKainMotif($idKainMotif)
-    {
-        $stmt = $this->pdo->prepare("DELETE FROM variasi_motif WHERE id_kain_motif=?");
-        return $stmt->execute([$idKainMotif]);
-    }
-
-    // ============================
-    // KAIN-MOTIF RELASI
-    // ============================
-    public function addKainMotif($idKain, $idMotif)
-    {
-        $stmt = $this->pdo->prepare("INSERT INTO kain_motif (id_kain, id_motif) VALUES (?, ?)");
-        $stmt->execute([$idKain, $idMotif]);
-        return $this->pdo->lastInsertId();
-    }
-
-    public function getKainMotif($idKain, $idMotif)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM kain_motif WHERE id_kain=? AND id_motif=?");
-        $stmt->execute([$idKain, $idMotif]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-
-    public function getKainMotifById($idKainMotif)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM kain_motif WHERE id_kain_motif=?");
-        $stmt->execute([$idKainMotif]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    // Ambil data variasi_motif berdasarkan id_variasi
-    public function getVariasiById($idVariasi)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM variasi_motif WHERE id_variasi=?");
-        $stmt->execute([$idVariasi]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    // Ambil id_jenis_kain dari nama_jenis (insert jika belum ada)
-    public function getOrCreateJenisKain($namaJenis)
-    {
-        $stmt = $this->pdo->prepare("SELECT id_jenis_kain FROM jenis_kain WHERE nama_jenis=?");
-        $stmt->execute([$namaJenis]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$row) {
-            $stmt = $this->pdo->prepare("INSERT INTO jenis_kain(nama_jenis) VALUES(?)");
-            $stmt->execute([$namaJenis]);
-            return $this->pdo->lastInsertId();
-        }
-        return $row['id_jenis_kain'];
-    }
-
-    // Ambil id_daerah dari nama_daerah (insert jika belum ada)
-    public function getOrCreateDaerah($namaDaerah)
-    {
-        $stmt = $this->pdo->prepare("SELECT id_daerah FROM daerah WHERE nama_daerah=?");
-        $stmt->execute([$namaDaerah]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$row) {
-            $stmt = $this->pdo->prepare("INSERT INTO daerah(nama_daerah) VALUES(?)");
-            $stmt->execute([$namaDaerah]);
-            return $this->pdo->lastInsertId();
-        }
-        return $row['id_daerah'];
-    }
-    public function updateKainJenis($idKain, $idJenis)
-    {
-        $stmt = $this->pdo->prepare("UPDATE kain SET id_jenis_kain=? WHERE id_kain=?");
-        return $stmt->execute([$idJenis, $idKain]);
-    }
-
-    public function updateKainDaerah($idKain, $idDaerah)
-    {
-        $stmt = $this->pdo->prepare("UPDATE kain SET id_daerah=? WHERE id_kain=?");
-        return $stmt->execute([$idDaerah, $idKain]);
-    }
-
-    public function getAllJenisKain()
-    {
-        $stmt = $this->pdo->query("SELECT * FROM jenis_kain ORDER BY nama_jenis ASC");
+        $stmt = $this->pdo->prepare("SELECT id_jenis_kain, nama_jenis FROM jenis_kain");
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAllDaerah()
     {
-        $stmt = $this->pdo->query("SELECT * FROM daerah ORDER BY nama_daerah ASC");
+        $stmt = $this->pdo->prepare("SELECT id_daerah, nama_daerah FROM daerah");
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAllMotif()
     {
-        $stmt = $this->pdo->query("
-        SELECT id_motif, nama_motif, COALESCE(cerita, '') AS cerita
-        FROM motif
-        ORDER BY nama_motif ASC
-    ");
+        $stmt = $this->pdo->prepare("SELECT id_motif, nama_motif FROM motif");
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function updateKain($id, $data)
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE kain SET
+            id_jenis_kain=:id_jenis_kain,
+            id_daerah=:id_daerah,
+            id_motif=:id_motif,
+            panjang_cm=:panjang,
+            lebar_cm=:lebar,
+            bahan=:bahan,
+            jenis_pewarna=:jenis_pewarna,
+            harga=:harga,
+            stok=:stok
+            WHERE id_kain=:id
+        ");
+        return $stmt->execute([
+            ':id_jenis_kain' => $data['id_jenis_kain'],
+            ':id_daerah' => $data['id_daerah'],
+            ':id_motif' => $data['id_motif'],
+            ':panjang' => $data['panjang'],
+            ':lebar' => $data['lebar'],
+            ':bahan' => $data['bahan'],
+            ':jenis_pewarna' => $data['jenis_pewarna'],
+            ':harga' => $data['harga'],
+            ':stok' => $data['stok'],
+            ':id' => $id
+        ]);
+    }
+
+    public function updateMaknaMotif($id_motif, $id_daerah, $makna)
+    {
+        // Cek apakah sudah ada record
+        $stmt = $this->pdo->prepare("SELECT id_makna FROM makna_motif WHERE id_motif=? AND id_daerah=?");
+        $stmt->execute([$id_motif, $id_daerah]);
+        $exists = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($exists) {
+            // Update jika sudah ada
+            $stmt = $this->pdo->prepare("UPDATE makna_motif SET makna=? WHERE id_motif=? AND id_daerah=?");
+            return $stmt->execute([$makna, $id_motif, $id_daerah]);
+        } else {
+            // Insert jika belum ada
+            $stmt = $this->pdo->prepare("INSERT INTO makna_motif (id_motif, id_daerah, makna) VALUES (?, ?, ?)");
+            return $stmt->execute([$id_motif, $id_daerah, $makna]);
+        }
+    }
 
 
+    public function deleteKain($id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM kain WHERE id_kain = ?");
+        return $stmt->execute([$id]);
+    }
+
+    // ============================
+    // CRUD GAMBAR
+    // ============================
+    public function getGambarByKain($id_kain)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM kain_gambar WHERE id_kain = ?");
+        $stmt->execute([$id_kain]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function insertGambar($id_kain, $path)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO kain_gambar (id_kain, path_gambar) VALUES (?, ?)");
+        return $stmt->execute([$id_kain, $path]);
+    }
+
+    public function deleteGambar($id_gambar)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM kain_gambar WHERE id_gambar = ?");
+        return $stmt->execute([$id_gambar]);
+    }
+
+    // ============================
+    // CRUD PRODUK TURUNAN
+    // ============================
+    public function getAllProduk()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM produk_turunan");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function insertProduk($data)
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO produk_turunan (nama_produk, deskripsi, harga, stok)
+            VALUES (:nama, :deskripsi, :harga, :stok)
+        ");
+        $stmt->execute([
+            ':nama' => $data['nama_produk'],
+            ':deskripsi' => $data['deskripsi'],
+            ':harga' => $data['harga'],
+            ':stok' => $data['stok']
+        ]);
+        return $this->pdo->lastInsertId();
+    }
+
+    public function linkProdukKain($id_produk, $id_kain, $jumlah_pakai = 1)
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO produk_kain (id_produk, id_kain, jumlah_pakai)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE jumlah_pakai=VALUES(jumlah_pakai)
+        ");
+        return $stmt->execute([$id_produk, $id_kain, $jumlah_pakai]);
+    }
+
+    public function searchGaleri($keyword)
+    {
+        $sql = "
+        SELECT 
+            k.id_kain,
+            k.panjang_cm,
+            k.lebar_cm,
+            k.bahan,
+            k.jenis_pewarna,
+            k.harga,
+            k.stok,
+            j.nama_jenis,
+            d.nama_daerah,
+            m.nama_motif,
+            COALESCE(mm.makna, '') AS makna
+        FROM kain k
+        JOIN jenis_kain j ON k.id_jenis_kain = j.id_jenis_kain
+        JOIN daerah d ON k.id_daerah = d.id_daerah
+        JOIN motif m ON k.id_motif = m.id_motif
+        LEFT JOIN makna_motif mm ON mm.id_motif = m.id_motif AND mm.id_daerah = d.id_daerah
+        WHERE j.nama_jenis LIKE :kw 
+           OR d.nama_daerah LIKE :kw 
+           OR m.nama_motif LIKE :kw
+        ORDER BY k.id_kain DESC
+    ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':kw' => "%$keyword%"]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Ambil juga gambar tiap kain
+        foreach ($result as &$row) {
+            $gStmt = $this->pdo->prepare("SELECT path_gambar FROM kain_gambar WHERE id_kain = ?");
+            $gStmt->execute([$row['id_kain']]);
+            $row['motif_gambar'] = $gStmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $result;
+    }
 }

@@ -39,11 +39,11 @@ if (preg_match('#^/galeri/([a-z_]+)$#', $uri, $matches)) {
     require_once __DIR__ . '/../app/Controllers/GaleriController.php';
     $controller = new GaleriController($pdo);
 
-    $response = $controller->handle($action); // dapatkan hasil
-    echo json_encode($response);            // kembalikan ke AJAX
+    $response = $controller->handle($action); // controller return array
+    header('Content-Type: application/json');
+    echo json_encode($response); // AJAX dapat JSON valid
     exit;
 }
-
 
 // Route halaman admin Galeri
 if ($uri === '/admin/galeri') {
