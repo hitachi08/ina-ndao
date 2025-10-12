@@ -14,7 +14,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <title>Manajemen Data - Ina Ndao</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="../img/ina_ndao_logo.jpeg" rel="icon" />
-    
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -86,20 +86,25 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
     <!-- Modal Detail Motif -->
     <div class="modal fade" id="detailMotifModal" tabindex="-1">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailMotifTitle"></h5>
+        <div class="modal-dialog modal-md modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header border-0 bg-gradient py-3">
+                    <h5 class="modal-title fw-bold" id="detailMotifTitle">Nama Motif</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <div id="detailMotifImages" class="d-flex flex-wrap justify-content-center gap-2 mb-3"></div>
-                    <!-- Judul cerita -->
-                    <h6 id="detailMotifStoryTitle" class="fw-bold mb-2 text-center"></h6>
-                    <!-- Cerita -->
-                    <p id="detailMotifCerita"
-                        style="max-height: 300px; overflow-y: auto; overflow-x: hidden; word-wrap: break-word; white-space: pre-wrap;">
-                    </p>
+                <div class="modal-body p-4">
+                    <div id="detailMotifImages" class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+                    </div>
+                    <h6 id="detailMotifStoryTitle" class="text-center fw-bold mb-3 text-dark">
+                        Cerita di Balik Motif
+                    </h6>
+                    <div id="detailMotifCerita"
+                        class="bg-white border rounded-3 shadow-sm p-3 text-muted text-center"
+                        style="max-height: 320px; overflow-y: auto; overflow-x: hidden; word-wrap: break-word; white-space: pre-wrap;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary px-4 py-2 rounded-2" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -174,7 +179,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/select2.min.js"></script>
     <script src="../js/sweetalert2.all.min.js"></script>
-    <script src="js/galeri.js"></script>
+    <script src="js/kain.js"></script>
 
 </body>
 

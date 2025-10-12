@@ -96,6 +96,9 @@
     margin-left: 0;
     padding: 10px 0;
   }
+  .sticky-top:has(.navbar-collapse.show) {
+    background-color: #fff !important;
+  }
 }
 
 @media (min-width: 992px) {
@@ -678,4 +681,124 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.box-card {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 60px;
+  margin-bottom: 45px;
+  background: var(--color-initial);
+  box-shadow: 0 4px 20px 10px #00000005;
+  transition: transform 0.2s ease;
+}
+
+.box-card:hover {
+  transform: translateY(-5px);
+}
+
+.box-card figure {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: auto;
+  margin: 8px;
+  border-radius: 8px;
+  aspect-ratio: 1 / 1;
+}
+
+.box-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.box-card .fw-bold.text-dark {
+  transition: color 0.3s ease;
+}
+
+.box-card:hover .fw-bold.text-dark {
+  color: var(--bs-primary) !important;
+}
+
+.box-card .desc-card h5 {
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.box-card .desc-card .motif {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.box-card .desc-card .price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+  line-height: 1.2;
+  font-family: var(--font-2-bold);
+}
+
+.box-card .abs-btm {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 20px 20px;
+}
+
+.box-card .desc-card {
+  padding: 12px 20px 0;
+}
+
+@media (max-width: 426px) {
+  .box-card {
+    padding-bottom: 40px;
+  }
+
+  .box-card .motif {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  .box-card .price {
+    font-size: 0.8rem !important;
+  }
+
+  .box-card .fw-semibold {
+    font-size: 0.8rem !important;
+  }
+}
+
+#product-list {
+  min-height: 200px;
+  position: relative;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }

@@ -27,6 +27,12 @@ class GaleriController
                 return $this->getOptions();
             case 'search':
                 return $this->search();
+            case 'get_options_kain':
+                return $this->getOptionsKain();
+            case 'filter':
+                return $this->filter();
+            case 'detail':
+                return $this->detail();
             default:
                 return ['status' => 'error', 'message' => 'Action not found'];
         }
@@ -313,5 +319,45 @@ class GaleriController
             'status' => 'success',
             'data' => $data
         ];
+    }
+
+    private function detail()
+    {
+        $slug = $_POST['slug'] ?? $_GET['slug'] ?? null;
+        if (!$slug) {
+            return ['status' => 'error', 'message' => 'Slug tidak ditemukan'];
+        }
+
+        $data = $this->model->getKainBySlug($slug);
+        if (!$data) {
+            return ['status' => 'error', 'message' => 'Data tidak ditemukan'];
+        }
+
+        return ['status' => 'success', 'data' => $data];
+    }
+
+    private function filter()
+    {
+        $filters = [
+            'daerah' => $_POST['daerah'] ?? [],
+            'jenis_kain' => $_POST['jenis_kain'] ?? [],
+            'harga_min' => $_POST['harga_min'] ?? null,
+            'harga_max' => $_POST['harga_max'] ?? null
+        ];
+
+        $data = $this->model->filterKain($filters);
+
+        foreach ($data as &$item) {
+            $item['motif_gambar'] = $this->model->getGambarByKain($item['id_kain']);
+        }
+
+        return ['status' => 'success', 'data' => $data];
+    }
+
+    private function getOptionsKain()
+    {
+        $daerah = $this->model->getAllDaerah();
+        $jenis = $this->model->getAllJenis();
+        return ['status' => 'success', 'daerah' => $daerah, 'jenis' => $jenis];
     }
 }

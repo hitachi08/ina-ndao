@@ -513,7 +513,7 @@ $(document).ready(function () {
     const cerita = $(this).data("cerita");
     const gambar = $(this).data("gambar");
 
-    $("#detailMotifTitle").text(nama);
+    $("#detailMotifTitle").text("Motif " + nama);
     $("#detailMotifStoryTitle").text(
       `CERITA LENGKAP DIBALIK MOTIF ${nama.toUpperCase()}`
     );
@@ -523,7 +523,7 @@ $(document).ready(function () {
     if (gambar && gambar.length > 0) {
       gambar.forEach((img) =>
         imagesContainer.append(
-          `<img src="${img.path_gambar}" class="detail-image-modal me-1 mb-1">`
+          `<img src="${img.path_gambar}" class="detail-image-modal img-thumbnail me-1 mb-1">`
         )
       );
     } else {

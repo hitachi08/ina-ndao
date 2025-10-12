@@ -51,6 +51,14 @@ if ($uri === '/admin/galeri') {
     exit;
 }
 
+// Route: /Kain-Tenun/{slug}
+if (preg_match('#^/kain/detail/([\w\-]+)$#', $uri, $matches)) {
+    $slug = $matches[1];
+    $_GET['slug'] = $slug;
+    include __DIR__ . '/Detail-Kain.php';
+    exit;
+}
+
 // ----------------- ROUTE KONTEN HALAMAN ------------------ //
 if (preg_match('#^/konten/([a-z_]+)$#', $uri, $matches)) {
     $action = $matches[1];

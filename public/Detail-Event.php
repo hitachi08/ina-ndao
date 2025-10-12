@@ -104,10 +104,28 @@ if (!$slug) {
                         <?php if ($current_page == '/Tentang-Ina-Ndao.php') {
                             echo 'active';
                         } ?>">Tentang Kami</a>
-                        <a href="/Toko.php" class="nav-item nav-link 
-                        <?php if ($current_page == '/Toko.php') {
-                            echo 'active';
-                        } ?>">Toko</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle 
+                                <?php if (in_array($current_page, ['/Kain-Tenun.php', '/Produk-Olahan.php'])) {
+                                    echo 'active';
+                                } ?>" id="produkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Produk Ina Ndao
+                            </a>
+                            <ul class="dropdown-menu border-0 shadow" aria-labelledby="produkDropdown">
+                                <li>
+                                    <a class="dropdown-item 
+                                    <?php if ($current_page == '/Kain-Tenun.php') {
+                                        echo 'active';
+                                    } ?>" href="/Kain-Tenun.php">Kain Tenun</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item 
+                                    <?php if ($current_page == '/Produk-Olahan.php') {
+                                        echo 'active';
+                                    } ?>" href="/Produk-Olahan.php">Produk Olahan Kain</a>
+                                </li>
+                            </ul>
+                        </div>
                         <a href="/Galeri-Ina-Ndao.php" class="nav-item nav-link 
                         <?php if ($current_page == '/Galeri-Ina-Ndao.php') {
                             echo 'active';
