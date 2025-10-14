@@ -32,6 +32,24 @@ if ($uri === '/admin/event') {
     exit;
 }
 
+// Route: /produk/{action}
+if (preg_match('#^/produk/([a-z_]+)$#', $uri, $matches)) {
+    $action = $matches[1];
+    require_once __DIR__ . '/../app/Controllers/ProdukController.php';
+    $controller = new ProdukController($pdo);
+
+    $response = $controller->handle($action);
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
+// Route halaman admin Produk
+if ($uri === '/admin/produk') {
+    include __DIR__ . '/admin/Produk.php';
+    exit;
+}
+
 // ----------------- ROUTE GALERI ------------------ //
 // Route: /galeri/{action}
 if (preg_match('#^/galeri/([a-z_]+)$#', $uri, $matches)) {
