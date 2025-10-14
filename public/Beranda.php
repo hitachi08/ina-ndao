@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Models/KontenModel.php';
+require_once __DIR__ . '/../app/TranslatePage.php';
 
 $model = new KontenModel($pdo);
 
@@ -37,13 +38,16 @@ $titles = [
 
 $teamData = $model->getByHalaman('beranda_team')['konten'] ?? null;
 $team = [];
-
 if ($teamData) {
   $decoded = json_decode($teamData, true);
   if (isset($decoded['team']) && is_array($decoded['team'])) {
     $team = $decoded['team'];
   }
 }
+
+$extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
+$translator = new TranslatePage($_GET['lang'] ?? null);
+$translator->start();
 ?>
 
 <!DOCTYPE html>
@@ -77,6 +81,65 @@ if ($teamData) {
 
   <!-- Template Stylesheet -->
   <link href="css/style.css" rel="stylesheet" />
+
+  <style>
+    @media (max-width: 500px) {
+      .text-year {
+        padding: 1rem !important;
+      }
+
+      .text-bungkus {
+        padding: 0px !important;
+      }
+
+      .text-karya {
+        font-size: 12px !important;
+      }
+    }
+
+    /* Medium devices (≥768px) */
+    @media (min-width: 768px) {
+      .team-overlay small {
+        font-size: 0.6rem;
+      }
+
+      .team-overlay h4 {
+        font-size: 1rem;
+      }
+    }
+
+    /* Large devices (≥992px) */
+    @media (min-width: 992px) {
+      .team-overlay small {
+        font-size: 1.1rem;
+      }
+
+      .team-overlay h4 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Large devices (≥1024px) */
+    @media (min-width: 1024px) {
+      .team-overlay small {
+        font-size: 0.8rem;
+      }
+
+      .team-overlay h4 {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (min-width: 320px) and (max-width: 426px) {
+      .team-overlay small {
+        font-size: 0.4rem;
+      }
+
+      .team-overlay h4 {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -102,7 +165,7 @@ if ($teamData) {
             Rumah Produksi <span class="text-primary">Tenun</span>
             <span style="font-size: 50px">Nusa Tenggara Timur</span>
           </h1>
-          <h5 class="d-inline-block border border-2 border-white py-3 px-5 mb-0 animated slideInRight">
+          <h5 class="text-year d-inline-block border border-2 border-white py-3 px-5 mb-0 animated slideInRight">
             Berdiri Sejak Tahun 1991
           </h5>
         </div>
@@ -163,8 +226,8 @@ if ($teamData) {
             </div>
             <div class="col-6 wow fadeIn" data-wow-delay="0.3s">
               <img class="img-fluid h-75" src="img/about-4.jpg" alt="" />
-              <div class="h-25 d-flex align-items-center text-center bg-primary px-4">
-                <h4 class="text-white lh-base mb-0">
+              <div class="text-bungkus h-25 d-flex align-items-center justify-content-center text-center bg-primary px-4">
+                <h4 class="text-karya text-white lh-base mb-0">
                   Berkarya Sejak 1991
                 </h4>
               </div>
@@ -174,8 +237,8 @@ if ($teamData) {
         <div class="col-lg-6 wow fadeIn d-flex flex-column" data-wow-delay="0.5s">
           <div>
             <h1 class="mb-5">
-              <span class="text-uppercase text-primary bg-light px-2">Cerita</span>
-              Dibalik Ina Ndao
+              Cerita Dibalik
+              <span class="text-uppercase text-primary bg-light px-2">Ina Ndao</span>
             </h1>
             <p class="mb-4 narasi-singkat">
               <?= htmlspecialchars($narasi_singkat) ?>
@@ -211,13 +274,13 @@ if ($teamData) {
 
       <!-- Modal -->
       <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
           <div class="modal-content border-0 shadow-lg rounded-4">
 
             <!-- Header -->
             <div class="modal-header bg-primary text-white border-0 rounded-top-4">
-              <h5 class="modal-title fw-bold w-100 text-center" id="historyModalLabel">
-                Sejarah Ina Ndao
+              <h5 class="modal-title fw-bold w-100 text-center text-white" id="historyModalLabel">
+                Sejarah <span class="text-uppercase">Ina Ndao</span>
               </h5>
               <button type="button" class="btn-close btn-close-white position-absolute end-0 me-3"
                 data-bs-dismiss="modal" aria-label="Tutup"></button>
@@ -280,7 +343,7 @@ if ($teamData) {
       </h1>
 
       <div class="row flex-row flex-nowrap overflow-auto g-4">
-        <?php foreach ($team as $i => $anggota): ?>
+        <?php foreach ($team as $anggota): ?>
           <div class="col-6 col-sm-4 col-md-3 col-lg-3 flex-shrink-0">
             <div class="team-item h-100 position-relative overflow-hidden rounded shadow-sm" style="aspect-ratio: 3 / 4;">
               <img
@@ -300,58 +363,18 @@ if ($teamData) {
   </div>
   <!-- Team End -->
 
-  <style>
-    /* Medium devices (≥768px) */
-    @media (min-width: 768px) {
-      .team-overlay small {
-        font-size: 0.6rem;
-      }
-
-      .team-overlay h4 {
-        font-size: 1rem;
-      }
-    }
-
-    /* Large devices (≥992px) */
-    @media (min-width: 992px) {
-      .team-overlay small {
-        font-size: 1.1rem;
-      }
-
-      .team-overlay h4 {
-        font-size: 1.5rem;
-      }
-    }
-
-    /* Large devices (≥1024px) */
-    @media (min-width: 1024px) {
-      .team-overlay small {
-        font-size: 0.8rem;
-      }
-
-      .team-overlay h4 {
-        font-size: 1.2rem;
-      }
-    }
-
-    @media (min-width: 320px) and (max-width: 426px) {
-      .team-overlay small {
-        font-size: 0.4rem;
-      }
-
-      .team-overlay h4 {
-        font-size: 0.7rem;
-      }
-    }
-  </style>
-
   <!-- Footer Start -->
-  <?php include "footer.html" ?>
-
+  <?php include "footer.php" ?>
   <!-- Footer End -->
 
   <!-- Back to Top -->
   <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+  
+  <?php
+  if (isset($translator)) {
+    $translator->translateOutput($extraNoTranslate);
+  }
+  ?>
 
   <!-- JavaScript Libraries -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -363,6 +386,7 @@ if ($teamData) {
 
   <!-- Template Javascript -->
   <script src="js/main.js"></script>
+
 </body>
 
 </html>

@@ -1,20 +1,21 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Models/KontenModel.php';
+require_once __DIR__ . '/../app/TranslatePage.php';
 
 $model = new KontenModel($pdo);
 $data = $model->getByHalaman('tentang_ina_ndao');
 
-// Pastikan konten tidak null dan valid JSON
 if (!empty($data['konten'])) {
     $rows = json_decode($data['konten'], true);
-    // Jika gagal decode (bukan JSON valid), jadikan array kosong
     if (!is_array($rows)) {
         $rows = [];
     }
 } else {
     $rows = [];
 }
+$translator = new TranslatePage($_GET['lang'] ?? null);
+$translator->start();
 ?>
 
 
@@ -176,12 +177,15 @@ if (!empty($data['konten'])) {
     <!-- Event UpComing End -->
 
     <!-- Footer Start -->
-    <?php include "footer.html" ?>
+    <?php include "footer.php" ?>
     <!-- Footer End -->
 
     <!-- Back to Top -->
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
+    <?php
+    $pageTranslator->translateOutput();
+    ?>
 
     <!-- JavaScript Libraries -->
     <script src="js/jquery.min.js"></script>

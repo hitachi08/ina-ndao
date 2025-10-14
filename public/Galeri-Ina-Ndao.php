@@ -1,3 +1,9 @@
+<?php
+require_once __DIR__ . '/../app/TranslatePage.php';
+
+$translator = new TranslatePage($_GET['lang'] ?? null);
+$translator->start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -725,12 +731,15 @@
 
 
     <!-- Footer Start -->
-    <?php include "footer.html" ?>
+    <?php include "footer.php" ?>
     <!-- Footer End -->
 
     <!-- Back to Top -->
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
+    <?php
+    $pageTranslator->translateOutput();
+    ?>
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
