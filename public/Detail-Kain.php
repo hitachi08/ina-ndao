@@ -2,10 +2,7 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Models/GaleriModel.php';
 require_once __DIR__ . '/../app/Controllers/GaleriController.php';
-
-// debug friendly: (hapus/komentar saat production)
-// ini membantu menampilkan error jika masih ada masalah require/include
-// ini_set('display_errors',1); error_reporting(E_ALL);
+require_once __DIR__ . '/../app/TranslatePage.php';
 
 $controller = new GaleriController($pdo);
 $slug = $_GET['slug'] ?? null;
@@ -23,12 +20,13 @@ if ($result['status'] === 'success') {
     exit;
 }
 
-// helper untuk format harga
 function rp($num)
 {
     return 'Rp ' . number_format((float)$num, 0, ',', '.');
 }
 
+$translator = new TranslatePage($_GET['lang'] ?? null);
+$translator->start();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -58,282 +56,17 @@ function rp($num)
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/notyf.min.css">
 
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --indigo: #15345B;
-            --brick: #9E2A2B;
-            --gold: #D4A017;
-            --terra: #D97B38;
-            --cream: #FFF7EE;
-            --muted: #6b6b6b;
-        }
-
-        /* Hero */
-        .hero-ntt {
-            background: linear-gradient(135deg, rgba(21, 52, 91, 0.95), rgba(158, 42, 43, 0.9));
-            color: var(--cream);
-            padding: 56px 0;
-            position: relative;
-            overflow: visible;
-        }
-
-        .hero-ntt .subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            opacity: 0.95;
-        }
-
-        /* floating card */
-        .detail-card {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 18px 50px rgba(21, 52, 91, 0.12);
-            padding: 28px;
-            margin-top: -60px;
-        }
-
-        /* Gallery */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .gallery-grid .thumb {
-            border-radius: 12px;
-            overflow: hidden;
-            background: #f7f5f2;
-        }
-
-        .gallery-grid img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform .35s ease, filter .35s ease;
-        }
-
-        .gallery-grid .thumb:hover img {
-            transform: scale(1.06);
-            filter: saturate(1.05);
-        }
-
-        /* Info */
-        .kain-title {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--indigo);
-        }
-
-        .kain-meta {
-            color: var(--muted);
-            font-size: .95rem;
-        }
-
-        .makna {
-            background: linear-gradient(90deg, rgba(217, 123, 56, 0.06), rgba(212, 160, 23, 0.04));
-            border-left: 4px solid var(--terra);
-            padding: 14px;
-            border-radius: 10px;
-            color: #333;
-        }
-
-        .specs td {
-            padding: 6px 0;
-            vertical-align: top;
-        }
-
-        .specs .label {
-            color: var(--muted);
-            width: 140px;
-        }
-
-        .price {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--brick);
-            letter-spacing: .4px;
-        }
-
-        .cta-wrap .btn {
-            border-radius: 10px;
-            padding: 10px 18px;
-            font-weight: 600;
-        }
-
-        .btn-order {
-            background: linear-gradient(90deg, var(--brick), var(--terra));
-            color: #fff;
-            border: none;
-            box-shadow: 0 10px 30px rgba(158, 42, 43, 0.14);
-        }
-
-        .btn-order:hover {
-            transform: translateY(-3px);
-            color: #fff;
-        }
-
-        /* share area */
-        .share-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 14px;
-        }
-
-        .share-btn {
-            background: #fff;
-            border: 1px solid #eee;
-            padding: 8px 10px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all .18s;
-        }
-
-        .share-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(21, 52, 91, 0.06);
-        }
-
-        /* QR */
-        .qr-card {
-            background: var(--cream);
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-        }
-
-        .gallery-thumbs .owl-item.active.center img {
-            border: 2px solid #9E2A2B;
-            opacity: 1;
-        }
-
-        .gallery-thumbs img {
-            opacity: 0.6;
-            transition: all 0.3s ease;
-        }
-
-        .gallery-thumbs img:hover {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .gallery-thumbs .owl-nav {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-        }
-
-        .gallery-thumbs .owl-prev {
-            padding: 5px 10px;
-            background-color: #ffffff78;
-            border: 1px solid gray;
-            border-radius: 10px;
-        }
-
-        .gallery-thumbs .owl-next {
-            padding: 5px 10px;
-            background-color: #ffffff78;
-            border: 1px solid gray;
-            border-radius: 10px;
-        }
-
-        .gallery-thumbs .disabled {
-            cursor: auto !important;
-            opacity: 0.5;
-        }
-
-        .gallery-thumbs .owl-item.selected-thumb img {
-            border: 2px solid #9E2A2B;
-            opacity: 1;
-        }
-
-        /* responsive tweaks */
-        @media (max-width: 991px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .detail-card {
-                padding: 18px;
-                margin-top: -40px;
-            }
-        }
-
-        @media (max-width: 575px) {
-            .kain-title {
-                font-size: 1.25rem;
-            }
-
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-            }
-
-            .img-ori {
-                height: 200px !important;
-            }
-
-            .img-thumb {
-                height: 60px !important;
-            }
-
-            td {
-                width: 50% !important;
-            }
-
-            .share-btn {
-                width: 35% !important;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <!-- Navbar Start -->
-    <div class="container-fluid sticky-top">
-        <div class="container">
-            <nav
-                class="navbar navbar-expand-lg navbar-light border-bottom border-2 border-white">
-                <a href="Beranda.php" class="navbar-brand">
-                    <h1>Ina Ndao</h1>
-                </a>
-                <button
-                    type="button"
-                    class="navbar-toggler ms-auto me-0"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto">
-                        <a href="/Beranda.php" class="nav-item nav-link">Beranda</a>
-                        <a href="/Tentang-Ina-Ndao.php" class="nav-item nav-link">Tentang Kami</a>
-
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle active" id="produkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Produk Ina Ndao
-                            </a>
-                            <ul class="dropdown-menu border-0 shadow" aria-labelledby="produkDropdown">
-                                <li><a class="dropdown-item active" href="/Kain-Tenun.php">Kain Tenun</a></li>
-                                <li><a class="dropdown-item" href="/Produk-Olahan.php">Produk Olahan Kain</a></li>
-                            </ul>
-                        </div>
-
-                        <a href="/Galeri-Ina-Ndao.php" class="nav-item nav-link">Galeri</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
+    <?php include "navbar.php" ?>
     <!-- Navbar End -->
 
     <!-- Navbar End -->
@@ -427,7 +160,7 @@ function rp($num)
                         <div style="font-size:12px; color:var(--muted); margin-top:6px; cursor:pointer;"
                             data-bs-toggle="modal"
                             data-bs-target="#qrModal">
-                            Perbesar QR Code
+                            Perbesar QR Halaman
                         </div>
                     </div>
 
@@ -480,7 +213,7 @@ function rp($num)
                                     $panjang = isset($kain['panjang_cm']) ? rtrim(rtrim(number_format($kain['panjang_cm'], 2, '.', ''), '0'), '.') : '-';
                                     $lebar   = isset($kain['lebar_cm']) ? rtrim(rtrim(number_format($kain['lebar_cm'], 2, '.', ''), '0'), '.') : '-';
                                     ?>
-                                    <?= htmlspecialchars($panjang . ' x ' . $lebar . ' cm') ?>
+                                    <?= htmlspecialchars($panjang . ' cm x ' . $lebar . ' cm') ?>
                                 </td>
                             </tr>
                             <tr>
@@ -519,17 +252,20 @@ function rp($num)
         </div> <!-- end detail card -->
     </section>
 
-    <?php include "footer.html" ?>
+    <?php include "footer.php" ?>
 
-    <!-- JS libs -->
     <!-- Back to Top -->
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
+    <?php
+    $translator->translateOutput();
+    ?>
     <script src="/js/jquery.min.js"></script>
     <script src="/lib/wow/wow.min.js"></script>
     <script src="/lib/easing/easing.min.js"></script>
     <script src="/lib/waypoints/waypoints.min.js"></script>
     <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/js/notyf.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>
@@ -543,6 +279,16 @@ function rp($num)
             selector: '.glightbox'
         });
 
+        // init Notyf
+        const notyf = new Notyf({
+            duration: 2500,
+            position: {
+                x: 'right',
+                y: 'top'
+            },
+            ripple: true
+        });
+
         // Carousel utama
         const mainCarousel = $(".gallery-main").owlCarousel({
             items: 1,
@@ -554,7 +300,7 @@ function rp($num)
             smartSpeed: 500,
         });
 
-        // Carousel thumbnail (pagination)
+        // Carousel thumbnail
         const thumbCarousel = $(".gallery-thumbs").owlCarousel({
             items: 4,
             margin: 10,
@@ -581,7 +327,6 @@ function rp($num)
 
         // Setelah inisialisasi kedua carousel
         mainCarousel.on('initialized.owl.carousel', function() {
-            // Set thumbnail pertama aktif secara manual
             thumbCarousel.find('.owl-item').eq(0).addClass('selected-thumb');
         }).trigger('initialized.owl.carousel');
 
@@ -597,12 +342,11 @@ function rp($num)
         mainCarousel.on('changed.owl.carousel', function(event) {
             const index = event.item.index - event.relatedTarget._clones.length / 2;
             const currentIndex = (index + event.item.count) % event.item.count;
-
             thumbCarousel.find('.owl-item').removeClass('selected-thumb');
             thumbCarousel.find('.owl-item').eq(currentIndex).addClass('selected-thumb');
         });
 
-        // QR small
+        // QR kecil
         new QRCode(document.getElementById("qrcode-small"), {
             text: window.location.href,
             width: 96,
@@ -612,14 +356,7 @@ function rp($num)
             correctLevel: QRCode.CorrectLevel.H
         });
 
-        // Buat QR besar di dalam modal
-        const largeQR = new QRCode(document.getElementById("qrcode-large"), {
-            text: window.location.href,
-            width: 250,
-            height: 250
-        });
-
-        // Opsional: agar QR besar di-refresh setiap kali modal dibuka
+        // QR besar
         const qrModal = document.getElementById('qrModal');
         qrModal.addEventListener('shown.bs.modal', function() {
             document.getElementById('qrcode-large').innerHTML = '';
@@ -633,9 +370,9 @@ function rp($num)
         // copy link
         document.getElementById('copyBtn').addEventListener('click', function() {
             navigator.clipboard.writeText(window.location.href).then(function() {
-                alert('Tautan disalin ke clipboard!');
+                notyf.success('Tautan disalin ke clipboard!');
             }, function(err) {
-                alert('Gagal menyalin tautan: ' + err);
+                notyf.error('Gagal menyalin tautan: ' + err);
             });
         });
 
@@ -655,26 +392,15 @@ function rp($num)
             window.open('https://twitter.com/intent/tweet?url=' + url, '_blank');
         });
 
-
-        // keyboard friendly: press "s" to copy link (nice UX)
+        // keyboard shortcut (S)
         document.addEventListener('keydown', function(e) {
             if (e.key === 's' || e.key === 'S') {
                 navigator.clipboard.writeText(window.location.href);
-                const t = document.createElement('div');
-                t.textContent = 'Tautan disalin (shortcut: S)';
-                t.style.position = 'fixed';
-                t.style.right = '20px';
-                t.style.bottom = '20px';
-                t.style.background = '#15345B';
-                t.style.color = '#fff';
-                t.style.padding = '10px 14px';
-                t.style.borderRadius = '8px';
-                t.style.boxShadow = '0 8px 30px rgba(21,52,91,0.12)';
-                document.body.appendChild(t);
-                setTimeout(() => t.remove(), 1700);
+                notyf.success('Tautan disalin ke clipboard!');
             }
         });
     </script>
+
 </body>
 
 </html>

@@ -96,40 +96,20 @@ if (!$slug) {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
-                        <a href="/Beranda.php" class="nav-item nav-link 
-                        <?php if ($current_page == '/Beranda.php') {
-                            echo 'active';
-                        } ?>">Beranda</a>
-                        <a href="/Tentang-Ina-Ndao.php" class="nav-item nav-link 
-                        <?php if ($current_page == '/Tentang-Ina-Ndao.php') {
-                            echo 'active';
-                        } ?>">Tentang Kami</a>
+                        <a href="/Beranda.php" class="nav-item nav-link">Beranda</a>
+                        <a href="/Tentang-Ina-Ndao.php" class="nav-item nav-link active">Tentang Kami</a>
+
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle 
-                                <?php if (in_array($current_page, ['/Kain-Tenun.php', '/Produk-Olahan.php'])) {
-                                    echo 'active';
-                                } ?>" id="produkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" class="nav-link dropdown-toggle" id="produkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Produk Ina Ndao
                             </a>
                             <ul class="dropdown-menu border-0 shadow" aria-labelledby="produkDropdown">
-                                <li>
-                                    <a class="dropdown-item 
-                                    <?php if ($current_page == '/Kain-Tenun.php') {
-                                        echo 'active';
-                                    } ?>" href="/Kain-Tenun.php">Kain Tenun</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item 
-                                    <?php if ($current_page == '/Produk-Olahan.php') {
-                                        echo 'active';
-                                    } ?>" href="/Produk-Olahan.php">Produk Olahan Kain</a>
-                                </li>
+                                <li><a class="dropdown-item" href="/Kain-Tenun.php">Kain Tenun</a></li>
+                                <li><a class="dropdown-item" href="/Produk-Olahan.php">Produk Olahan Kain</a></li>
                             </ul>
                         </div>
-                        <a href="/Galeri-Ina-Ndao.php" class="nav-item nav-link 
-                        <?php if ($current_page == '/Galeri-Ina-Ndao.php') {
-                            echo 'active';
-                        } ?>">Galeri</a>
+
+                        <a href="/Galeri-Ina-Ndao.php" class="nav-item nav-link">Galeri</a>
                     </div>
                 </div>
             </nav>
@@ -169,7 +149,7 @@ if (!$slug) {
     </div>
 
     <!-- Footer Start -->
-    <?php include "footer.html" ?>
+    <?php include "footer.php" ?>
     <!-- Footer End -->
 
     <!-- Back to Top -->
