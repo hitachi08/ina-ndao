@@ -8,7 +8,7 @@ class GaleriModel
         $this->pdo = $pdo;
     }
 
-    public function getPDO() : PDO
+    public function getPDO(): PDO
     {
         return $this->pdo;
     }
@@ -306,6 +306,19 @@ class GaleriModel
 
     public function searchGaleri($keyword)
     {
+        $keywords = preg_split('/\s+/', trim($keyword));
+
+        $conditions = [];
+        $params = [];
+
+        foreach ($keywords as $index => $word) {
+            $param = ":kw$index";
+            $conditions[] = "(j.nama_jenis LIKE $param OR d.nama_daerah LIKE $param OR m.nama_motif LIKE $param)";
+            $params[$param] = "%$word%";
+        }
+
+        $whereClause = implode(" AND ", $conditions);
+
         $sql = "
         SELECT 
             k.id_kain,
@@ -324,17 +337,14 @@ class GaleriModel
         JOIN daerah d ON k.id_daerah = d.id_daerah
         JOIN motif m ON k.id_motif = m.id_motif
         LEFT JOIN makna_motif mm ON mm.id_motif = m.id_motif AND mm.id_daerah = d.id_daerah
-        WHERE j.nama_jenis LIKE :kw 
-           OR d.nama_daerah LIKE :kw 
-           OR m.nama_motif LIKE :kw
+        WHERE $whereClause
         ORDER BY k.id_kain DESC
     ";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':kw' => "%$keyword%"]);
+        $stmt->execute($params);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Ambil juga gambar tiap kain
         foreach ($result as &$row) {
             $gStmt = $this->pdo->prepare("SELECT path_gambar FROM kain_gambar WHERE id_kain = ?");
             $gStmt->execute([$row['id_kain']]);

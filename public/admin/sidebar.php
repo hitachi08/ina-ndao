@@ -1,4 +1,9 @@
 <?php
+$photo = $_SESSION['admin_photo'] ?? null;
+$photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
+    ? "/uploads/admin/$photo"
+    : "/img/default-user.png";
+
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
@@ -17,7 +22,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <div class="sidebar-inner px-3 pt-3">
 
         <!-- Logo + Nama -->
-        <div class="d-flex d-lg-block align-items-center justify-content-evenly mb-4">
+        <div class="d-flex d-none d-lg-block align-items-center justify-content-evenly mb-4">
             <img src="../img/ina_ndao_logo.jpeg" alt="Ina Ndao Logo" class="me-2" style="width:40px; height:40px; object-fit:cover; border-radius:2px;">
             <span class="h5 mb-0 fw-bold">INA NDAO</span>
         </div>
@@ -26,15 +31,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
             <div class="d-flex align-items-center">
                 <div class="avatar-lg me-4">
-                    <img src="../img/team/profile-picture-3.jpg" class="card-img-top rounded-circle border-white" alt="Admin">
+                    <img class="card-img-top rounded-circle border-white" src="<?= $photoPath ?>" alt="Foto Pengguna" style="object-fit: cover;">
                 </div>
                 <div class="d-block">
                     <h2 class="h5 mb-3"><?php echo htmlspecialchars($username); ?></h2>
-                    <a href="../logout.php" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
+                    <a href="logout.php" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
                         <svg class="icon icon-xxs me-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
-                        Sign Out
+                        Keluar
                     </a>
                 </div>
             </div>

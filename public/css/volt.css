@@ -7967,6 +7967,12 @@ fieldset:disabled .btn {
   position: absolute;
 }
 
+@media (max-width: 360px) {
+  .navbar-expand .navbar-nav .dropdown-menu {
+    left: 15px !important;
+  }
+}
+
 .navbar-expand .navbar-nav .nav-link {
   padding-right: 0.8rem;
   padding-left: 0.8rem;
@@ -30424,6 +30430,6 @@ article .h6 {
   background-color: #2361ce !important;
 }
 .swal2-styled.swal2-confirm:focus {
-    box-shadow: 0 0 0 3px lch(42 64.48 281.29 / 0.5) !important;
+  box-shadow: 0 0 0 3px lch(42 64.48 281.29 / 0.5) !important;
 }
 /*# sourceMappingURL=volt.css.map */

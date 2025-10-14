@@ -74,6 +74,15 @@ if ($uri === '/admin/konten-beranda') {
     exit;
 }
 
+// ----------------- ROUTE PENGATURAN ADMIN ------------------ //
+if (preg_match('#^/admin/pengaturan/([a-z_]+)$#', $uri, $matches)) {
+    $action = $matches[1];
+    require_once __DIR__ . '/../app/Controllers/AdminController.php';
+    $controller = new AdminController($pdo);
+    $controller->handle($action);
+    exit;
+}
+
 // ----------------- DEFAULT 404 ------------------ //
 http_response_code(404);
 echo "Page not found";

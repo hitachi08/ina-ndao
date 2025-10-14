@@ -68,6 +68,7 @@ class Auth
             $_SESSION['admin_id'] = $user['id'];
             $_SESSION['admin_username'] = $user['username'];
             $_SESSION['admin_role'] = $user['role'];
+            $_SESSION['admin_photo'] = $user['photo'] ?? 'default-user.png';
             $_SESSION['logged_in_at'] = time();
 
             return true;

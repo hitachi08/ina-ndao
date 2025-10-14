@@ -64,7 +64,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
         <?php include "navbar.php" ?>
 
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center py-4 gap-3">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start py-4 gap-3">
             <button class="btn btn-primary d-inline-flex align-items-center" id="btnAdd">
                 <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
