@@ -208,10 +208,18 @@ $translator->start();
                                         . htmlspecialchars($produk['nama_jenis'] ?? '-') . ' '
                                         . htmlspecialchars($produk['nama_daerah'] ?? '-') . ' Motif '
                                         . htmlspecialchars($produk['nama_motif'] ?? '-');
-                                    echo $bahanLengkap;
+
+                                    if (!empty($produk['slug_kain'])) {
+                                        echo '<a href="/kain/detail/' . htmlspecialchars($produk['slug_kain']) . '" class="text-decoration-none fw-semibold text-primary">'
+                                            . $bahanLengkap .
+                                            '</a>';
+                                    } else {
+                                        echo $bahanLengkap;
+                                    }
                                     ?>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td><strong>Ukuran</strong></td>
                                 <td><?= htmlspecialchars($produk['ukuran'] ?? ($produk['panjang_cm'] . ' x ' . $produk['lebar_cm'] . ' cm')) ?>

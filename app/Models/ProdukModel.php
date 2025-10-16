@@ -403,6 +403,7 @@ class ProdukModel
             sk.nama_sub_kategori,
             -- Data dari tabel kain
             kn.id_kain,
+            kn.slug AS slug_kain,
             kn.panjang_cm,
             kn.lebar_cm,
             kn.bahan AS bahan_kain,
