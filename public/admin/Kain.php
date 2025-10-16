@@ -18,7 +18,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <link type="text/css" href="../css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" href="../css/volt.css" rel="stylesheet">
     <link type="text/css" href="../css/sweetalert2.min.css" rel="stylesheet">
     <link href="../css/select2.min.css" rel="stylesheet" />
@@ -93,8 +92,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <div id="detailMotifImages" class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-                    </div>
+                    <div id="detailMotifImages" class="row g-3 mb-4 justify-content-center"></div>
                     <h6 id="detailMotifStoryTitle" class="text-center fw-bold mb-3 text-dark">
                         Cerita di Balik Motif
                     </h6>

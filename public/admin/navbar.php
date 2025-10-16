@@ -32,89 +32,27 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
             <ul class="navbar-nav align-items-center">
 
                 <!-- Notifikasi -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link text-dark notification-bell unread dropdown-toggle" href="#" role="button"
+                <li class="nav-item nav-item-notif dropdown me-2">
+                    <a class="nav-link text-dark dropdown-toggle p-0" id="notifDropdownBtn" href="#" role="button"
                         data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                        <svg class="icon icon-sm text-gray-900" fill="currentColor" viewBox="0 0 20 20"
+                        <svg class="icon text-gray-900" fill="currentColor" style="height: 1.7rem;" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
                             </path>
                         </svg>
+                        <span id="notifBadge" class="position-absolute translate-middle badge rounded-pill bg-danger d-none badge-notif">0</span>
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-center mt-2 py-0" style="left: -15px;">
-                        <div class="list-group list-group-flush">
-                            <a href="#" class="text-center text-primary fw-bold border-bottom border-light py-3">
-                                Notifikasi Terbaru
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action border-bottom">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                    </div>
-                                    <div class="col ps-0 ms-2">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h4 class="h6 mb-0 text-small">Pameran Tenun NTT</h4>
-                                            </div>
-                                            <div class="text-end">
-                                                <small class="text-danger">5 menit lalu</small>
-                                            </div>
-                                        </div>
-                                        <p class="font-small mt-1 mb-0">Event “Pameran Tenun Ina Ndao 2025” akan dimulai besok pukul
-                                            09.00.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action border-bottom">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                    </div>
-                                    <div class="col ps-0 ms-2">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h4 class="h6 mb-0 text-small">Produk Baru</h4>
-                                            </div>
-                                            <div class="text-end">
-                                                <small class="text-muted">1 jam lalu</small>
-                                            </div>
-                                        </div>
-                                        <p class="font-small mt-1 mb-0">Produk baru “Selendang Motif Rote” telah ditambahkan ke katalog.
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action border-bottom">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                    </div>
-                                    <div class="col ps-0 ms-2">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h4 class="h6 mb-0 text-small">Artikel Budaya</h4>
-                                            </div>
-                                            <div class="text-end">
-                                                <small>2 jam lalu</small>
-                                            </div>
-                                        </div>
-                                        <p class="font-small mt-1 mb-0">Artikel baru: “Makna Filosofis Tenun Ikat Ina Ndao”.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="dropdown-item text-center fw-bold rounded-bottom py-3">
-                                <svg class="icon icon-xxs text-gray-400 me-1" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                    <path fill-rule="evenodd"
-                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                                Lihat semua notifikasi
-                            </a>
+                    <div class="dropdown-menu drop-menu-notif dropdown-menu-lg dropdown-menu-center mt-2 py-0" style="left: -18px">
+                        <div class="list-group list-group-flush" id="notifList">
+                            <div class="text-center py-3 text-primary fw-bold border-bottom">Notifikasi</div>
+                            <div class="text-center py-3 text-muted" id="notifLoading">Memuat notifikasi...</div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div class="p-2 text-center">
+                            <button id="markAllRead" class="btn btn-sm btn-outline-secondary">Tandai semua dibaca</button>
+                            <a href="/admin/event" class="btn btn-sm btn-primary ms-2">Lihat Semua</a>
                         </div>
                     </div>
                 </li>
@@ -160,10 +98,281 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
     </div>
 </nav>
 
-<!-- Core -->
-<script src="../js/sweetalert2.all.min.js"></script>
+<!-- Modal Seluruh Notifikasi -->
+<div class="modal fade" id="allNotifModal" tabindex="-1" aria-labelledby="allNotifModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="allNotifModalLabel">Seluruh Notifikasi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group list-group-flush" id="allNotifList">
+                    <div class="text-center py-3 text-muted" id="allNotifLoading">Memuat notifikasi...</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="markAllReadModal" class="btn btn-sm btn-outline-secondary">Tandai semua dibaca</button>
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script src="../js/jquery.min.js"></script>
+
+<style>
+    .bg-light-read {
+        background-color: #e9ecef !important;
+        color: #6c757d !important;
+    }
+</style>
 <script>
+    $(function() {
+        const apiBase = '/notifications';
+        let showingAll = false;
+
+        // =========================
+        // Render Notifikasi
+        // =========================
+        function renderNotifications(data) {
+            const list = $('#notifList');
+            list.find('#notifLoading').remove();
+            list.find('.notif-item').remove();
+            list.find('#showAllNotifContainer').remove();
+
+            if (!data.length) {
+                list.append('<div class="text-center py-3 text-muted notif-item">Tidak ada notifikasi</div>');
+                return;
+            }
+
+            const unread = data.filter(n => n.dibaca == 0);
+            const read = data.filter(n => n.dibaca != 0);
+
+            let displayData = [];
+            if (showingAll) {
+                displayData = [...unread, ...read];
+            } else {
+                let remaining = 3;
+                for (let i = 0; i < unread.length && remaining > 0; i++, remaining--) displayData.push(unread[i]);
+                for (let i = 0; i < read.length && remaining > 0; i++, remaining--) displayData.push(read[i]);
+            }
+
+            displayData.forEach(n => {
+                const time = new Date(n.created_at).toLocaleString();
+                const isUnread = n.dibaca == 0;
+                const bgClass = isUnread ? 'bg-light' : 'bg-light-read';
+
+                const item = $(`
+            <a href="#" class="list-group-item list-group-item-action notif-item ${bgClass}" 
+               data-id="${n.id}" data-ref="${n.referensi}">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="fw-semibold">${escapeHtml(n.judul)}</div>
+                <small class="text-muted">${time}</small>
+              </div>
+              <div class="small text-muted">${escapeHtml(n.isi)}</div>
+            </a>
+        `);
+                list.append(item);
+            });
+
+            if (!showingAll && data.length > 3) {
+                list.append(`
+            <div id="showAllNotifContainer" class="text-center py-2 border-top">
+                <button id="showAllNotif" class="btn btn-sm text-primary w-100">
+                    Lihat seluruh notifikasi
+                </button>
+            </div>
+        `);
+            }
+        }
+
+        // =========================
+        // Load Notifikasi
+        // =========================
+        function loadNotifications() {
+            const url = showingAll ? apiBase + '/all' : apiBase + '/list';
+            fetch(url)
+                .then(r => r.json())
+                .then(res => {
+                    if (res.status === 'ok') renderNotifications(res.data);
+                })
+                .catch(err => console.error('Load notifications error', err));
+        }
+
+        // =========================
+        // Load Seluruh Notifikasi Modal
+        // =========================
+        function loadAllNotificationsModal() {
+            const list = $('#allNotifList');
+            list.find('.notif-item').remove();
+            list.find('#allNotifLoading').show();
+
+            fetch(apiBase + '/all')
+                .then(r => r.json())
+                .then(res => {
+                    list.find('#allNotifLoading').hide();
+                    if (res.status !== 'ok' || !res.data.length) {
+                        list.append('<div class="text-center py-3 text-muted notif-item">Tidak ada notifikasi</div>');
+                        return;
+                    }
+
+                    const unread = res.data.filter(n => n.dibaca == 0);
+                    const read = res.data.filter(n => n.dibaca != 0);
+                    const displayData = [...unread, ...read];
+
+                    displayData.forEach(n => {
+                        const time = new Date(n.created_at).toLocaleString();
+                        const isUnread = n.dibaca == 0;
+                        const bgClass = isUnread ? 'bg-light' : 'bg-light-read';
+
+                        const item = $(`
+                    <a href="#" class="list-group-item list-group-item-action notif-item ${bgClass}" 
+                       data-id="${n.id}" data-ref="${n.referensi}">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="fw-semibold">${escapeHtml(n.judul)}</div>
+                        <small class="text-muted">${time}</small>
+                      </div>
+                      <div class="small text-muted">${escapeHtml(n.isi)}</div>
+                    </a>
+                `);
+
+                        list.append(item);
+                    });
+                })
+                .catch(err => console.error('Load all notifications error', err));
+        }
+
+        function loadUnreadBadge() {
+            fetch(apiBase + '/unreadcount')
+                .then(r => r.json())
+                .then(res => {
+                    if (res.status === 'ok') {
+                        const c = res.count;
+                        $('#notifBadge').toggleClass('d-none', c === 0).text(c);
+                    }
+                });
+        }
+
+        function escapeHtml(text) {
+            return $('<div>').text(text).html();
+        }
+
+        // Polling otomatis
+        loadNotifications();
+        loadUnreadBadge();
+        setInterval(() => {
+            loadNotifications();
+            loadUnreadBadge();
+        }, 60000);
+
+        // Klik Notifikasi → Mark Read & Redirect
+        $('#notifList').on('click', '.notif-item', function(e) {
+            e.preventDefault();
+            const $this = $(this);
+            const id = $this.data('id');
+            const ref = $this.data('ref');
+
+            $this.removeClass('bg-light').addClass('bg-light-read');
+
+            fetch(apiBase + '/markread', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    id
+                })
+            }).then(() => {
+                loadUnreadBadge();
+                loadNotifications();
+
+                if (ref && ref.startsWith('event:')) {
+                    const eid = ref.split(':')[1];
+                    window.location.href = '/event/detail/' + eid;
+                }
+            });
+        });
+
+        // Mark all read
+        $('#markAllRead').on('click', function() {
+            fetch(apiBase + '/markall', {
+                    method: 'POST'
+                })
+                .then(r => r.json())
+                .then(res => {
+                    if (res.status === 'ok') {
+                        loadNotifications();
+                        loadUnreadBadge();
+                    }
+                });
+        });
+
+        // Dropdown dibuka → reload
+        $('#notifDropdownBtn').closest('.nav-item').on('show.bs.dropdown', function() {
+            showingAll = false;
+            loadNotifications();
+            loadUnreadBadge();
+        });
+
+        // Tombol lihat semua
+        $('#notifList').on('click', '#showAllNotif', function() {
+            const modal = new bootstrap.Modal(document.getElementById('allNotifModal'));
+            modal.show();
+
+            loadAllNotificationsModal();
+            showingAll = true;
+            loadNotifications();
+            loadUnreadBadge();
+        });
+
+        $('#allNotifList').on('click', '.notif-item', function(e) {
+            e.preventDefault();
+            const $this = $(this);
+            const id = $this.data('id');
+            const ref = $this.data('ref');
+
+            $this.removeClass('bg-light').addClass('bg-light-read');
+
+            fetch(apiBase + '/markread', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    id
+                })
+            }).then(() => {
+                loadUnreadBadge();
+                loadAllNotificationsModal(); // refresh modal list
+
+                if (ref && ref.startsWith('event:')) {
+                    const eid = ref.split(':')[1];
+                    window.location.href = '/event/detail/' + eid;
+                }
+            });
+        });
+
+        $('#markAllReadModal').on('click', function() {
+            fetch(apiBase + '/markall', {
+                    method: 'POST'
+                })
+                .then(r => r.json())
+                .then(res => {
+                    if (res.status === 'ok') {
+                        loadUnreadBadge();
+                        loadAllNotificationsModal(); // refresh modal
+                        loadNotifications(); // refresh dropdown juga
+                    }
+                });
+        });
+
+    });
+</script>
+<script>
+    // =========================
+    // 👤 EDIT PROFIL ADMIN
+    // =========================
     document.getElementById('btnEditProfile').addEventListener('click', function(e) {
         e.preventDefault();
 
@@ -178,38 +387,38 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                 Swal.fire({
                     title: '<h3 class="fw-bold mb-2">Edit Profil Admin</h3>',
                     html: `
-                <div class="text-start m-3">
-                    <div class="text-center mb-3">
-                        <img id="sw_preview" src="${photoUrl}" class="rounded-circle border shadow-sm" 
-                             alt="Preview Foto" style="width:100px;height:100px;object-fit:cover;">
-                        <div class="mt-2">
-                            <label class="btn btn-outline-primary btn-sm">
-                                <i class="bi bi-upload"></i> Ganti Foto
-                                <input type="file" id="sw_photo" accept="image/*" hidden>
-                            </label>
+                    <div class="text-start m-3">
+                        <div class="text-center mb-3">
+                            <img id="sw_preview" src="${photoUrl}" class="rounded-circle border shadow-sm" 
+                                 alt="Preview Foto" style="width:100px;height:100px;object-fit:cover;">
+                            <div class="mt-2">
+                                <label class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-upload"></i> Ganti Foto
+                                    <input type="file" id="sw_photo" accept="image/*" hidden>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Username</label>
+                            <input id="sw_username" type="text" class="form-control" 
+                                   value="${data.username ?? ''}" placeholder="Masukkan username">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input id="sw_email" type="email" class="form-control" 
+                                   value="${data.email ?? ''}" placeholder="Masukkan email aktif">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Kata Sandi Baru</label>
+                            <div class="input-group">
+                                <input id="sw_password" type="password" class="form-control" 
+                                       placeholder="Kosongkan jika tidak diubah">
+                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Username</label>
-                        <input id="sw_username" type="text" class="form-control" 
-                               value="${data.username ?? ''}" placeholder="Masukkan username">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Email</label>
-                        <input id="sw_email" type="email" class="form-control" 
-                               value="${data.email ?? ''}" placeholder="Masukkan email aktif">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Kata Sandi Baru</label>
-                        <div class="input-group">
-                            <input id="sw_password" type="password" class="form-control" 
-                                   placeholder="Kosongkan jika tidak diubah">
-                            <button type="button" class="btn btn-outline-secondary" id="togglePassword">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
                 `,
                     showCancelButton: true,
                     confirmButtonText: '<i class="bi bi-save me-1"></i> Simpan Perubahan',
@@ -271,7 +480,7 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                         photoFile
                     } = result.value;
 
-                    // 🔄 Update profil (username dan email)
+                    // 🔄 Update profil
                     fetch('/admin/pengaturan/updateprofile', {
                             method: 'POST',
                             headers: {
@@ -298,7 +507,7 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                                 return;
                             }
 
-                            // 🧩 Update password jika diisi
+                            // 🔒 Update password jika diisi
                             if (password) {
                                 await fetch('/admin/pengaturan/updatepassword', {
                                     method: 'POST',
@@ -311,7 +520,7 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                                 });
                             }
 
-                            // 🖼️ Upload foto jika ada file baru
+                            // 🖼️ Upload foto baru
                             if (photoFile) {
                                 const formData = new FormData();
                                 formData.append('photo', photoFile);
@@ -328,7 +537,7 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                                     });
                             }
 
-                            // ✅ Notifikasi sukses
+                            // ✅ Sukses
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil!',

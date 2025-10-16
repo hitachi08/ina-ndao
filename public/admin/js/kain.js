@@ -521,15 +521,19 @@ $(document).ready(function () {
     imagesContainer.empty();
 
     if (gambar && gambar.length > 0) {
-      gambar.forEach((img) =>
-        imagesContainer.append(
-          `<img src="${img.path_gambar}" class="detail-image-modal img-thumbnail me-1 mb-1">`
-        )
-      );
+      gambar.forEach((img) => {
+        imagesContainer.append(`
+      <div class="col-6 d-flex justify-content-center">
+        <img src="${img.path_gambar}" class="img-thumbnail detail-image-modal" style="width: 100%; max-width: 250px; height: auto; cursor: auto;">
+      </div>
+    `);
+      });
     } else {
-      imagesContainer.append(
-        '<img src="/img/no-image.png" class="detail-image-modal">'
-      );
+      imagesContainer.append(`
+    <div class="col-12 text-center">
+      <img src="/img/no-image.png" class="detail-image-modal img-thumbnail" style="max-width: 250px; cursor: auto;">
+    </div>
+  `);
     }
 
     $("#detailMotifCerita").text(cerita || "");

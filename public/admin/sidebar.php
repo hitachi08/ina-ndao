@@ -159,37 +159,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     </ul>
                 </div>
             </li>
-
-            <!-- User / Admin -->
-            <?php
-            $user_pages = ['user-list.php', 'user-tambah.php'];
-            $user_active = in_array($current_page, $user_pages) ? 'show' : '';
-            ?>
-            <li class="nav-item">
-                <span class="nav-link d-flex justify-content-between align-items-center <?= $user_active ? '' : 'collapsed' ?>"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-user">
-                    <span>
-                        <span class="sidebar-icon">
-                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 2a5 5 0 100 10 5 5 0 000-10z"></path>
-                                <path fill-rule="evenodd" d="M2 18a8 8 0 0116 0H2z" clip-rule="evenodd"></path>
-                            </svg>
-                        </span>
-                        <span class="sidebar-text">User Admin</span>
-                    </span>
-                    <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"></path>
-                        </svg>
-                    </span>
-                </span>
-                <div class="multi-level collapse <?= $user_active ?>" id="submenu-user">
-                    <ul class="flex-column nav">
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'user-list.php') ? 'active' : '' ?>" href="../admin/user-list.php"><span class="sidebar-text">Daftar User</span></a></li>
-                        <li class="nav-item"><a class="nav-link <?= ($current_page == 'user-tambah.php') ? 'active' : '' ?>" href="../admin/user-tambah.php"><span class="sidebar-text">Tambah User</span></a></li>
-                    </ul>
-                </div>
-            </li>
         </ul>
     </div>
 </nav>

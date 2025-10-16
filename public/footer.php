@@ -41,9 +41,9 @@ $currentFlagCode = $langFlags[$currentLang] ?? 'id';
       <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
         <h5 class="text-white mb-4">Kontak Kami</h5>
         <p>
-          <i class="fa fa-map-marker-alt me-3"></i>Jl. Kebun Raja, Naikoten II
+          <i class="fa fa-map-marker-alt me-3"></i>Jl. Kebun Raja II, Naikoten
         </p>
-        <p><i class="fa fa-phone-alt me-3"></i>+62 812 3456 7890</p>
+        <p><i class="fa fa-phone-alt me-3"></i>+62 812 3785 620</p>
         <p><i class="fa fa-envelope me-3"></i>inandao@gmail.com</p>
         <div class="d-flex pt-2">
           <a class="btn btn-outline-primary btn-square border-2 me-2" href="https://web.facebook.com/ina.ndao.ntt/?locale=id_ID&_rdc=1&_rdr#" target="_blank"><i class="fab fa-facebook-f"></i></a>

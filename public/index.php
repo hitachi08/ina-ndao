@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Auth.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 Auth::startSession();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -97,6 +98,15 @@ if (preg_match('#^/admin/pengaturan/([a-z_]+)$#', $uri, $matches)) {
     $action = $matches[1];
     require_once __DIR__ . '/../app/Controllers/AdminController.php';
     $controller = new AdminController($pdo);
+    $controller->handle($action);
+    exit;
+}
+
+// tambahkan setelah route lain, mis. sebelum default 404
+if (preg_match('#^/notifications/([a-z_]+)$#', $uri, $matches)) {
+    $action = $matches[1];
+    require_once __DIR__ . '/../app/Controllers/NotificationController.php';
+    $controller = new \App\Controllers\NotificationController($pdo);
     $controller->handle($action);
     exit;
 }

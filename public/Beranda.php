@@ -10,6 +10,7 @@ $promosiData = $model->getByHalaman('beranda_promosi')['konten'] ?? null;
 
 $narasi_singkat = strip_tags($sejarahData);
 
+$promosiData = $model->getByHalaman('beranda_promosi')['konten'] ?? null;
 $promosi = [];
 if ($promosiData) {
   $decoded = json_decode($promosiData, true);
@@ -18,22 +19,13 @@ if ($promosiData) {
   }
 }
 
-$icons = [
+$defaultIcons = [
   'fa-history',
   'fa-palette',
   'fa-chalkboard-teacher',
   'fa-users',
   'fa-gem',
   'fa-leaf'
-];
-
-$titles = [
-  '30+ Tahun Berpengalaman',
-  'Motif Otentik & Pewarna Alami',
-  'Edukasi Budaya',
-  'Pemberdayaan Masyarakat',
-  'Kualitas Kerajinan Tinggi',
-  'Tradisi Berkelanjutan'
 ];
 
 $teamData = $model->getByHalaman('beranda_team')['konten'] ?? null;
@@ -320,13 +312,23 @@ $translator->start();
         </h1>
       </div>
       <div class="row g-5 align-items-center text-center">
-        <?php for ($i = 0; $i < 6; $i++): ?>
-          <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="<?= (0.1 + ($i % 3) * 0.2) ?>s">
-            <i class="fa <?= $icons[$i] ?> fa-5x text-primary mb-4"></i>
-            <h4><?= $titles[$i] ?></h4>
-            <p class="mb-0">
-              <?= !empty($promosi[$i]) ? htmlspecialchars($promosi[$i]) : 'Belum ada teks promosi.' ?>
-            </p>
+        <?php foreach ($promosi as $i => $item): ?>
+          <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="<?= 0.1 + ($i % 3) * 0.2 ?>s">
+            <!-- Icon: bisa pakai icon dari JSON, jika tidak ada pakai default -->
+            <i class="fa <?= htmlspecialchars($item['icon'] ?? $defaultIcons[$i] ?? 'fa-star') ?> fa-5x text-primary mb-4"></i>
+            <!-- Judul promosi -->
+            <h4><?= htmlspecialchars($item['judul'] ?? 'Judul kosong') ?></h4>
+            <!-- Teks promosi -->
+            <p class="mb-0"><?= htmlspecialchars($item['teks'] ?? 'Belum ada teks promosi.') ?></p>
+          </div>
+        <?php endforeach; ?>
+
+        <!-- Jika jumlah promosi kurang dari 6, bisa tambahkan placeholder -->
+        <?php for ($j = count($promosi); $j < 6; $j++): ?>
+          <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="<?= 0.1 + ($j % 3) * 0.2 ?>s">
+            <i class="fa <?= $defaultIcons[$j] ?? 'fa-star' ?> fa-5x text-primary mb-4"></i>
+            <h4>Judul kosong</h4>
+            <p class="mb-0">Belum ada teks promosi.</p>
           </div>
         <?php endfor; ?>
       </div>
@@ -369,7 +371,7 @@ $translator->start();
 
   <!-- Back to Top -->
   <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-  
+
   <?php
   if (isset($translator)) {
     $translator->translateOutput($extraNoTranslate);

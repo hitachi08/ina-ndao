@@ -7968,8 +7968,14 @@ fieldset:disabled .btn {
 }
 
 @media (max-width: 360px) {
-  .navbar-expand .navbar-nav .dropdown-menu {
+  .navbar-expand .navbar-nav .drop-menu-notif {
     left: 15px !important;
+  }
+}
+
+@media (max-width: 770px) {
+  .navbar-expand .nav-item-notif {
+    margin-right: 25px !important;
   }
 }
 
@@ -8549,6 +8555,15 @@ fieldset:disabled .btn {
 .pagination-sm .page-item:last-child .page-link {
   border-top-right-radius: 0.35rem;
   border-bottom-right-radius: 0.35rem;
+}
+
+.badge-notif {
+  padding: 4px 5.8px !important;
+  font-size: 8px !important;
+  border-radius: 50% !important;
+  left: 23px !important;
+  top: 2px;
+  outline: 2px solid #f2f4f6;
 }
 
 .badge {
