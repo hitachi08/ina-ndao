@@ -44,6 +44,14 @@ if (preg_match('#^/produk/([a-z_]+)$#', $uri, $matches)) {
     exit;
 }
 
+// Route: /produk/detail/{slug}
+if (preg_match('#^/produk/detail/([\w\-]+)$#', $uri, $matches)) {
+    $slug = $matches[1];
+    $_GET['slug'] = $slug;
+    include __DIR__ . '/Detail-Produk.php';
+    exit;
+}
+
 // Route halaman admin Produk
 if ($uri === '/admin/produk') {
     include __DIR__ . '/admin/Produk.php';

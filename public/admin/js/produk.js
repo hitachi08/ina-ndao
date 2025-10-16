@@ -224,7 +224,10 @@ $(document).ready(function () {
     const pageData = produkData.slice(start, end);
 
     pageData.forEach((item) => {
-      const gambarUtama = item.path_gambar || "/img/no-image.png";
+      const gambarUtama =
+        item.gambar && item.gambar.length > 0
+          ? item.gambar[0].path_gambar
+          : "/img/no-image.png";
       container.append(`
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
           <div class="card h-100 border-0 shadow-sm rounded-0 overflow-hidden product-card position-relative">

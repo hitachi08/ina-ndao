@@ -119,9 +119,11 @@ $translator->start();
                             <!-- Filter Harga -->
                             <h6 class="fw-bold">Rentang Harga</h6>
                             <div class="d-flex align-items-center">
-                                <input type="number" class="form-control form-control-sm me-2" id="hargaMin" placeholder="Min">
+                                <input type="number" class="form-control form-control-sm me-2" id="hargaMin"
+                                    placeholder="Min">
                                 <span class="mx-1">-</span>
-                                <input type="number" class="form-control form-control-sm ms-2" id="hargaMax" placeholder="Max">
+                                <input type="number" class="form-control form-control-sm ms-2" id="hargaMax"
+                                    placeholder="Max">
                             </div>
                         </div>
                     </div>
@@ -153,7 +155,7 @@ $translator->start();
     <?php
     $pageTranslator->translateOutput();
     ?>
-    
+
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -164,7 +166,7 @@ $translator->start();
     <script src="js/main.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let allData = []; // semua data kain
             let filteredData = []; // hasil filter aktif
             let currentPage = 1;
@@ -179,7 +181,7 @@ $translator->start();
                     url: '/galeri/get_options_kain',
                     type: 'GET',
                     dataType: 'json',
-                    success: function(response) {
+                    success: function (response) {
                         if (response.status === 'success') {
                             const daerahContainer = $("#filterDaerahContainer");
                             const jenisContainer = $("#filterJenisKainContainer");
@@ -209,19 +211,19 @@ $translator->start();
             }
 
             // ==================== EVENT FILTER ====================
-            $(document).on('change', '.filter-daerah, .filter-jenis', function() {
+            $(document).on('change', '.filter-daerah, .filter-jenis', function () {
                 applyFilter();
             });
-            $('#hargaMin, #hargaMax').on('input', function() {
+            $('#hargaMin, #hargaMax').on('input', function () {
                 applyFilter();
             });
 
             // ==================== APPLY FILTER ====================
             function applyFilter() {
-                const daerah = $('.filter-daerah:checked').map(function() {
+                const daerah = $('.filter-daerah:checked').map(function () {
                     return $(this).val();
                 }).get();
-                const jenis_kain = $('.filter-jenis:checked').map(function() {
+                const jenis_kain = $('.filter-jenis:checked').map(function () {
                     return $(this).val();
                 }).get();
                 const harga_min = $('#hargaMin').val();
@@ -248,7 +250,7 @@ $translator->start();
                         harga_min,
                         harga_max
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response.status === 'success') {
                             filteredData = response.data;
                             currentPage = 1;
@@ -258,7 +260,7 @@ $translator->start();
                             $('#pagination').empty();
                         }
                     },
-                    error: function() {
+                    error: function () {
                         container.html(`<div class="col-12 text-center py-4 w-100"><p class="text-danger">Terjadi kesalahan saat memuat data filter.</p></div>`);
                         $('#pagination').empty();
                     }
@@ -271,7 +273,7 @@ $translator->start();
                     url: '/galeri/fetch_all',
                     type: 'GET',
                     dataType: 'json',
-                    success: function(response) {
+                    success: function (response) {
                         if (response.status === 'success' && response.data.length > 0) {
                             allData = response.data;
                             filteredData = allData;
@@ -280,7 +282,7 @@ $translator->start();
                             $('#product-list').html(`<div class="col-12 text-center py-4 w-100"><p class="text-muted">Belum ada data kain yang tersedia.</p></div>`);
                         }
                     },
-                    error: function() {
+                    error: function () {
                         $('#product-list').html(`<div class="col-12 text-center py-4 w-100"><p class="text-danger">Terjadi kesalahan saat memuat data galeri.</p></div>`);
                     }
                 });
@@ -314,27 +316,27 @@ $translator->start();
                     const harga = formatRupiah(item.harga);
 
                     const card = `
-            <div class="col-6 col-md-4 col-lg-3 mb-4">
-                <a href="/kain/detail/${item.slug}" class="text-decoration-none">
-                    <div class="box-card shadow h-100 cursor-pointer">
-                        <figure>
-                            <img src="${imgSrc}" alt="${motif}">
-                        </figure>
-                        <div class="desc-card">
-                            <h5><div class="fw-bold text-dark mb-1">${namaProduk}</div></h5>
-                            <div class="abs-btm">
-                                <div class="text-muted small mb-2 motif">Motif ${motif}</div>
-                                <div class="fw-bold text-primary price" style="font-size: 1rem;">${harga},-</div>
-                                <div class="small fw-semibold text-secondary mt-2" style="letter-spacing: .5px; font-size: .8rem;">
-                                    <span class="d-inline d-md-none">Tenun NTT</span>
-                                    <span class="d-none d-md-inline">Tenun Tradisional NTT</span>
+                                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                                    <a href="/kain/detail/${item.slug}" class="text-decoration-none">
+                                        <div class="box-card shadow h-100 cursor-pointer">
+                                            <figure>
+                                                <img src="${imgSrc}" alt="${motif}">
+                                            </figure>
+                                            <div class="desc-card">
+                                                <h5><div class="fw-bold text-dark mb-1">${namaProduk}</div></h5>
+                                                <div class="abs-btm">
+                                                    <div class="text-muted small mb-2 motif">Motif ${motif}</div>
+                                                    <div class="fw-bold text-primary price" style="font-size: 1rem;">${harga},-</div>
+                                                    <div class="small fw-semibold text-secondary mt-2" style="letter-spacing: .5px; font-size: .8rem;">
+                                                        <span class="d-inline d-md-none">Tenun NTT</span>
+                                                        <span class="d-none d-md-inline">Tenun Tradisional NTT</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        `;
+                            `;
                     container.append(card);
                 });
             }
@@ -416,7 +418,7 @@ $translator->start();
     `);
 
                 // Event klik
-                $('.page-link').off('click').on('click', function(e) {
+                $('.page-link').off('click').on('click', function (e) {
                     e.preventDefault();
                     const page = parseInt($(this).data('page'));
                     if (page >= 1 && page <= totalPages && !isNaN(page)) {

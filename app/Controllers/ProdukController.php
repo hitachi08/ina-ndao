@@ -44,7 +44,25 @@ class ProdukController
                     return ['status' => 'success', 'data' => $this->model->getOptions()];
 
                 case 'search':
-                    return $this->search();
+                    $keyword = $_GET['q'] ?? '';
+                    $data = $this->model->searchProduk($keyword);
+                    return ['status' => 'success', 'data' => $data];
+
+                case 'filter':
+                    $filters = [
+                        'id_daerah' => $_POST['daerah'] ?? null,
+                        'id_jenis_kain' => $_POST['jenis'] ?? null,
+                        'id_kategori' => $_POST['kategori'] ?? null,
+                        'id_sub_kategori' => $_POST['subkategori'] ?? null,
+                        'harga_min' => $_POST['harga_min'] ?? null,
+                        'harga_max' => $_POST['harga_max'] ?? null,
+                    ];
+                    $data = $this->model->filterProduk($filters);
+                    return ['status' => 'success', 'data' => $data];
+
+                case 'detail':
+                    $slug = $_POST['slug'] ?? $_GET['slug'] ?? null;
+                    return $this->model->getDetailProduk($slug);
 
                 default:
                     return ['status' => 'error', 'message' => 'Action tidak valid'];
@@ -53,21 +71,6 @@ class ProdukController
             // 🧠 tampilkan error di console browser
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
-    }
-    public function search()
-    {
-        $keyword = isset($_GET['q']) ? trim($_GET['q']) : '';
-
-        if ($keyword === '') {
-            return ['status' => 'error', 'message' => 'Keyword kosong'];
-        }
-
-        $data = $this->model->searchProduk($keyword);
-
-        return [
-            'status' => 'success',
-            'data' => $data
-        ];
     }
 
 }
