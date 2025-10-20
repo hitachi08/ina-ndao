@@ -384,33 +384,34 @@ class ProdukModel
         }
 
         $stmt = $this->pdo->prepare("
-            SELECT 
-                p.*, 
-                k.nama_kategori, 
-                sk.nama_sub_kategori,
-                -- Data dari tabel kain
-                kn.id_kain,
-                kn.panjang_cm,
-                kn.lebar_cm,
-                kn.bahan AS bahan_kain,
-                kn.jenis_pewarna,
-                kn.harga AS harga_kain,
-                kn.stok AS stok_kain,
-                jk.nama_jenis,
-                d.nama_daerah,
-                m.nama_motif,
-                mm.makna
-            FROM produk p
-            LEFT JOIN sub_kategori sk ON p.id_sub_kategori = sk.id_sub_kategori
-            LEFT JOIN kategori k ON sk.id_kategori = k.id_kategori
-            LEFT JOIN kain kn ON p.id_kain = kn.id_kain
-            LEFT JOIN jenis_kain jk ON kn.id_jenis_kain = jk.id_jenis_kain
-            LEFT JOIN daerah d ON kn.id_daerah = d.id_daerah
-            LEFT JOIN motif m ON kn.id_motif = m.id_motif
-            LEFT JOIN makna_motif mm ON mm.id_motif = m.id_motif AND mm.id_daerah = d.id_daerah
-            WHERE p.slug = ?
-            LIMIT 1
-        ");
+        SELECT 
+            p.*, 
+            k.nama_kategori, 
+            sk.nama_sub_kategori,
+            -- Data dari tabel kain
+            kn.id_kain,
+            kn.slug AS slug_kain,
+            kn.panjang_cm,
+            kn.lebar_cm,
+            kn.bahan AS bahan_kain,
+            kn.jenis_pewarna,
+            kn.harga AS harga_kain,
+            kn.stok AS stok_kain,
+            jk.nama_jenis,
+            d.nama_daerah,
+            m.nama_motif,
+            mm.makna
+        FROM produk p
+        LEFT JOIN sub_kategori sk ON p.id_sub_kategori = sk.id_sub_kategori
+        LEFT JOIN kategori k ON sk.id_kategori = k.id_kategori
+        LEFT JOIN kain kn ON p.id_kain = kn.id_kain
+        LEFT JOIN jenis_kain jk ON kn.id_jenis_kain = jk.id_jenis_kain
+        LEFT JOIN daerah d ON kn.id_daerah = d.id_daerah
+        LEFT JOIN motif m ON kn.id_motif = m.id_motif
+        LEFT JOIN makna_motif mm ON mm.id_motif = m.id_motif AND mm.id_daerah = d.id_daerah
+        WHERE p.slug = ?
+        LIMIT 1
+    ");
         $stmt->execute([$slug]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
