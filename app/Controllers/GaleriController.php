@@ -33,9 +33,21 @@ class GaleriController
                 return $this->filter();
             case 'detail':
                 return $this->detail();
+            case 'fetch_by_daerah':
+                $input = json_decode(file_get_contents("php://input"), true);
+                return $this->fetchByDaerah($input['daerah']);
             default:
                 return ['status' => 'error', 'message' => 'Action not found'];
         }
+    }
+
+    private function fetchByDaerah($daerahArray)
+    {
+        $data = $this->model->getKainByDaerah($daerahArray);
+        foreach ($data as &$item) {
+            $item['motif_gambar'] = $this->model->getGambarByKain($item['id_kain']);
+        }
+        return ['status' => 'success', 'data' => $data];
     }
 
     private function fetchAll()

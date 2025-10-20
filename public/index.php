@@ -71,6 +71,15 @@ if (preg_match('#^/galeri/([a-z_]+)$#', $uri, $matches)) {
     echo json_encode($response); // AJAX dapat JSON valid
     exit;
 }
+// Route: /galeri/fetch_by_daerah
+if ($uri == '/galeri/fetch_by_daerah') {
+    require_once __DIR__ . '/../app/Controllers/GaleriController.php';
+    $controller = new GaleriController($pdo);
+    $response = $controller->handle('fetch_by_daerah');
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
 
 // Route halaman admin Galeri
 if ($uri === '/admin/galeri') {
