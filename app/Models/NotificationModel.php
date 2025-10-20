@@ -12,7 +12,6 @@ class NotificationModel
 
     public function create($judul, $isi, $tipe = 'info', $referensi = null, $target = null)
     {
-        // Hindari duplikasi notifikasi yang persis sama pada periode singkat
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM notifikasi WHERE judul = ? AND isi = ? AND referensi = ? AND DATE(created_at) = CURDATE()");
         $stmt->execute([$judul, $isi, $referensi]);
         if ($stmt->fetchColumn() > 0) {

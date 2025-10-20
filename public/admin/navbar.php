@@ -11,7 +11,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
     <div class="container-fluid px-0">
         <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
             <div class="d-flex align-items-center">
-                <!-- Form Pencarian -->
                 <form class="navbar-search form-inline" id="navbar-search-main">
                     <div class="input-group input-group-merge search-bar">
                         <span class="input-group-text" id="topbar-addon">
@@ -25,13 +24,10 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                             aria-describedby="topbar-addon">
                     </div>
                 </form>
-                <!-- /Form Pencarian -->
             </div>
 
-            <!-- Navbar Links -->
             <ul class="navbar-nav align-items-center">
 
-                <!-- Notifikasi -->
                 <li class="nav-item nav-item-notif dropdown me-2">
                     <a class="nav-link text-dark dropdown-toggle p-0" id="notifDropdownBtn" href="#" role="button"
                         data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
@@ -57,7 +53,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                     </div>
                 </li>
 
-                <!-- Pengaturan / User -->
                 <li class="nav-item dropdown ms-lg-3">
                     <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -98,7 +93,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
     </div>
 </nav>
 
-<!-- Modal Seluruh Notifikasi -->
 <div class="modal fade" id="allNotifModal" tabindex="-1" aria-labelledby="allNotifModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-md">
         <div class="modal-content">
@@ -132,9 +126,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
         const apiBase = '/notifications';
         let showingAll = false;
 
-        // =========================
-        // Render Notifikasi
-        // =========================
         function renderNotifications(data) {
             const list = $('#notifList');
             list.find('#notifLoading').remove();
@@ -187,9 +178,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
             }
         }
 
-        // =========================
-        // Load Notifikasi
-        // =========================
         function loadNotifications() {
             const url = showingAll ? apiBase + '/all' : apiBase + '/list';
             fetch(url)
@@ -200,9 +188,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                 .catch(err => console.error('Load notifications error', err));
         }
 
-        // =========================
-        // Load Seluruh Notifikasi Modal
-        // =========================
         function loadAllNotificationsModal() {
             const list = $('#allNotifList');
             list.find('.notif-item').remove();
@@ -258,7 +243,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
             return $('<div>').text(text).html();
         }
 
-        // Polling otomatis
         loadNotifications();
         loadUnreadBadge();
         setInterval(() => {
@@ -266,7 +250,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
             loadUnreadBadge();
         }, 60000);
 
-        // Klik Notifikasi → Mark Read & Redirect
         $('#notifList').on('click', '.notif-item', function(e) {
             e.preventDefault();
             const $this = $(this);
@@ -294,7 +277,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
             });
         });
 
-        // Mark all read
         $('#markAllRead').on('click', function() {
             fetch(apiBase + '/markall', {
                     method: 'POST'
@@ -308,14 +290,12 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                 });
         });
 
-        // Dropdown dibuka → reload
         $('#notifDropdownBtn').closest('.nav-item').on('show.bs.dropdown', function() {
             showingAll = false;
             loadNotifications();
             loadUnreadBadge();
         });
 
-        // Tombol lihat semua
         $('#notifList').on('click', '#showAllNotif', function() {
             const modal = new bootstrap.Modal(document.getElementById('allNotifModal'));
             modal.show();
@@ -344,8 +324,7 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                 })
             }).then(() => {
                 loadUnreadBadge();
-                loadAllNotificationsModal(); // refresh modal list
-
+                loadAllNotificationsModal();
                 if (ref && ref.startsWith('event:')) {
                     const eid = ref.split(':')[1];
                     window.location.href = '/event/detail/' + eid;
@@ -361,8 +340,8 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                 .then(res => {
                     if (res.status === 'ok') {
                         loadUnreadBadge();
-                        loadAllNotificationsModal(); // refresh modal
-                        loadNotifications(); // refresh dropdown juga
+                        loadAllNotificationsModal();
+                        loadNotifications();
                     }
                 });
         });
@@ -370,9 +349,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
     });
 </script>
 <script>
-    // =========================
-    // 👤 EDIT PROFIL ADMIN
-    // =========================
     document.getElementById('btnEditProfile').addEventListener('click', function(e) {
         e.preventDefault();
 
@@ -440,7 +416,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                                 '<i class="bi bi-eye-slash"></i>';
                         });
 
-                        // 🖼️ Preview Foto
                         document.getElementById('sw_photo').addEventListener('change', function() {
                             const file = this.files[0];
                             if (file) {
@@ -480,7 +455,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                         photoFile
                     } = result.value;
 
-                    // 🔄 Update profil
                     fetch('/admin/pengaturan/updateprofile', {
                             method: 'POST',
                             headers: {
@@ -507,7 +481,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                                 return;
                             }
 
-                            // 🔒 Update password jika diisi
                             if (password) {
                                 await fetch('/admin/pengaturan/updatepassword', {
                                     method: 'POST',
@@ -520,7 +493,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                                 });
                             }
 
-                            // 🖼️ Upload foto baru
                             if (photoFile) {
                                 const formData = new FormData();
                                 formData.append('photo', photoFile);
@@ -537,7 +509,6 @@ $photoPath = $photo && file_exists(__DIR__ . "/../uploads/admin/$photo")
                                     });
                             }
 
-                            // ✅ Sukses
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil!',

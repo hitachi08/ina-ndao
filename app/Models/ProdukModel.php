@@ -53,7 +53,6 @@ class ProdukModel
         $stmt = $this->pdo->query($sql);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // 🔁 ambil semua gambar untuk tiap produk
         foreach ($result as &$row) {
             $gStmt = $this->pdo->prepare("SELECT path_gambar FROM produk_gambar WHERE id_produk = ?");
             $gStmt->execute([$row['id_produk']]);
@@ -217,7 +216,6 @@ class ProdukModel
         try {
             $data = [];
 
-            // Ambil kategori & sub kategori tetap seperti biasa
             $data['kategori'] = $this->pdo->query("
             SELECT * FROM kategori ORDER BY nama_kategori ASC
         ")->fetchAll(PDO::FETCH_ASSOC);
@@ -225,13 +223,10 @@ class ProdukModel
             $data['sub_kategori'] = $this->pdo->query("
             SELECT * FROM sub_kategori ORDER BY nama_sub_kategori ASC
         ")->fetchAll(PDO::FETCH_ASSOC);
-         // Daerah
-        $data['daerah'] = $this->pdo->query("SELECT * FROM daerah ORDER BY nama_daerah ASC")->fetchAll(PDO::FETCH_ASSOC);
+            $data['daerah'] = $this->pdo->query("SELECT * FROM daerah ORDER BY nama_daerah ASC")->fetchAll(PDO::FETCH_ASSOC);
 
-        // Jenis Kain
-        $data['jenis_kain'] = $this->pdo->query("SELECT * FROM jenis_kain ORDER BY nama_jenis ASC")->fetchAll(PDO::FETCH_ASSOC);
+            $data['jenis_kain'] = $this->pdo->query("SELECT * FROM jenis_kain ORDER BY nama_jenis ASC")->fetchAll(PDO::FETCH_ASSOC);
 
-            // Ambil data kain lengkap (gabungan jenis, daerah, motif)
             $data['kain'] = $this->pdo->query("
             SELECT 
                 k.id_kain,
@@ -252,35 +247,34 @@ class ProdukModel
     {
         $keyword = trim($keyword);
         if ($keyword === '') {
-            return []; // kembalikan kosong kalau keyword kosong
+            return [];
         }
 
         $sql = "
-        SELECT 
-            p.id_produk,
-            p.nama_produk,
-            p.harga,
-            p.stok,
-            p.deskripsi,
-            s.nama_sub_kategori,
-            k.nama_kategori,
-            (SELECT path_gambar FROM produk_gambar WHERE id_produk = p.id_produk LIMIT 1) AS path_gambar
-        FROM produk p
-        JOIN sub_kategori s ON p.id_sub_kategori = s.id_sub_kategori
-        JOIN kategori k ON s.id_kategori = k.id_kategori
-        WHERE 
-            p.nama_produk LIKE :kw 
-            OR p.deskripsi LIKE :kw
-            OR s.nama_sub_kategori LIKE :kw
-            OR k.nama_kategori LIKE :kw
-        ORDER BY p.id_produk DESC
-    ";
+            SELECT 
+                p.id_produk,
+                p.nama_produk,
+                p.harga,
+                p.stok,
+                p.deskripsi,
+                s.nama_sub_kategori,
+                k.nama_kategori,
+                (SELECT path_gambar FROM produk_gambar WHERE id_produk = p.id_produk LIMIT 1) AS path_gambar
+            FROM produk p
+            JOIN sub_kategori s ON p.id_sub_kategori = s.id_sub_kategori
+            JOIN kategori k ON s.id_kategori = k.id_kategori
+            WHERE 
+                p.nama_produk LIKE :kw 
+                OR p.deskripsi LIKE :kw
+                OR s.nama_sub_kategori LIKE :kw
+                OR k.nama_kategori LIKE :kw
+            ORDER BY p.id_produk DESC
+        ";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':kw' => "%$keyword%"]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Ambil semua gambar produk
         foreach ($result as &$row) {
             $gStmt = $this->pdo->prepare("SELECT path_gambar FROM produk_gambar WHERE id_produk = ?");
             $gStmt->execute([$row['id_produk']]);
@@ -293,28 +287,27 @@ class ProdukModel
     public function filterProduk($filters)
     {
         $sql = "
-        SELECT 
-            p.id_produk,
-            p.nama_produk,
-            p.harga,
-            p.ukuran,
-            p.stok,
-            p.deskripsi,
-            d.nama_daerah,
-            k.nama_kategori,
-            sk.nama_sub_kategori,
-            (SELECT path_gambar FROM produk_gambar WHERE id_produk = p.id_produk LIMIT 1) AS path_gambar
-        FROM produk p
-        LEFT JOIN sub_kategori sk ON p.id_sub_kategori = sk.id_sub_kategori
-        LEFT JOIN kategori k ON sk.id_kategori = k.id_kategori
-        LEFT JOIN kain ka ON p.id_kain = ka.id_kain
-        LEFT JOIN daerah d ON ka.id_daerah = d.id_daerah
-        WHERE 1=1
-    ";
+            SELECT 
+                p.id_produk,
+                p.nama_produk,
+                p.harga,
+                p.ukuran,
+                p.stok,
+                p.deskripsi,
+                d.nama_daerah,
+                k.nama_kategori,
+                sk.nama_sub_kategori,
+                (SELECT path_gambar FROM produk_gambar WHERE id_produk = p.id_produk LIMIT 1) AS path_gambar
+            FROM produk p
+            LEFT JOIN sub_kategori sk ON p.id_sub_kategori = sk.id_sub_kategori
+            LEFT JOIN kategori k ON sk.id_kategori = k.id_kategori
+            LEFT JOIN kain ka ON p.id_kain = ka.id_kain
+            LEFT JOIN daerah d ON ka.id_daerah = d.id_daerah
+            WHERE 1=1
+        ";
 
         $params = [];
 
-        // Filter Daerah
         if (!empty($filters['id_daerah'])) {
             if (is_array($filters['id_daerah'])) {
                 $placeholders = implode(',', array_fill(0, count($filters['id_daerah']), '?'));
@@ -326,7 +319,6 @@ class ProdukModel
             }
         }
 
-        // Filter Jenis Kain
         if (!empty($filters['id_jenis_kain'])) {
             if (is_array($filters['id_jenis_kain'])) {
                 $placeholders = implode(',', array_fill(0, count($filters['id_jenis_kain']), '?'));
@@ -338,7 +330,6 @@ class ProdukModel
             }
         }
 
-        // Filter Kategori
         if (!empty($filters['id_kategori'])) {
             if (is_array($filters['id_kategori'])) {
                 $placeholders = implode(',', array_fill(0, count($filters['id_kategori']), '?'));
@@ -350,7 +341,6 @@ class ProdukModel
             }
         }
 
-        // Filter Sub-Kategori
         if (!empty($filters['id_sub_kategori'])) {
             if (is_array($filters['id_sub_kategori'])) {
                 $placeholders = implode(',', array_fill(0, count($filters['id_sub_kategori']), '?'));
@@ -362,13 +352,11 @@ class ProdukModel
             }
         }
 
-        // Filter Harga Min
         if (!empty($filters['harga_min'])) {
             $sql .= " AND p.harga >= ?";
             $params[] = $filters['harga_min'];
         }
 
-        // Filter Harga Max
         if (!empty($filters['harga_max'])) {
             $sql .= " AND p.harga <= ?";
             $params[] = $filters['harga_max'];
@@ -380,7 +368,6 @@ class ProdukModel
         $stmt->execute($params);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);;
 
-        // Ambil gambar untuk tiap produk
         foreach ($result as &$row) {
             $gStmt = $this->pdo->prepare("SELECT path_gambar FROM produk_gambar WHERE id_produk = ?");
             $gStmt->execute([$row['id_produk']]);
@@ -397,33 +384,33 @@ class ProdukModel
         }
 
         $stmt = $this->pdo->prepare("
-        SELECT 
-            p.*, 
-            k.nama_kategori, 
-            sk.nama_sub_kategori,
-            -- Data dari tabel kain
-            kn.id_kain,
-            kn.panjang_cm,
-            kn.lebar_cm,
-            kn.bahan AS bahan_kain,
-            kn.jenis_pewarna,
-            kn.harga AS harga_kain,
-            kn.stok AS stok_kain,
-            jk.nama_jenis,
-            d.nama_daerah,
-            m.nama_motif,
-            mm.makna
-        FROM produk p
-        LEFT JOIN sub_kategori sk ON p.id_sub_kategori = sk.id_sub_kategori
-        LEFT JOIN kategori k ON sk.id_kategori = k.id_kategori
-        LEFT JOIN kain kn ON p.id_kain = kn.id_kain
-        LEFT JOIN jenis_kain jk ON kn.id_jenis_kain = jk.id_jenis_kain
-        LEFT JOIN daerah d ON kn.id_daerah = d.id_daerah
-        LEFT JOIN motif m ON kn.id_motif = m.id_motif
-        LEFT JOIN makna_motif mm ON mm.id_motif = m.id_motif AND mm.id_daerah = d.id_daerah
-        WHERE p.slug = ?
-        LIMIT 1
-    ");
+            SELECT 
+                p.*, 
+                k.nama_kategori, 
+                sk.nama_sub_kategori,
+                -- Data dari tabel kain
+                kn.id_kain,
+                kn.panjang_cm,
+                kn.lebar_cm,
+                kn.bahan AS bahan_kain,
+                kn.jenis_pewarna,
+                kn.harga AS harga_kain,
+                kn.stok AS stok_kain,
+                jk.nama_jenis,
+                d.nama_daerah,
+                m.nama_motif,
+                mm.makna
+            FROM produk p
+            LEFT JOIN sub_kategori sk ON p.id_sub_kategori = sk.id_sub_kategori
+            LEFT JOIN kategori k ON sk.id_kategori = k.id_kategori
+            LEFT JOIN kain kn ON p.id_kain = kn.id_kain
+            LEFT JOIN jenis_kain jk ON kn.id_jenis_kain = jk.id_jenis_kain
+            LEFT JOIN daerah d ON kn.id_daerah = d.id_daerah
+            LEFT JOIN motif m ON kn.id_motif = m.id_motif
+            LEFT JOIN makna_motif mm ON mm.id_motif = m.id_motif AND mm.id_daerah = d.id_daerah
+            WHERE p.slug = ?
+            LIMIT 1
+        ");
         $stmt->execute([$slug]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -431,7 +418,6 @@ class ProdukModel
             return ['status' => 'error', 'message' => 'Data tidak ditemukan'];
         }
 
-        // Ambil semua gambar produk
         $data['gambar'] = $this->getGambarByProduk($data['id_produk']);
 
         return ['status' => 'success', 'data' => $data];
@@ -443,6 +429,4 @@ class ProdukModel
         $stmt->execute([$id_produk]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-
 }

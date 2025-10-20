@@ -7,7 +7,6 @@ class EventDokumentasi
         $this->pdo = $pdo;
     }
 
-    /** Hapus 1 dokumentasi */
     public function delete($id_dokumentasi)
     {
         $stmt = $this->pdo->prepare(
@@ -24,7 +23,6 @@ class EventDokumentasi
         return $stmt->execute([$id_dokumentasi]);
     }
 
-    /** Hapus banyak dokumentasi di DB */
     public function deleteMultiple(array $ids)
     {
         if (empty($ids)) return false;
@@ -34,7 +32,6 @@ class EventDokumentasi
         return $stmt->execute($ids);
     }
 
-    /** Ambil data file dokumentasi berdasarkan ID */
     public function getFilesByIds(array $ids)
     {
         if (empty($ids)) return [];

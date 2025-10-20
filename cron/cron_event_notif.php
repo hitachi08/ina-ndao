@@ -1,5 +1,4 @@
 <?php
-// cron_event_notif.php
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/database.php';
 
@@ -13,7 +12,6 @@ $today = new DateTime();
 $tomorrow = (new DateTime())->modify('+1 day');
 $yesterday = (new DateTime())->modify('-1 day');
 
-// 1) Event yang akan berlangsung besok
 $stmt = $pdo->prepare("SELECT * FROM event WHERE tanggal = :tgl");
 $stmt->execute([':tgl' => $tomorrow->format('Y-m-d')]);
 $eventsBesok = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,7 +22,6 @@ foreach ($eventsBesok as $ev) {
     $notifModel->create($judul, $isi, 'peringatan', $referensi, 'admin');
 }
 
-// 2) Event hari ini
 $stmt = $pdo->prepare("SELECT * FROM event WHERE tanggal = :tgl");
 $stmt->execute([':tgl' => $today->format('Y-m-d')]);
 $eventsToday = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,7 +32,6 @@ foreach ($eventsToday as $ev) {
     $notifModel->create($judul, $isi, 'peringatan', $referensi, 'admin');
 }
 
-// 3) Event yang sudah lewat (hari sebelum hari ini) dan belum ada dokumentasi
 $stmt = $pdo->prepare("
     SELECT e.* 
     FROM event e
@@ -52,7 +48,5 @@ foreach ($eventsNoDoc as $ev) {
     $referensi = "event:{$ev['id_event']}";
     $notifModel->create($judul, $isi, 'tugas', $referensi, 'admin');
 }
-
-// optional: buat notifikasi kalau event hampir 7 hari lagi (bila diinginkan) etc.
 
 echo "Cron run at " . date('Y-m-d H:i:s') . PHP_EOL;

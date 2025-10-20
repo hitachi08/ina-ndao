@@ -12,7 +12,6 @@ class NotificationController
         $this->model = new NotificationModel($pdo);
     }
 
-    // handle action dari front controller
     public function handle($action)
     {
         header('Content-Type: application/json; charset=utf-8');

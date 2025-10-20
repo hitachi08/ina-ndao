@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/Event.php';
+require_once __DIR__ . '/../models/EventModel.php';
 require_once __DIR__ . '/../models/EventDokumentasi.php';
 
 class EventController
@@ -9,13 +9,12 @@ class EventController
 
     public function __construct(PDO $pdo)
     {
-        $this->eventModel = new Event($pdo);
+        $this->eventModel = new EventModel($pdo);
         $this->docModel   = new EventDokumentasi($pdo);
 
         header('Content-Type: application/json');
     }
 
-    /** Router Handler */
     public function handle($action, $param = null)
     {
         try {
@@ -104,7 +103,23 @@ class EventController
         }
     }
 
-    /** 1. Tambah Event Baru */
+    public function index()
+    {
+        try {
+            $upcoming = $this->eventModel->fetchUpcomingWithDocs();
+
+            $past = $this->eventModel->fetchPastWithDocs();
+
+            echo json_encode([
+                'status' => 'success',
+                'upcoming' => $upcoming,
+                'past'     => $past
+            ]);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
     public function create()
     {
         try {
@@ -117,7 +132,6 @@ class EventController
                     'deskripsi'  => $_POST['deskripsi']
                 ];
 
-                // Upload banner
                 $bannerFile = null;
                 if (!empty($_FILES['gambar_banner']['name'])) {
                     $bannerFile = time() . "_" . basename($_FILES['gambar_banner']['name']);
@@ -142,27 +156,6 @@ class EventController
         }
     }
 
-    /** 2. Tampilkan Semua Event */
-    public function index()
-    {
-        try {
-            // Ambil event mendatang + dokumentasi
-            $upcoming = $this->eventModel->fetchUpcomingWithDocs();
-
-            // Ambil event yang telah berlalu + dokumentasi
-            $past = $this->eventModel->fetchPastWithDocs();
-
-            echo json_encode([
-                'status' => 'success',
-                'upcoming' => $upcoming, // Event yang akan datang
-                'past'     => $past      // Event yang sudah selesai
-            ]);
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
-    }
-
-    /** 3. Update Event */
     public function update($id)
     {
         try {
@@ -184,7 +177,6 @@ class EventController
                     );
                 }
 
-                // Upload dokumentasi baru
                 $docFiles = [];
                 if (!empty($_FILES['dokumentasi']['name'][0])) {
                     foreach ($_FILES['dokumentasi']['name'] as $i => $name) {
@@ -211,11 +203,22 @@ class EventController
         }
     }
 
-    /** 4. Detail Event */
+    public function delete($id)
+    {
+        try {
+            $this->eventModel->delete($id);
+            echo json_encode([
+                'status'  => 'success',
+                'message' => 'Event berhasil dihapus'
+            ]);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
     public function detail($idOrSlug)
     {
         try {
-            // Bisa ambil berdasarkan slug atau id_event
             $event = $this->eventModel->findBySlugOrId($idOrSlug);
 
             if (!$event) {
@@ -226,7 +229,6 @@ class EventController
                 return;
             }
 
-            // Ambil dokumentasi event terkait
             $docs = $this->docModel->getByEventId($event['id_event']);
 
             echo json_encode([
@@ -242,25 +244,9 @@ class EventController
         }
     }
 
-    /** 4. Hapus Event */
-    public function delete($id)
-    {
-        try {
-            $this->eventModel->delete($id);
-            echo json_encode([
-                'status'  => 'success',
-                'message' => 'Event berhasil dihapus'
-            ]);
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
-    }
-
-    /** 5. Tambah Dokumentasi */
     public function addDokumentasi($id_event = null)
     {
         try {
-            // ID event dari form (hidden input)
             $id_event = $_POST['id_event'] ?? $id_event;
 
             if (!$id_event) {
@@ -271,7 +257,6 @@ class EventController
             $uploadedFiles = [];
             $uploadDir = __DIR__ . '/../../public/img/event/';
 
-            // Pastikan folder ada
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
@@ -289,7 +274,6 @@ class EventController
                 }
             }
 
-            // Simpan ke DB
             if (!empty($uploadedFiles)) {
                 $this->eventModel->addDokumentasi($id_event, $uploadedFiles);
             }
@@ -304,7 +288,6 @@ class EventController
         }
     }
 
-    /** 6. Hapus Dokumentasi */
     public function deleteDokumentasi($id_event, $id_dokumentasi)
     {
         try {
@@ -318,7 +301,6 @@ class EventController
         }
     }
 
-    /** 7. Fetch Event dengan Pagination */
     public function fetch_paginated()
     {
         try {
@@ -341,7 +323,6 @@ class EventController
         }
     }
 
-    /** 8. Fetch Single Event + Dokumentasi */
     public function fetch_single()
     {
         try {
@@ -370,7 +351,6 @@ class EventController
         }
     }
 
-    /** Hapus banyak dokumentasi sekaligus */
     public function deleteMultipleDokumentasi($ids = [])
     {
         try {
@@ -379,10 +359,8 @@ class EventController
                 return;
             }
 
-            // Ambil file fisik dari model
             $files = $this->docModel->getFilesByIds($ids);
 
-            // Hapus file fisik
             foreach ($files as $row) {
                 $file = __DIR__ . "/../../public/img/event/" . $row['gambar_dokumentasi'];
                 if (file_exists($file)) {
@@ -390,7 +368,6 @@ class EventController
                 }
             }
 
-            // Hapus di DB via model
             $this->docModel->deleteMultiple($ids);
 
             echo json_encode([
@@ -402,7 +379,6 @@ class EventController
         }
     }
 
-    /** 🔍 Pencarian Event berdasarkan nama_event */
     public function search()
     {
         try {

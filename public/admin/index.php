@@ -1,731 +1,398 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../app/Auth.php';
-Auth::requireLogin();
-
+Auth::requireLogin($pdo);
 $username = $_SESSION['admin_username'] ?? 'Admin';
+
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="id">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
     <title>Dashboard - Ina Ndao</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link href="../img/ina_ndao_logo.jpeg" rel="icon" />
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ffffff">
 
-    <link type="text/css" href="../css/sweetalert2.min.css" rel="stylesheet">
-    <link type="text/css" href="../css/notyf.min.css" rel="stylesheet">
-    <link type="text/css" href="../css/volt.css" rel="stylesheet">
+    <link href="/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="/css/volt.css" rel="stylesheet">
+    <style>
+        .dataTables_info,
+        .dataTables_length label {
+            padding-left: 0 !important;
+        }
+
+        .dataTables_paginate,
+        .dataTables_filter {
+            padding-right: 0 !important;
+        }
+
+        div.dataTables_wrapper div.dataTables_length select {
+            padding-right: 1.5rem !important;
+            background-position: right 6px center !important;
+        }
+
+        .stat-elegant {
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-elegant:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.8rem 1.6rem rgba(0, 0, 0, 0.08);
+        }
+
+        /* Ikon bundar dengan warna pastel */
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+        }
+
+        .icon-box i {
+            color: #6c757d;
+        }
+
+        .bg-soft-primary {
+            background-color: #e5ecf6;
+        }
+
+        .bg-soft-success {
+            background-color: #e8f5ec;
+        }
+
+        .bg-soft-warning {
+            background-color: #fdf4e5;
+        }
+
+        .bg-soft-info {
+            background-color: #e9f4f7;
+        }
+
+        .elegant-list .list-group-item {
+            border: none;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .elegant-list .list-group-item:last-child {
+            border-bottom: none;
+        }
+
+        .elegant-list .list-group-item:hover {
+            background: #f8f9fa;
+        }
+
+        .elegant-list small {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .card-body h6 {
+            letter-spacing: 0.3px;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Sidebar Start -->
-    <?php include "sidebar.php" ?>
-    <!-- Sidebar End -->
-
+    <?php include 'sidebar.php'; ?>
     <main class="content">
+        <?php include 'navbar.php'; ?>
 
-        <?php include "navbar.php" ?>
+        <div class="row g-3 py-4">
+            <div class="col-6 col-lg-3">
+                <div class="card stat-elegant shadow-sm border-0 bg-kain">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fw-semibold text-muted mb-1">Kain Tenun</h6>
+                            <h2 id="stat-kain" class="fw-bold mb-0 text-dark">--</h2>
+                        </div>
+                        <div class="icon-box bg-soft-primary">
+                            <i class="bi bi-flower3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="py-4">
-            <div class="dropdown">
-                <button class="btn btn-gray-800 d-inline-flex align-items-center me-2 dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    New Task
-                </button>
-                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
-                        </svg>
-                        Add User
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
-                        </svg>
-                        Add Widget
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"></path>
-                            <path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path>
-                        </svg>
-                        Upload Files
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                        </svg>
-                        Preview Security
-                    </a>
-                    <div role="separator" class="dropdown-divider my-1"></div>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <svg class="dropdown-icon text-danger me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path>
-                        </svg>
-                        Upgrade to Pro
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 mb-4">
-                <div class="card bg-yellow-100 border-0 shadow">
-                    <div class="card-header d-sm-flex flex-row align-items-center flex-0">
-                        <div class="d-block mb-3 mb-sm-0">
-                            <div class="fs-5 fw-normal mb-2">Sales Value</div>
-                            <h2 class="fs-3 fw-extrabold">$10,567</h2>
-                            <div class="small mt-2">
-                                <span class="fw-normal me-2">Yesterday</span>
-                                <span class="fas fa-angle-up text-success"></span>
-                                <span class="text-success fw-bold">10.57%</span>
-                            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card stat-elegant shadow-sm border-0 bg-produk">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fw-semibold text-muted mb-1">Produk Olahan</h6>
+                            <h2 id="stat-produk" class="fw-bold mb-0 text-dark">--</h2>
                         </div>
-                        <div class="d-flex ms-auto">
-                            <a href="#" class="btn btn-secondary text-dark btn-sm me-2">Month</a>
-                            <a href="#" class="btn btn-dark btn-sm me-3">Week</a>
-                        </div>
-                    </div>
-                    <div class="card-body p-2">
-                        <div class="ct-chart-sales-value ct-double-octave ct-series-g"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-4 mb-4">
-                <div class="card border-0 shadow">
-                    <div class="card-body">
-                        <div class="row d-block d-xl-flex align-items-center">
-                            <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-                                    </svg>
-                                </div>
-                                <div class="d-sm-none">
-                                    <h2 class="h5">Customers</h2>
-                                    <h3 class="fw-extrabold mb-1">345,678</h3>
-                                </div>
-                            </div>
-                            <div class="col-12 col-xl-7 px-xl-0">
-                                <div class="d-none d-sm-block">
-                                    <h2 class="h6 text-gray-400 mb-0">Customers</h2>
-                                    <h3 class="fw-extrabold mb-2">345k</h3>
-                                </div>
-                                <small class="d-flex align-items-center text-gray-500">
-                                    Feb 1 - Apr 1,
-                                    <svg class="icon icon-xxs text-gray-500 ms-2 me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    USA
-                                </small>
-                                <div class="small d-flex mt-1">
-                                    <div>Since last month <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
-                                        </svg><span class="text-success fw-bolder">22%</span></div>
-                                </div>
-                            </div>
+                        <div class="icon-box bg-soft-success">
+                            <i class="bi bi-basket2"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-xl-4 mb-4">
-                <div class="card border-0 shadow">
-                    <div class="card-body">
-                        <div class="row d-block d-xl-flex align-items-center">
-                            <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                <div class="icon-shape icon-shape-secondary rounded me-4 me-sm-0">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="d-sm-none">
-                                    <h2 class="fw-extrabold h5">Revenue</h2>
-                                    <h3 class="mb-1">$43,594</h3>
-                                </div>
-                            </div>
-                            <div class="col-12 col-xl-7 px-xl-0">
-                                <div class="d-none d-sm-block">
-                                    <h2 class="h6 text-gray-400 mb-0">Revenue</h2>
-                                    <h3 class="fw-extrabold mb-2">$43,594</h3>
-                                </div>
-                                <small class="d-flex align-items-center text-gray-500">
-                                    Feb 1 - Apr 1,
-                                    <svg class="icon icon-xxs text-gray-500 ms-2 me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    GER
-                                </small>
-                                <div class="small d-flex mt-1">
-                                    <div>Since last month <svg class="icon icon-xs text-danger" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                        </svg><span class="text-danger fw-bolder">2%</span></div>
-                                </div>
-                            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="card stat-elegant shadow-sm border-0 bg-event">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fw-semibold text-muted mb-1">Event</h6>
+                            <h2 id="stat-event" class="fw-bold mb-0 text-dark">--</h2>
+                        </div>
+                        <div class="icon-box bg-soft-warning">
+                            <i class="bi bi-calendar-event"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-xl-4 mb-4">
-                <div class="card border-0 shadow">
-                    <div class="card-body">
-                        <div class="row d-block d-xl-flex align-items-center">
-                            <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                <div class="icon-shape icon-shape-tertiary rounded me-4 me-sm-0">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="d-sm-none">
-                                    <h2 class="fw-extrabold h5"> Bounce Rate</h2>
-                                    <h3 class="mb-1">50.88%</h3>
-                                </div>
-                            </div>
-                            <div class="col-12 col-xl-7 px-xl-0">
-                                <div class="d-none d-sm-block">
-                                    <h2 class="h6 text-gray-400 mb-0"> Bounce Rate</h2>
-                                    <h3 class="fw-extrabold mb-2">50.88%</h3>
-                                </div>
-                                <small class="text-gray-500">
-                                    Feb 1 - Apr 1
-                                </small>
-                                <div class="small d-flex mt-1">
-                                    <div>Since last month <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
-                                        </svg><span class="text-success fw-bolder">4%</span></div>
-                                </div>
-                            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="card stat-elegant shadow-sm border-0 bg-tim">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fw-semibold text-muted mb-1">Tim Ina Ndao</h6>
+                            <h2 id="stat-team" class="fw-bold mb-0 text-dark">--</h2>
+                        </div>
+                        <div class="icon-box bg-soft-info">
+                            <i class="bi bi-people"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 col-xl-8">
-                <div class="row">
-                    <div class="col-12 mb-4">
-                        <div class="card border-0 shadow">
-                            <div class="card-header">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h2 class="fs-5 fw-bold mb-0">Page visits</h2>
-                                    </div>
-                                    <div class="col text-end">
-                                        <a href="#" class="btn btn-sm btn-primary">See all</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table align-items-center table-flush">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th class="border-bottom" scope="col">Page name</th>
-                                            <th class="border-bottom" scope="col">Page Views</th>
-                                            <th class="border-bottom" scope="col">Page Value</th>
-                                            <th class="border-bottom" scope="col">Bounce rate</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th class="text-gray-900" scope="row">
-                                                /demo/admin/index.html
-                                            </th>
-                                            <td class="fw-bolder text-gray-500">
-                                                3,225
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                $20
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                <div class="d-flex">
-                                                    <svg class="icon icon-xs text-danger me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    42,55%
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-gray-900" scope="row">
-                                                /demo/admin/forms.html
-                                            </th>
-                                            <td class="fw-bolder text-gray-500">
-                                                2,987
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                0
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                <div class="d-flex">
-                                                    <svg class="icon icon-xs text-success me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    43,24%
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-gray-900" scope="row">
-                                                /demo/admin/util.html
-                                            </th>
-                                            <td class="fw-bolder text-gray-500">
-                                                2,844
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                294
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                <div class="d-flex">
-                                                    <svg class="icon icon-xs text-success me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    32,35%
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-gray-900" scope="row">
-                                                /demo/admin/validation.html
-                                            </th>
-                                            <td class="fw-bolder text-gray-500">
-                                                2,050
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                $147
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                <div class="d-flex">
-                                                    <svg class="icon icon-xs text-danger me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    50,87%
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-gray-900" scope="row">
-                                                /demo/admin/modals.html
-                                            </th>
-                                            <td class="fw-bolder text-gray-500">
-                                                1,483
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                $19
-                                            </td>
-                                            <td class="fw-bolder text-gray-500">
-                                                <div class="d-flex">
-                                                    <svg class="icon icon-xs text-success me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    26,12%
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-xxl-6 mb-4">
-                        <div class="card border-0 shadow">
-                            <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                                <h2 class="fs-5 fw-bold mb-0">Team members</h2>
-                                <a href="#" class="btn btn-sm btn-primary">See all</a>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-group list-group-flush list my--3">
-                                    <li class="list-group-item px-0">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <!-- Avatar -->
-                                                <a href="#" class="avatar">
-                                                    <img class="rounded" alt="Image placeholder" src="../img/team//profile-picture-1.jpg">
-                                                </a>
-                                            </div>
-                                            <div class="col-auto ms--2">
-                                                <h4 class="h6 mb-0">
-                                                    <a href="#">Chris Wood</a>
-                                                </h4>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="bg-success dot rounded-circle me-1"></div>
-                                                    <small>Online</small>
-                                                </div>
-                                            </div>
-                                            <div class="col text-end">
-                                                <a href="#" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                                    <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    Invite
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <!-- Avatar -->
-                                                <a href="#" class="avatar">
-                                                    <img class="rounded" alt="Image placeholder" src="../img/team//profile-picture-2.jpg">
-                                                </a>
-                                            </div>
-                                            <div class="col-auto ms--2">
-                                                <h4 class="h6 mb-0">
-                                                    <a href="#">Jose Leos</a>
-                                                </h4>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="bg-warning dot rounded-circle me-1"></div>
-                                                    <small>In a meeting</small>
-                                                </div>
-                                            </div>
-                                            <div class="col text-end">
-                                                <a href="#" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                                    <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    Message
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <!-- Avatar -->
-                                                <a href="#" class="avatar">
-                                                    <img class="rounded" alt="Image placeholder" src="../img/team//profile-picture-3.jpg">
-                                                </a>
-                                            </div>
-                                            <div class="col-auto ms--2">
-                                                <h4 class="h6 mb-0">
-                                                    <a href="#">Bonnie Green</a>
-                                                </h4>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="bg-danger dot rounded-circle me-1"></div>
-                                                    <small>Offline</small>
-                                                </div>
-                                            </div>
-                                            <div class="col text-end">
-                                                <a href="#" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                                    <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    Message
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <!-- Avatar -->
-                                                <a href="#" class="avatar">
-                                                    <img class="rounded" alt="Image placeholder" src="../img/team//profile-picture-4.jpg">
-                                                </a>
-                                            </div>
-                                            <div class="col-auto ms--2">
-                                                <h4 class="h6 mb-0">
-                                                    <a href="#">Neil Sims</a>
-                                                </h4>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="bg-danger dot rounded-circle me-1"></div>
-                                                    <small>Offline</small>
-                                                </div>
-                                            </div>
-                                            <div class="col text-end">
-                                                <a href="#" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                                    <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    Message
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-xxl-6 mb-4">
-                        <div class="card border-0 shadow">
-                            <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                                <h2 class="fs-5 fw-bold mb-0">Progress track</h2>
-                                <a href="#" class="btn btn-sm btn-primary">See tasks</a>
-                            </div>
-                            <div class="card-body">
-                                <!-- Project 1 -->
-                                <div class="row mb-4">
-                                    <div class="col-auto">
-                                        <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress-wrapper">
-                                            <div class="progress-info">
-                                                <div class="h6 mb-0">Rocket - SaaS Template</div>
-                                                <div class="small fw-bold text-gray-500"><span>75 %</span></div>
-                                            </div>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Project 2 -->
-                                <div class="row align-items-center mb-4">
-                                    <div class="col-auto">
-                                        <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress-wrapper">
-                                            <div class="progress-info">
-                                                <div class="h6 mb-0">Themesberg - Design System</div>
-                                                <div class="small fw-bold text-gray-500"><span>60 %</span></div>
-                                            </div>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Project 3 -->
-                                <div class="row align-items-center mb-4">
-                                    <div class="col-auto">
-                                        <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress-wrapper">
-                                            <div class="progress-info">
-                                                <div class="h6 mb-0">Homepage Design in Figma</div>
-                                                <div class="small fw-bold text-gray-500"><span>45 %</span></div>
-                                            </div>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Project 4 -->
-                                <div class="row align-items-center mb-3">
-                                    <div class="col-auto">
-                                        <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress-wrapper">
-                                            <div class="progress-info">
-                                                <div class="h6 mb-0">Backend for Themesberg v2</div>
-                                                <div class="small fw-bold text-gray-500"><span>34 %</span></div>
-                                            </div>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100" style="width: 34%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+        <div class="card mt-4 border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom-0 d-flex align-items-center">
+                <i class="bi bi-calendar2-week text-muted fs-5 me-2"></i>
+                <h5 class="mb-0 text-dark fw-semibold">Event Mendatang</h5>
             </div>
-            <div class="col-12 col-xl-4">
-                <div class="col-12 px-0 mb-4">
-                    <div class="card border-0 shadow">
-                        <div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
-                            <div class="d-block">
-                                <div class="h6 fw-normal text-gray mb-2">Total orders</div>
-                                <h2 class="h3 fw-extrabold">452</h2>
-                                <div class="small mt-2">
-                                    <span class="fas fa-angle-up text-success"></span>
-                                    <span class="text-success fw-bold">18.2%</span>
-                                </div>
-                            </div>
-                            <div class="d-block ms-auto">
-                                <div class="d-flex align-items-center text-end mb-2">
-                                    <span class="dot rounded-circle bg-gray-800 me-2"></span>
-                                    <span class="fw-normal small">July</span>
-                                </div>
-                                <div class="d-flex align-items-center text-end">
-                                    <span class="dot rounded-circle bg-secondary me-2"></span>
-                                    <span class="fw-normal small">August</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-2">
-                            <div class="ct-chart-ranking ct-golden-section ct-series-a"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 px-0 mb-4">
-                    <div class="card border-0 shadow">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
-                                <div>
-                                    <div class="h6 mb-0 d-flex align-items-center">
-                                        <svg class="icon icon-xs text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        Global Rank
-                                    </div>
-                                </div>
-                                <div>
-                                    <a href="#" class="d-flex align-items-center fw-bold">
-                                        #755
-                                        <svg class="icon icon-xs text-gray-500 ms-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom py-3">
-                                <div>
-                                    <div class="h6 mb-0 d-flex align-items-center">
-                                        <svg class="icon icon-xs text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        Country Rank
-                                    </div>
-                                    <div class="small card-stats">
-                                        United States
-                                        <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a href="#" class="d-flex align-items-center fw-bold">
-                                        #32
-                                        <svg class="icon icon-xs text-gray-500 ms-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between pt-3">
-                                <div>
-                                    <div class="h6 mb-0 d-flex align-items-center">
-                                        <svg class="icon icon-xs text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"></path>
-                                            <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"></path>
-                                        </svg>
-                                        Category Rank
-                                    </div>
-                                    <div class="small card-stats">
-                                        Computers Electronics > Technology
-                                        <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a href="#" class="d-flex align-items-center fw-bold">
-                                        #11
-                                        <svg class="icon icon-xs text-gray-500 ms-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 px-0">
-                    <div class="card border-0 shadow">
-                        <div class="card-body">
-                            <h2 class="fs-5 fw-bold mb-1">Acquisition</h2>
-                            <p>Tells you where your visitors originated from, such as search engines, social networks or website referrals.</p>
-                            <div class="d-block">
-                                <div class="d-flex align-items-center me-5">
-                                    <div class="icon-shape icon-sm icon-shape-danger rounded me-3">
-                                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="d-block">
-                                        <label class="mb-0">Bounce Rate</label>
-                                        <h4 class="mb-0">33.50%</h4>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center pt-3">
-                                    <div class="icon-shape icon-sm icon-shape-purple rounded me-3">
-                                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="d-block">
-                                        <label class="mb-0">Sessions</label>
-                                        <h4 class="mb-0">9,567</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-body">
+                <ul id="list-upcoming" class="list-group list-group-flush elegant-list"></ul>
             </div>
         </div>
-        
-        <!-- Footer Start -->
-         <?php include "footer.php" ?>
-        <!-- Footer End -->
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6>Data Kain Tenun</h6>
+            </div>
+            <div class="card-body">
+                <table id="table-kain" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Jenis</th>
+                            <th>Daerah</th>
+                            <th>Ukuran</th>
+                            <th>Harga</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        <?php include 'footer.php'; ?>
     </main>
 
-    <!-- Core -->
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <div class="modal fade" id="modalDetailKain" tabindex="-1" aria-labelledby="modalDetailKainLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetailKainLabel">Detail Kain Tenun</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 text-center">
+                            <img id="detail-gambar" src="" alt="Gambar Kain" class="img-fluid rounded mb-3 shadow" style="max-height: 300px;">
+                        </div>
+                        <div class="col-md-7">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>ID</th>
+                                    <td id="detail-id"></td>
+                                </tr>
+                                <tr>
+                                    <th>Jenis Kain</th>
+                                    <td id="detail-jenis"></td>
+                                </tr>
+                                <tr>
+                                    <th>Daerah Asal</th>
+                                    <td id="detail-daerah"></td>
+                                </tr>
+                                <tr>
+                                    <th>Ukuran</th>
+                                    <td id="detail-ukuran"></td>
+                                </tr>
+                                <tr>
+                                    <th>Harga</th>
+                                    <td id="detail-harga"></td>
+                                </tr>
+                                <tr>
+                                    <th>Bahan</th>
+                                    <td id="detail-bahan"></td>
+                                </tr>
+                                <tr>
+                                    <th>Jenis Pewarna</th>
+                                    <td id="detail-pewarna"></td>
+                                </tr>
+                                <tr>
+                                    <th>Stok</th>
+                                    <td id="detail-stok"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Vendor JS -->
-    <script src="../js/on-screen.umd.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/sweetalert2.all.min.js"></script>
+    <script>
+        $(function() {
 
-    <!-- Slider -->
-    <script src="../js/nouislider.min.js"></script>
+            $.getJSON('/admin/api/stats', function(res) {
+                if (res.success) {
+                    const s = res.data.stats;
+                    $('#stat-kain').text(s.kain_total);
+                    $('#stat-produk').text(s.produk_total);
+                    $('#stat-event').text(s.event_total);
+                    $('#stat-team').text(s.team_total + ' Orang');
 
-    <!-- Smooth scroll -->
-    <script src="../js/smooth-scroll.polyfills.min.js"></script>
+                    const events = res.data.upcoming_events;
+                    const ul = $('#list-upcoming');
+                    ul.empty();
+                    if (!events.length) {
+                        ul.append('<li class="list-group-item text-muted">Tidak ada event mendatang</li>');
+                    } else {
+                        events.forEach(e => {
+                            ul.append(`
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>${e.nama_event}</span>
+                            <small>${e.tanggal}</small>
+                        </li>
+                    `);
+                        });
+                    }
+                } else {
+                    console.error('Gagal memuat statistik');
+                }
+            });
 
-    <!-- Charts -->
-    <script src="../js/chartist.min.js"></script>
-    <script src="../js/chartist-plugin-tooltip.min.js"></script>
+            var table = $('#table-kain').DataTable({
+                ajax: {
+                    url: '/admin/api/kain/list',
+                    dataSrc: '',
+                },
+                columns: [{
+                        data: null,
+                        render: (data, type, row, meta) => meta.row + 1,
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'jenis_kain'
+                    },
+                    {
+                        data: 'daerah_asal'
+                    },
+                    {
+                        data: 'ukuran',
+                        render: data => data.replace(/(\d+)(?:[.,]0+)?/g, '$1')
+                    },
+                    {
+                        data: 'harga',
+                        render: data => 'Rp ' + Number(data).toLocaleString('id-ID')
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        render: d => `
+                    <button class="btn btn-sm btn-primary btn-detail" data-id="${d.id_kain}">
+                        Detail
+                    </button>
+                `
+                    }
+                ],
+                pageLength: 5,
+                lengthMenu: [
+                    [5, 10, 25, 50],
+                    [5, 10, 25, 50]
+                ],
+                pagingType: 'full_numbers',
+                language: {
+                    lengthMenu: "Menampilkan _MENU_ Data",
+                    info: "Menampilkan _START_ sampai _END_ dari total _TOTAL_ data",
+                    infoEmpty: "Menampilkan 0 sampai 0 dari total 0 data",
+                    infoFiltered: "(disaring dari total _MAX_ data)",
+                    zeroRecords: "Tidak ada data yang cocok ditemukan",
+                    emptyTable: "Tidak ada data tersedia di tabel ini",
+                    paginate: {
+                        first: '<i class="bi bi-chevron-double-left"></i>',
+                        previous: '<i class="bi bi-chevron-left"></i>',
+                        next: '<i class="bi bi-chevron-right"></i>',
+                        last: '<i class="bi bi-chevron-double-right"></i>'
+                    },
+                    search: '',
+                    searchPlaceholder: 'Cari...'
+                },
+                drawCallback: function() {
+                    $('.dataTables_paginate ul.pagination')
+                        .addClass('justify-content-end mb-0')
+                        .find('li')
+                        .addClass('page-item');
+                    $('.dataTables_paginate ul.pagination li a')
+                        .addClass('page-link rounded-2');
 
-    <!-- Datepicker -->
-    <script src="../js/datepicker.min.js"></script>
+                    if (!$('.dataTables_filter .input-group').length) {
+                        let input = $('.dataTables_filter input');
+                        input
+                            .addClass('form-control border-start-0 shadow-none')
+                            .wrap('<div class="input-group"></div>')
+                            .before(`
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+                    `);
+                    }
+                }
+            });
 
-    <!-- Sweet Alerts 2 -->
-    <script src="../js/sweetalert2.all.min.js"></script>
+            $('#table-kain').on('click', '.btn-detail', function() {
+                const data = table.row($(this).parents('tr')).data();
 
-    <!-- Moment JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+                $('#detail-id').text(data.id_kain);
+                $('#detail-jenis').text(data.jenis_kain);
+                $('#detail-daerah').text(data.daerah_asal);
+                $('#detail-ukuran').text(data.ukuran);
+                $('#detail-harga').text('Rp ' + Number(data.harga).toLocaleString('id-ID'));
+                $('#detail-bahan').text(data.bahan || '-');
+                $('#detail-pewarna').text(data.jenis_pewarna || '-');
+                $('#detail-stok').text(data.stok ?? '-');
 
-    <!-- Vanilla JS Datepicker -->
-    <script src="../js/datepicker.min.js"></script>
+                if (data.path_gambar) {
+                    $('#detail-gambar')
+                        .attr('src', '/uploads/motif/' + data.path_gambar)
+                        .show();
+                } else {
+                    $('#detail-gambar').hide();
+                }
 
-    <!-- Notyf -->
-    <script src="../js/notyf.min.js"></script>
+                $('#modalDetailKain').modal('show');
+            });
 
-    <!-- Simplebar -->
-    <script src="../js/simplebar.min.js"></script>
-
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-
-    <!-- Volt JS -->
-    <script src="../js/volt.js"></script>
-
+        });
+    </script>
 
 </body>
 

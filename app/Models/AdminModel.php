@@ -43,4 +43,37 @@ class AdminModel
         $stmt = $this->pdo->prepare("UPDATE admins SET photo = ? WHERE id = ?");
         return $stmt->execute([$filename, $id]);
     }
+
+    public function setResetToken($emailOrUsername, $token, $expiresAt)
+    {
+        $stmt = $this->pdo->prepare("UPDATE admins SET reset_token = ?, reset_expires = ? WHERE email = ? OR username = ?");
+        return $stmt->execute([$token, $expiresAt, $emailOrUsername, $emailOrUsername]);
+    }
+
+    public function getByEmailOrUsername($identifier)
+    {
+        $stmt = $this->pdo->prepare("SELECT id, username, email FROM admins WHERE email = ? OR username = ?");
+        $stmt->execute([$identifier, $identifier]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function findByResetToken($token)
+    {
+        $stmt = $this->pdo->prepare("SELECT id, username, email, reset_expires FROM admins WHERE reset_token = ?");
+        $stmt->execute([$token]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePasswordByToken($token, $newPassword)
+    {
+        $hash = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt = $this->pdo->prepare("UPDATE admins SET password_hash = ?, remember_token = NULL, remember_expiry = NULL, reset_token = NULL, reset_expires = NULL WHERE reset_token = ?");
+        return $stmt->execute([$hash, $token]);
+    }
+
+    public function clearResetToken($id)
+    {
+        $stmt = $this->pdo->prepare("UPDATE admins SET reset_token = NULL, reset_expires = NULL WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
 }

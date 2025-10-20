@@ -1,16 +1,10 @@
 $(document).ready(function () {
   const routeUrl = "/galeri";
 
-  // =========================
-  // VARIABEL PAGINATION
-  // =========================
   let currentPage = 1;
-  const itemsPerPage = 8; // jumlah card per halaman
+  const itemsPerPage = 8;
   let galeriData = [];
 
-  // =========================
-  // FORMAT INPUT HARGA
-  // =========================
   function formatRupiah(angka) {
     angka = angka.replace(/[^,\d]/g, "").toString();
     let split = angka.split(",");
@@ -49,9 +43,6 @@ $(document).ready(function () {
     $("#harga").val(numeric);
   });
 
-  // =========================
-  // LOAD GALERI
-  // =========================
   function loadGaleri(page = 1) {
     $.ajax({
       url: `${routeUrl}/fetch_all`,
@@ -68,9 +59,6 @@ $(document).ready(function () {
     });
   }
 
-  // =========================
-  // FITUR PENCARIAN
-  // =========================
   $("#topbarInputIconLeft").on("keyup", function () {
     const keyword = $(this).val().trim();
 
@@ -96,9 +84,6 @@ $(document).ready(function () {
     });
   });
 
-  // =========================
-  // RENDER HALAMAN
-  // =========================
   function renderGaleriPage(page) {
     const container = $("#galeriContainer");
     container.empty();
@@ -171,9 +156,6 @@ $(document).ready(function () {
     });
   }
 
-  // =========================
-  // RENDER PAGINATION
-  // =========================
   function renderPagination(totalItems, currentPage) {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const pagination = $("#pagination");
@@ -197,7 +179,6 @@ $(document).ready(function () {
       </li>`;
     };
 
-    // Tombol First & Previous
     pagination.append(
       createPageItem(
         `<i class="bi bi-chevron-double-left"></i>`,
@@ -213,7 +194,6 @@ $(document).ready(function () {
       )
     );
 
-    // Hitung range halaman yang tampil (maks 5)
     let startPage = Math.max(1, currentPage - 2);
     let endPage = Math.min(totalPages, currentPage + 2);
 
@@ -223,7 +203,6 @@ $(document).ready(function () {
       );
     }
 
-    // Nomor halaman
     for (let i = startPage; i <= endPage; i++) {
       pagination.append(createPageItem(i, i, false, i === currentPage));
     }
@@ -234,7 +213,6 @@ $(document).ready(function () {
       );
     }
 
-    // Tombol Next & Last
     pagination.append(
       createPageItem(
         `<i class="bi bi-chevron-right"></i>`,
@@ -250,7 +228,6 @@ $(document).ready(function () {
       )
     );
 
-    // Event klik pagination
     pagination.find("a").on("click", function (e) {
       e.preventDefault();
       const targetPage = parseInt($(this).data("page"));
@@ -263,9 +240,6 @@ $(document).ready(function () {
     });
   }
 
-  // =========================
-  // LOAD SELECT2
-  // =========================
   function loadSelectOptions(callback) {
     $.ajax({
       url: `${routeUrl}/get_options`,
@@ -322,9 +296,6 @@ $(document).ready(function () {
       });
   }
 
-  // =========================
-  // PREVIEW GAMBAR
-  // =========================
   function previewImages(input, previewContainer) {
     const files = input.files;
     $(previewContainer).empty();
@@ -352,9 +323,6 @@ $(document).ready(function () {
     previewImages(this, "#previewGambar");
   });
 
-  // =========================
-  // SET PREVIEW SAAT EDIT
-  // =========================
   function setEditPreview(existingImages) {
     const container = $("#previewGambar");
     container.empty();
@@ -374,9 +342,6 @@ $(document).ready(function () {
     }
   }
 
-  // =========================
-  // TAMPILKAN MODAL TAMBAH
-  // =========================
   $("#btnAdd").click(function () {
     $("#galeriForm")[0].reset();
     $("#id_variasi").val("");
@@ -389,9 +354,6 @@ $(document).ready(function () {
     loadSelectOptions();
   });
 
-  // =========================
-  // SUBMIT TAMBAH / EDIT
-  // =========================
   $("#galeriForm").submit(function (e) {
     e.preventDefault();
     const formData = new FormData(this);
@@ -425,9 +387,6 @@ $(document).ready(function () {
     });
   });
 
-  // =========================
-  // EDIT DATA
-  // =========================
   $("#galeriContainer").on("click", ".btnEdit", function () {
     const id = $(this).data("id");
     const galeriModal = new bootstrap.Modal(
@@ -466,9 +425,6 @@ $(document).ready(function () {
     });
   });
 
-  // =========================
-  // HAPUS DATA
-  // =========================
   $("#galeriContainer").on("click", ".btnDelete", function () {
     const id = $(this).data("id");
     Swal.fire({
@@ -504,9 +460,6 @@ $(document).ready(function () {
     });
   });
 
-  // =========================
-  // DETAIL MODAL
-  // =========================
   $("#galeriContainer").on("click", ".detail-image", function (e) {
     e.stopPropagation();
     const nama = $(this).data("nama");
@@ -543,8 +496,5 @@ $(document).ready(function () {
     detailModal.show();
   });
 
-  // =========================
-  // MULAI LOAD
-  // =========================
   loadGaleri();
 });

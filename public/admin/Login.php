@@ -4,6 +4,11 @@ require_once __DIR__ . '/../../app/Auth.php';
 
 Auth::startSession();
 
+if (Auth::check() || Auth::autoLogin($pdo)) {
+	header('Location: /index.php');
+	exit;
+}
+
 $response = ['success' => false, 'messages' => []];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
@@ -13,11 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
 	} else {
 		$ue = trim($_POST['username'] ?? '');
 		$pw = $_POST['password'] ?? '';
-
+		$remember = isset($_POST['remember_me']);
 		if (empty($ue) || empty($pw)) {
 			$response['messages'][] = "Username/email dan password wajib diisi.";
 		} else {
-			if (Auth::attempt($pdo, $ue, $pw)) {
+			if (Auth::attempt($pdo, $ue, $pw, $remember)) {
 				$response['success'] = true;
 				$response['messages'][] = "Login berhasil! Mengalihkan...";
 			} else {
@@ -42,13 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
 	exit;
 }
 
-// Generate CSRF token
 if (empty($_SESSION['csrf_token'])) {
 	$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 $csrf = $_SESSION['csrf_token'];
 ?>
-
 
 <!doctype html>
 <html lang="id">
@@ -63,6 +66,7 @@ $csrf = $_SESSION['csrf_token'];
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/style2.css">
 	<link rel="stylesheet" href="../css/notyf.min.css">
+	<link rel="stylesheet" href="../css/sweetalert2.min.css">
 </head>
 
 <body class="img js-fullheight" style="background-image: url(../img/assets/bg-login.JPG);">
@@ -88,12 +92,12 @@ $csrf = $_SESSION['csrf_token'];
 							<div class="form-group d-flex">
 								<div class="w-50">
 									<label class="checkbox-wrap checkbox-primary">Ingat Saya
-										<input type="checkbox" checked>
+										<input type="checkbox" class="form-check-input" id="remember_me" name="remember_me" checked>
 										<span class="checkmark"></span>
 									</label>
 								</div>
 								<div class="w-50 text-right">
-									<a href="#" style="color: #fff">Lupa Password?</a>
+									<a href="#" id="forgot" style="color: #fff">Lupa Password?</a>
 								</div>
 							</div>
 						</form>
@@ -112,6 +116,7 @@ $csrf = $_SESSION['csrf_token'];
 	<script src="../js/popper.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/main2.js"></script>
+	<script src="/../js/sweetalert2.all.min.js"></script>
 	<script src="../js/notyf.min.js"></script>
 	<script>
 		const notyf = new Notyf({
@@ -124,7 +129,7 @@ $csrf = $_SESSION['csrf_token'];
 
 		$(document).ready(function() {
 			$('#loginForm').on('submit', function(e) {
-				e.preventDefault(); // cegah reload
+				e.preventDefault();
 				const formData = $(this).serialize() + '&ajax=1';
 
 				$.post('', formData, function(response) {
@@ -140,6 +145,42 @@ $csrf = $_SESSION['csrf_token'];
 						}
 					} catch (err) {
 						notyf.error('Terjadi kesalahan sistem.');
+					}
+				});
+			});
+
+			$('#forgot').on('click', function(e) {
+				e.preventDefault();
+				Swal.fire({
+					title: 'Reset Password',
+					input: 'email',
+					inputLabel: 'Masukkan email yang terdaftar',
+					inputPlaceholder: 'email@domain.com',
+					showCancelButton: true,
+					confirmButtonText: 'Kirim',
+					preConfirm: (email) => {
+						if (!email) {
+							Swal.showValidationMessage('Email wajib diisi');
+						}
+						return email;
+					}
+				}).then((result) => {
+					if (result.isConfirmed) {
+						var email = result.value;
+						$.post('/request/reset', {
+							email: email
+						}, function(resRaw) {
+							try {
+								var res = typeof resRaw === 'string' ? JSON.parse(resRaw) : resRaw;
+								if (res.success) {
+									Swal.fire('Sukses', res.message, 'success');
+								} else {
+									Swal.fire('Gagal', res.message, 'error');
+								}
+							} catch (e) {
+								Swal.fire('Error', 'Terjadi kesalahan server', 'error');
+							}
+						});
 					}
 				});
 			});

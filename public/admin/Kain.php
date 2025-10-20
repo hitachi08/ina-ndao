@@ -83,7 +83,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         <?php include "footer.php" ?>
     </main>
 
-    <!-- Modal Detail Motif -->
     <div class="modal fade" id="detailMotifModal" tabindex="-1">
         <div class="modal-dialog modal-md modal-dialog-scrollable">
             <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
@@ -108,7 +107,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         </div>
     </div>
 
-    <!-- Modal Tambah/Edit Galeri -->
     <div class="modal fade" id="galeriModal" tabindex="-1">
         <div class="modal-dialog modal-md modal-dialog-scrollable">
             <form id="galeriForm" enctype="multipart/form-data" class="modal-content rounded-2 shadow-lg">

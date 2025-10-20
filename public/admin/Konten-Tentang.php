@@ -100,7 +100,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                 });
             }
 
-            // Tambah baris baru
             $('#addRow').click(function() {
                 rowsData.push({
                     gambar: '',
@@ -111,14 +110,12 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                 renderRows();
             });
 
-            // Hapus baris
             $(document).on('click', '.removeRow', function() {
                 const index = $(this).data('index');
                 rowsData.splice(index, 1);
                 renderRows();
             });
 
-            // Preview gambar saat upload
             $(document).on('change', '.gambar', function() {
                 const input = this;
                 const file = input.files[0];
@@ -137,7 +134,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                 }
             });
 
-            // Load data dari server
             function loadKonten() {
                 $.getJSON('/konten/get?halaman=tentang_ina_ndao', function(res) {
                     if (res && res.konten) {
@@ -159,7 +155,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
             loadKonten();
 
-            // Simpan data (termasuk upload file)
             $('#formTentang').on('submit', function(e) {
                 e.preventDefault();
 
@@ -172,7 +167,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     const oldImage = $(this).find('.preview-img').attr('src') || '';
 
                     kontenArray.push({
-                        gambar: oldImage, // akan diganti di server jika file baru diupload
+                        gambar: oldImage,
                         judul: $(this).find('.judul').val(),
                         paragraf1: $(this).find('.paragraf1').val(),
                         paragraf2: $(this).find('.paragraf2').val()

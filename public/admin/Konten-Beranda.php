@@ -36,7 +36,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         <div class="container mt-4">
             <h3 class="mb-3">Kelola Konten Beranda</h3>
 
-            <!-- TAB MENU -->
             <ul class="nav nav-tabs" id="kontenTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="sejarah-tab" data-bs-toggle="tab" href="#tabSejarah" role="tab">Sejarah Ina Ndao</a>
@@ -50,7 +49,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             </ul>
 
             <div class="tab-content mt-3">
-                <!-- TAB SEJARAH -->
                 <div class="tab-pane fade show active" id="tabSejarah" role="tabpanel">
                     <form id="formSejarah">
                         <input type="hidden" name="halaman" value="beranda_sejarah">
@@ -59,13 +57,11 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     </form>
                 </div>
 
-                <!-- TAB TEAM -->
                 <div class="tab-pane fade" id="tabTeam" role="tabpanel">
                     <form id="formTeam">
                         <input type="hidden" name="halaman" value="beranda_team">
 
                         <div id="teamWrapper">
-                            <!-- Template anggota team -->
                             <div class="team-member row g-2 mb-3 align-items-end">
                                 <div class="col-md-4">
                                     <label>Nama</label>
@@ -93,14 +89,11 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     </form>
                 </div>
 
-                <!-- TAB PROMOSI -->
                 <div class="tab-pane fade" id="tabPromosi" role="tabpanel">
                     <form id="formPromosi">
                         <input type="hidden" name="halaman" value="beranda_promosi">
 
-                        <div id="promosiWrapper">
-                            <!-- Field promosi akan di-generate JS -->
-                        </div>
+                        <div id="promosiWrapper"></div>
 
                         <div class="d-flex align-items-center justify-content-between pt-4">
                             <button type="button" class="btn btn-outline-primary btn-sm" id="addPromosi">
@@ -122,9 +115,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <script src="../js/tinymce/tinymce.min.js"></script>
 
     <script>
-        // =====================================================
-        // === TINY MCE: HANYA UNTUK TAB SEJARAH ============
-        // =====================================================
         tinymce.init({
             selector: '#editorSejarah',
             license_key: 'gpl',
@@ -152,9 +142,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             }
         });
 
-        // =====================================================
-        // === LOAD KONTEN SEJARAH ============================
-        // =====================================================
         function loadKontenSejarah() {
             $.getJSON('/konten/get?halaman=beranda_sejarah', function(res) {
                 if (res && res.konten) {
@@ -163,9 +150,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             });
         }
 
-        // =====================================================
-        // === LOAD KONTEN TEAM (JSON) ========================
-        // =====================================================
         function loadKontenTeam() {
             $.getJSON('/konten/get?halaman=beranda_team', function(res) {
                 if (res && res.konten) {
@@ -196,18 +180,15 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                             $('#teamWrapper').append(row);
                         });
                     } catch (e) {
-                        console.error('❌ Error parsing JSON team:', e);
+                        console.error('Error parsing JSON team:', e);
                         $('#teamWrapper').html('<div class="text-danger">Data tidak valid, silakan simpan ulang.</div>');
                     }
                 }
             }).fail(function(xhr) {
-                console.error('❌ Gagal memuat data team:', xhr.responseText);
+                console.error('Gagal memuat data team:', xhr.responseText);
             });
         }
 
-        // =====================================================
-        // === TAMBAH / HAPUS ANGGOTA TEAM ===================
-        // =====================================================
         $('#addMember').on('click', function() {
             const template = `
             <div class="team-member row g-2 align-items-start mb-4">
@@ -233,9 +214,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             $(this).closest('.team-member').remove();
         });
 
-        // =====================================================
-        // === HANDLE PILIH FOTO DARI FILE LOCAL ============
-        // =====================================================
         $(document).on('change', '.fotoFile', function() {
             const fileInput = this;
             const hiddenInput = $(this).siblings('.foto');
@@ -250,7 +228,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
                 reader.readAsDataURL(fileInput.files[0]);
 
-                // Upload ke server
                 const formData = new FormData();
                 formData.append('file', fileInput.files[0]);
 
@@ -269,16 +246,13 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                         }
                     },
                     error: function(xhr) {
-                        console.error('❌ Upload error:', xhr.responseText);
+                        console.error('Upload error:', xhr.responseText);
                         Swal.fire('Error', 'Gagal upload foto', 'error');
                     }
                 });
             }
         });
 
-        // =====================================================
-        // === LOAD KONTEN PROMOSI DINAMIS ===================
-        // =====================================================
         function loadKontenPromosi() {
             $.getJSON('/konten/get?halaman=beranda_promosi', function(res) {
                 if (res && res.konten) {
@@ -293,7 +267,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                             });
                         }
                     } catch (e) {
-                        console.error('❌ Invalid JSON format in promosi:', e);
+                        console.error('Invalid JSON format in promosi:', e);
                         Swal.fire({
                             icon: 'warning',
                             title: 'Format data tidak valid',
@@ -302,13 +276,10 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     }
                 }
             }).fail(function(xhr) {
-                console.error('❌ Gagal memuat data promosi:', xhr.responseText);
+                console.error('Gagal memuat data promosi:', xhr.responseText);
             });
         }
 
-        // =====================================================
-        // === TAMBAH FIELD PROMOSI DINAMIS ===================
-        // =====================================================
         function addPromosiField(judul = '', teks = '') {
             const wrapper = $('#promosiWrapper');
             const item = $(`
@@ -325,23 +296,14 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             wrapper.append(item);
         }
 
-        // =====================================================
-        // === TAMBAH PROMOSI BARU ============================
-        // =====================================================
         $('#addPromosi').on('click', function() {
             addPromosiField();
         });
 
-        // =====================================================
-        // === HAPUS PROMOSI ==================================
-        // =====================================================
         $(document).on('click', '.remove-promosi', function() {
             $(this).closest('.promosi-item').remove();
         });
 
-        // =====================================================
-        // === SIMPAN PROMOSI =================================
-        // =====================================================
         $('#formPromosi').on('submit', function(e) {
             e.preventDefault();
             const promosi = [];
@@ -376,15 +338,12 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     });
                 },
                 error: function(xhr) {
-                    console.error('❌ Gagal menyimpan promosi:', xhr.responseText);
+                    console.error('Gagal menyimpan promosi:', xhr.responseText);
                     Swal.fire('Error', 'Gagal menyimpan promosi', 'error');
                 }
             });
         });
 
-        // =====================================================
-        // === SIMPAN KONTEN TEAM ============================
-        // =====================================================
         $('#formTeam').on('submit', function(e) {
             e.preventDefault();
             const team = [];
@@ -417,15 +376,12 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     });
                 },
                 error: function(xhr) {
-                    console.error('❌ Gagal menyimpan konten team:', xhr.responseText);
+                    console.error('Gagal menyimpan konten team:', xhr.responseText);
                     Swal.fire('Error', 'Gagal menyimpan team', 'error');
                 }
             });
         });
 
-        // =====================================================
-        // === SIMPAN KONTEN SEJARAH =========================
-        // =====================================================
         $('#formSejarah').on('submit', function(e) {
             e.preventDefault();
             const konten = tinymce.get('editorSejarah').getContent();
@@ -446,15 +402,12 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                     });
                 },
                 error: function(xhr) {
-                    console.error('❌ Gagal menyimpan konten sejarah:', xhr.responseText);
+                    console.error('Gagal menyimpan konten sejarah:', xhr.responseText);
                     Swal.fire('Error', 'Gagal menyimpan konten sejarah', 'error');
                 }
             });
         });
 
-        // =====================================================
-        // === INIT LOAD ======================================
-        // =====================================================
         $(document).ready(function() {
             loadKontenTeam();
             loadKontenPromosi();

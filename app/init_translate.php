@@ -1,7 +1,6 @@
 <?php
-// Hanya translate HTML
 if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === false) {
-    return; // skip request AJAX / JSON
+    return;
 }
 
 require_once __DIR__ . '/GoogleTranslateWrapper.php';

@@ -1,4 +1,4 @@
-php_value auto_prepend_file "D:/xampp/htdocs/ina-ndao/app/init_translate.php"
+php_value auto_prepend_file "C:/xampp/htdocs/Ina Ndao/app/init_translate.php"
 
 <IfModule mod_rewrite.c>
     RewriteEngine On

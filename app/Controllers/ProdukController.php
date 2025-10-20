@@ -68,7 +68,6 @@ class ProdukController
                     return ['status' => 'error', 'message' => 'Action tidak valid'];
             }
         } catch (Exception $e) {
-            // 🧠 tampilkan error di console browser
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
     }

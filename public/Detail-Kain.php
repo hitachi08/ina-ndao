@@ -1,10 +1,10 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../app/Models/GaleriModel.php';
-require_once __DIR__ . '/../app/Controllers/GaleriController.php';
+require_once __DIR__ . '/../app/Models/KainModel.php';
+require_once __DIR__ . '/../app/Controllers/KainController.php';
 require_once __DIR__ . '/../app/TranslatePage.php';
 
-$controller = new GaleriController($pdo);
+$controller = new KainController($pdo);
 $slug = $_GET['slug'] ?? null;
 
 if (!$slug) {
@@ -69,14 +69,12 @@ $translator->start();
     <?php include "navbar.php" ?>
     <!-- Navbar End -->
 
-    <!-- Navbar End -->
-
     <!-- Hero Start -->
     <div class="container-fluid pb-5 bg-primary hero-header">
         <div class="container py-5">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-1 mb-0 animated slideInLeft" style="font-size: 4rem;">Kain Ina Ndao</h1>
+                    <h1 class="display-1 mb-0 animated slideInLeft" style="font-size: 4rem;">Kain <span>Ina Ndao</span></h1>
                 </div>
                 <div class="col-lg-6 animated slideInRight">
                     <nav aria-label="breadcrumb">

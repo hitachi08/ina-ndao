@@ -13,14 +13,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 $langFlags = [
   'id' => 'id',
-  'en' => 'gb',
-  'fr' => 'fr'
+  'en' => 'gb'
 ];
 
 $langFullLabels = [
   'id' => 'Indonesia',
-  'en' => 'English',
-  'fr' => 'Français'
+  'en' => 'English'
 ];
 
 $currentFlagCode = $langFlags[$currentLang] ?? 'id';

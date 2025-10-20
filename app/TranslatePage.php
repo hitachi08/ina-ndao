@@ -10,7 +10,6 @@ class TranslatePage
     private $supportedLangs;
     private $skipTranslate = false;
 
-    // Brand / kata yang tidak ingin diterjemahkan
     private $noTranslate = ['Ina Ndao', 'Tenun Ikat', 'Sarung'];
 
     public function __construct($targetLang = null)
@@ -70,17 +69,12 @@ class TranslatePage
         return trim($text);
     }
 
-    /**
-     * Translate teks biasa
-     * $extraNoTranslate: array kata tambahan (misal nama penenun)
-     */
     public function translateText($text, $forceUpdate = false, $extraNoTranslate = [])
     {
         if ($this->skipTranslate || trim($text) === '') return $text;
 
         $placeholders = [];
 
-        // Gabungkan brand + extraNoTranslate
         $allNoTranslate = array_merge($this->noTranslate, $extraNoTranslate);
 
         foreach ($allNoTranslate as $i => $word) {
@@ -91,7 +85,6 @@ class TranslatePage
             }
         }
 
-        // Cek cache
         $cached = !$forceUpdate ? $this->getFromCache($text) : null;
         if ($cached !== null) {
             foreach ($placeholders as $ph => $word) {
@@ -100,47 +93,36 @@ class TranslatePage
             return $cached;
         }
 
-        // Translate
         try {
             $translated = $this->translator->translate($text, $this->targetLang);
         } catch (\Exception $e) {
             $translated = $text;
         }
 
-        // Restore placeholders
         foreach ($placeholders as $ph => $word) {
             $translated = str_ireplace($ph, $word, $translated);
         }
 
         $translated = $this->fixSpacing($translated);
 
-        // Simpan cache
         $this->saveToCache($text, $translated);
 
         return $translated;
     }
 
-    /**
-     * Translate konten HTML
-     * $extraNoTranslate: array kata tambahan
-     */
     public function translateHtml($html, $extraNoTranslate = [])
     {
         if ($this->skipTranslate) return $html;
 
-        // 1) Buat placeholder untuk semua kata yang tidak boleh diterjemahkan
         $allNoTranslate = array_unique(array_merge($this->noTranslate, $extraNoTranslate));
         $placeholderMap = [];
         foreach ($allNoTranslate as $word) {
             if (trim($word) === '') continue;
-            // gunakan hash agar placeholder aman (tidak bentrok)
             $ph = "__NO_TRANSLATE_" . md5($word) . "__";
             $placeholderMap[$ph] = $word;
-            // replace seluruh kemunculan kata (case-insensitive, unicode)
             $html = preg_replace('/' . preg_quote($word, '/') . '/iu', $ph, $html);
         }
 
-        // 2) Tangkap output PHP (jika ada)
         $phpPlaceholders = [];
         $html = preg_replace_callback('/<\?= .*? \?>/s', function ($m) use (&$phpPlaceholders) {
             $ph = "__PHP_PLACEHOLDER_" . count($phpPlaceholders) . "__";
@@ -148,7 +130,6 @@ class TranslatePage
             return $ph;
         }, $html);
 
-        // 3) Translate semua teks di dalam tag (tetap pakai mekanisme sebelumnya)
         $html = preg_replace_callback(
             '/>([^><]+)</s',
             function ($matches) use ($extraNoTranslate) {
@@ -160,17 +141,14 @@ class TranslatePage
             $html
         );
 
-        // 4) Restore PHP placeholders
         foreach ($phpPlaceholders as $ph => $original) {
             $html = str_replace($ph, $original, $html);
         }
 
-        // 5) Restore placeholder nama/brand ke bentuk aslinya (agar tidak pernah diterjemahkan)
         foreach ($placeholderMap as $ph => $orig) {
             $html = str_replace($ph, $orig, $html);
         }
 
-        // Spasi sebelum/after <span>
         $html = preg_replace('/([a-zA-Z0-9])(<span)/', '$1 $2', $html);
         $html = preg_replace('/(<\/span>)([a-zA-Z0-9])/', '$1 $2', $html);
         $html = preg_replace('/(?<!\s)><span/', '> <span', $html);

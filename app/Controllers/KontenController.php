@@ -52,7 +52,6 @@ class KontenController
             ]);
         }
 
-        // Tambahkan ini:
         if ($action === 'upload_team_foto') {
             $this->uploadTeamFoto();
         }

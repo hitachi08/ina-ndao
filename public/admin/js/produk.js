@@ -4,9 +4,6 @@ $(document).ready(function () {
   let currentPage = 1;
   const itemsPerPage = 8;
 
-  // =========================
-  // FORMAT RUPIAH
-  // =========================
   function formatRupiah(angka) {
     angka = angka.replace(/[^,\d]/g, "").toString();
     let split = angka.split(",");
@@ -36,9 +33,7 @@ $(document).ready(function () {
     $(this).val(formatRupiah(value));
   });
 
-  // =========================
-  let allSubKategori = []; // variabel global untuk simpan semua sub_kategori
-
+  let allSubKategori = [];
   function loadOptions() {
     $.ajax({
       url: "/produk/get_options",
@@ -49,9 +44,7 @@ $(document).ready(function () {
 
         if (res.status === "success") {
           const { kategori, sub_kategori, kain } = res.data;
-          allSubKategori = sub_kategori; // simpan untuk filter nanti
-
-          // ====== ISI DROPDOWN KATEGORI ======
+          allSubKategori = sub_kategori;
           $("#id_kategori").html('<option value="">Pilih Kategori</option>');
           kategori.forEach((k) => {
             $("#id_kategori").append(
@@ -59,12 +52,10 @@ $(document).ready(function () {
             );
           });
 
-          // ====== ISI DROPDOWN SUB KATEGORI (awal: kosong) ======
           $("#id_sub_kategori").html(
             '<option value="">Pilih Sub Kategori</option>'
           );
 
-          // ====== ISI DROPDOWN KAIN ======
           $("#id_kain").html('<option value="">Pilih Kain</option>');
           kain.forEach((k) => {
             $("#id_kain").append(
@@ -72,8 +63,6 @@ $(document).ready(function () {
             );
           });
 
-          // ====== SELECT2 SETUP ======
-          // Kategori & Sub Kategori → bisa ketik baru
           $("#id_kategori, #id_sub_kategori").select2({
             dropdownParent: $("#produkModal"),
             tags: true,
@@ -86,7 +75,6 @@ $(document).ready(function () {
             },
           });
 
-          // Kain → hanya bisa pilih
           $("#id_kain").select2({
             dropdownParent: $("#produkModal"),
             tags: false,
@@ -104,13 +92,9 @@ $(document).ready(function () {
     });
   }
 
-  // =========================
-  // FILTER SUB KATEGORI
-  // =========================
   $("#id_kategori").on("change", function () {
     const kategoriId = $(this).val();
 
-    // Jika user mengetik kategori baru (bukan angka ID)
     if (!kategoriId || isNaN(kategoriId)) {
       $("#id_sub_kategori").html(
         '<option value="">Pilih atau ketik sub kategori...</option>'
@@ -118,12 +102,10 @@ $(document).ready(function () {
       return;
     }
 
-    // Filter sub kategori berdasarkan id_kategori
     const filtered = allSubKategori.filter(
       (sk) => sk.id_kategori == kategoriId
     );
 
-    // Isi ulang dropdown sub kategori
     $("#id_sub_kategori")
       .empty()
       .append('<option value="">Pilih Sub Kategori</option>');
@@ -133,7 +115,6 @@ $(document).ready(function () {
       );
     });
 
-    // Re-init select2 agar tampilan update
     $("#id_sub_kategori").select2({
       dropdownParent: $("#produkModal"),
       tags: true,
@@ -146,18 +127,16 @@ $(document).ready(function () {
       },
     });
   });
-  // FITUR PENCARIAN PRODUK
-  // =========================
   $("#topbarInputIconLeft").on("keyup", function () {
     const keyword = $(this).val().trim();
 
     if (keyword.length === 0) {
-      loadProduk(); // fungsi untuk reload semua produk
+      loadProduk();
       return;
     }
 
     $.ajax({
-      url: `${routeUrl}/search`, // pastikan routeUrl diarahkan ke controller produk
+      url: `${routeUrl}/search`,
       type: "GET",
       data: { q: keyword },
       dataType: "json",
@@ -165,7 +144,7 @@ $(document).ready(function () {
         if (res.status === "success") {
           produkData = res.data || [];
           currentPage = 1;
-          renderProdukPage(currentPage); // tampilkan hasil
+          renderProdukPage(currentPage);
           renderPagination(produkData.length, currentPage);
         } else {
           console.warn("Pencarian gagal:", res.message);
@@ -177,9 +156,6 @@ $(document).ready(function () {
     });
   });
 
-  // =========================
-  // PREVIEW GAMBAR
-  // =========================
   $("#gambar").on("change", function () {
     const container = $("#previewGambar");
     container.empty();
@@ -199,9 +175,6 @@ $(document).ready(function () {
     }
   });
 
-  // =========================
-  // LOAD PRODUK
-  // =========================
   function loadProduk(page = 1) {
     $.getJSON("/produk/index", function (res) {
       produkData = res.data || [];
@@ -210,9 +183,6 @@ $(document).ready(function () {
     });
   }
 
-  // =========================
-  // RENDER PRODUK
-  // =========================
   function renderProdukPage(page) {
     const container = $("#produkContainer");
     container.empty();
@@ -266,9 +236,6 @@ $(document).ready(function () {
     });
   }
 
-  // =========================
-  // PAGINATION
-  // =========================
   function renderPagination(totalItems, currentPage) {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const pagination = $("#pagination");
@@ -307,9 +274,6 @@ $(document).ready(function () {
     });
   }
 
-  // =========================
-  // TAMBAH PRODUK
-  // =========================
   $("#btnAdd").click(function () {
     $("#produkForm")[0].reset();
     $("#previewGambar").empty();
@@ -319,9 +283,6 @@ $(document).ready(function () {
     modal.show();
   });
 
-  // =========================
-  // SUBMIT FORM (ADD/UPDATE)
-  // =========================
   $("#produkForm").on("submit", function (e) {
     e.preventDefault();
     const raw = $("#harga").val();
@@ -358,9 +319,6 @@ $(document).ready(function () {
     });
   });
 
-  // =========================
-  // EDIT PRODUK
-  // =========================
   $("#produkContainer").on("click", ".btnEdit", function () {
     const id = $(this).data("id");
     $("#produkForm")[0].reset();
@@ -400,9 +358,6 @@ $(document).ready(function () {
     });
   });
 
-  // =========================
-  // DELETE PRODUK
-  // =========================
   $("#produkContainer").on("click", ".btnDelete", function () {
     const id = $(this).data("id");
     Swal.fire({
@@ -432,9 +387,6 @@ $(document).ready(function () {
     });
   });
 
-  // =========================
-  // DETAIL PRODUK
-  // =========================
   $("#produkContainer").on("click", ".detail-image", function () {
     const nama = $(this).data("nama");
     const deskripsi = $(this).data("deskripsi");

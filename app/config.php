@@ -1,6 +1,6 @@
 <?php
 return [
-    'default_language' => 'id',       // default bahasa situs
-    'supported_languages' => ['en', 'fr', 'id'],  // bahasa yang ingin didukung
+    'default_language' => 'id',
+    'supported_languages' => ['en', 'id'],
     'cache_dir' => __DIR__ . '/../cache'
 ];

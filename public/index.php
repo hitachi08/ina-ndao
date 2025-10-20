@@ -63,8 +63,8 @@ if ($uri === '/admin/produk') {
 // Route: /galeri/{action}
 if (preg_match('#^/galeri/([a-z_]+)$#', $uri, $matches)) {
     $action = $matches[1];
-    require_once __DIR__ . '/../app/Controllers/GaleriController.php';
-    $controller = new GaleriController($pdo);
+    require_once __DIR__ . '/../app/Controllers/KainController.php';
+    $controller = new KainController($pdo);
 
     $response = $controller->handle($action); // controller return array
     header('Content-Type: application/json');
@@ -110,7 +110,7 @@ if (preg_match('#^/admin/pengaturan/([a-z_]+)$#', $uri, $matches)) {
     exit;
 }
 
-// tambahkan setelah route lain, mis. sebelum default 404
+// Notifikasi
 if (preg_match('#^/notifications/([a-z_]+)$#', $uri, $matches)) {
     $action = $matches[1];
     require_once __DIR__ . '/../app/Controllers/NotificationController.php';
@@ -119,6 +119,57 @@ if (preg_match('#^/notifications/([a-z_]+)$#', $uri, $matches)) {
     exit;
 }
 
+// Route untuk request password reset via POST (AJAX)
+if ($uri === '/request/reset') {
+    require_once __DIR__ . '/../app/Controllers/AdminController.php';
+    $controller = new AdminController($pdo);
+    $controller->handle('request_password_reset');
+    exit;
+}
+
+// Route untuk membuka form reset (GET /reset-password/{token})
+if (preg_match('#^/reset-password/([\w\-]+)$#', $uri, $matches)) {
+    $token = $matches[1];
+    $_GET['token'] = $token;
+    require_once __DIR__ . '/../app/Controllers/AdminController.php';
+    $controller = new AdminController($pdo);
+    $controller->handle('reset_password_form');
+    exit;
+}
+
+// Route POST perform reset
+if ($uri === '/request/change') {
+    require_once __DIR__ . '/../app/Controllers/AdminController.php';
+    $controller = new AdminController($pdo);
+    $controller->handle('perform_password_reset');
+    exit;
+}
+
+// Dashboard admin
+if ($uri === '/admin' || $uri === '/admin/dashboard') {
+    include __DIR__ . '/admin/Dashboard.php';
+    exit;
+}
+
+// API: ambil statistik untuk dashboard
+if ($uri === '/admin/api/stats') {
+    require_once __DIR__ . '/../app/Controllers/DashboardController.php';
+    $controller = new DashboardController($pdo);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($controller->stats());
+    exit;
+}
+
+// ----------------- API KAIN (untuk DataTables Dashboard) ------------------ //
+if ($uri === '/admin/api/kain/list') {
+    require_once __DIR__ . '/../app/Controllers/DashboardController.php';
+    $controller = new DashboardController($pdo);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($controller->kainList()['data']);
+    exit;
+}
+
 // ----------------- DEFAULT 404 ------------------ //
 http_response_code(404);
-echo "Page not found";
+include __DIR__ . '/404.php';
+exit;

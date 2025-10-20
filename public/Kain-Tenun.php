@@ -234,11 +234,11 @@ $translator->start();
 
                 // tampilkan spinner tengah
                 container.html(`
-            <div class="loading-overlay d-flex flex-column align-items-center justify-content-center w-100" style="min-height:300px;">
-                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
-                <p class="mt-3 text-muted">Menyaring data...</p>
-            </div>
-        `);
+                    <div class="loading-overlay d-flex flex-column align-items-center justify-content-center w-100" style="min-height:300px;">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                        <p class="mt-3 text-muted">Menyaring data...</p>
+                    </div>
+                `);
 
                 $.ajax({
                     url: '/galeri/filter',
@@ -317,7 +317,7 @@ $translator->start();
 
                     const card = `
                                 <div class="col-6 col-md-4 col-lg-3 mb-4">
-                                    <a href="/kain/detail/${item.slug}" class="text-decoration-none">
+                                    <a href="/kain/detail/${item.slug}?lang=<?= $currentLang ?>" class="text-decoration-none">
                                         <div class="box-card shadow h-100 cursor-pointer">
                                             <figure>
                                                 <img src="${imgSrc}" alt="${motif}">

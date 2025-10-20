@@ -15,6 +15,8 @@ if (!$slug) {
     echo "Slug tidak ditemukan";
     exit;
 }
+$translator = new TranslatePage($_GET['lang'] ?? null);
+$translator->start();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -80,41 +82,7 @@ if (!$slug) {
 <body>
 
     <!-- Navbar Start -->
-    <div class="container-fluid sticky-top">
-        <div class="container">
-            <nav
-                class="navbar navbar-expand-lg navbar-light border-bottom border-2 border-white">
-                <a href="Beranda.php" class="navbar-brand">
-                    <h1>Ina Ndao</h1>
-                </a>
-                <button
-                    type="button"
-                    class="navbar-toggler ms-auto me-0"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto">
-                        <a href="/Beranda.php" class="nav-item nav-link">Beranda</a>
-                        <a href="/Tentang-Ina-Ndao.php" class="nav-item nav-link active">Tentang Kami</a>
-
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" id="produkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Produk Ina Ndao
-                            </a>
-                            <ul class="dropdown-menu border-0 shadow" aria-labelledby="produkDropdown">
-                                <li><a class="dropdown-item" href="/Kain-Tenun.php">Kain Tenun</a></li>
-                                <li><a class="dropdown-item" href="/Produk-Olahan.php">Produk Olahan Kain</a></li>
-                            </ul>
-                        </div>
-
-                        <a href="/Galeri-Ina-Ndao.php" class="nav-item nav-link">Galeri</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
+    <?php include "navbar.php" ?>
     <!-- Navbar End -->
 
     <!-- Navbar End -->
@@ -124,7 +92,7 @@ if (!$slug) {
         <div class="container py-5">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-1 mb-0 animated slideInLeft" style="font-size: 4rem;">Event Ina Ndao</h1>
+                    <h1 class="display-1 mb-0 animated slideInLeft" style="font-size: 4rem;">Event <span>Ina Ndao</span></h1>
                 </div>
                 <div class="col-lg-6 animated slideInRight">
                     <nav aria-label="breadcrumb">
@@ -155,6 +123,9 @@ if (!$slug) {
     <!-- Back to Top -->
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
+    <?php
+    $translator->translateOutput();
+    ?>
     <script src="/js/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/lib/wow/wow.min.js"></script>

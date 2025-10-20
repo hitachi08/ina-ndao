@@ -199,7 +199,7 @@ $(document).ready(function () {
 
       const card = `
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <a href="/produk/detail/${item.slug}" class="text-decoration-none">
+                    <a href="/produk/detail/${item.slug}?lang=${currentLang}" class="text-decoration-none">
                         <div class="box-card shadow h-100 cursor-pointer">
                             <figure>
                                 <img src="${imgSrc}" alt="${namaProduk}">
