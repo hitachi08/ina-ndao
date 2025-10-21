@@ -179,21 +179,30 @@ $translator->start();
                     </div>
 
                     <!-- Tombol WhatsApp -->
-                    <div class="cta-wrap text-start mb-3">
-                        <a class="btn btn-order btn-sm" target="_blank"
-                            href="https://wa.me/6287848738402?text=Halo%20Ina%20Ndao%2C%20saya%20tertarik%20dengan%20produk%20<?= urlencode($produk['nama_produk']) ?>">
-                            <i class="bi bi-whatsapp me-2"></i> Pesan via WhatsApp
-                        </a>
-                    </div>
+                     <div class="d-flex gap-2">
+                         <div class="cta-wrap text-start mb-3">
+                             <a class="btn btn-order btn-sm" target="_blank"
+                                 href="https://wa.me/6287848738402?text=Halo%20Ina%20Ndao%2C%20saya%20tertarik%20dengan%20produk%20<?= urlencode($produk['nama_produk']) ?>">
+                                 <i class="bi bi-whatsapp me-2"></i> Pesan via WhatsApp
+                             </a>
+                         </div>
+                         <div class="shopeeBtn" id="shopeeBtn" title="Buka di Shopee">
+                             <img src="/img/shopee.png"
+                                 alt="Shopee">
+                         </div>
+                     </div>
 
                     <hr>
 
                     <!-- Deskripsi Produk -->
                     <div class="kain-detail mb-3">
-                        <p class="mb-2 makna">
+                        <div class="mb-2">
                             <strong>Makna Motif:</strong><br>
-                            <?= nl2br(htmlspecialchars($produk['makna'] ?? 'Belum ada makna yang tercatat.')) ?>
-                        </p>
+                            <p class="makna mb-0" id="maknaText">
+                                <?= nl2br(htmlspecialchars($produk['makna'] ?? 'Belum ada makna yang tercatat.')) ?>
+                            </p>
+                            <span class="toggle-makna" id="toggleMakna">Lihat Selengkapnya</span>
+                        </div>
 
                         <table class="table table-sm table-borderless mt-2">
                             <tr>

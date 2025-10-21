@@ -121,6 +121,10 @@ document.getElementById("twShare").addEventListener("click", function () {
   window.open("https://twitter.com/intent/tweet?url=" + url, "_blank");
 });
 
+document.getElementById("shopeeBtn").addEventListener("click", function () {
+  window.open("https://shopee.co.id/inandao", "_blank");
+});
+
 // keyboard shortcut (S)
 document.addEventListener("keydown", function (e) {
   if (e.key === "s" || e.key === "S") {
@@ -128,3 +132,17 @@ document.addEventListener("keydown", function (e) {
     notyf.success("Tautan disalin ke clipboard!");
   }
 });
+
+// Toggle Makna Motif
+const maknaText = document.getElementById("maknaText");
+const toggleMakna = document.getElementById("toggleMakna");
+
+if (maknaText && toggleMakna) {
+  let expanded = false;
+
+  toggleMakna.addEventListener("click", function () {
+    expanded = !expanded;
+    maknaText.classList.toggle("expanded", expanded);
+    toggleMakna.textContent = expanded ? "Lebih Pendek" : "Lihat Selengkapnya";
+  });
+}

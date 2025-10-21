@@ -170,16 +170,24 @@ $(document).ready(function () {
           <div class="col-6 col-sm-4 col-md-3">
             <div class="card h-100 shadow-sm border-0">
               <img src="${imgSrc}" class="card-img-top" alt="${
-                    kain.nama_motif
-                  }" style="height: 250px; object-fit: cover;">
+          kain.nama_motif
+        }" style="height: 250px; object-fit: cover;">
               <div class="card-body p-2">
                 <h6 class="card-title mb-1 text-primary" style="font-size: 0.8rem;">
                   ${kain.nama_jenis} ${kain.nama_daerah}
                 </h6>
-                <p class="card-text small mb-1">Motif ${
-                  kain.nama_motif
-                }</p>
-                <p class="card-text small text-muted">${kain.makna ?? ""}</p>
+                <p class="card-text small mb-1">Motif ${kain.nama_motif}</p>
+                <p class="card-text small text-muted makna-click" 
+   data-makna="${kain.makna ? kain.makna.replace(/"/g, "&quot;") : ""}"
+   style="cursor: pointer; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+   title="Klik untuk melihat selengkapnya">
+   ${
+     kain.makna
+       ? kain.makna.substring(0, 60) + (kain.makna.length > 60 ? "..." : "")
+       : ""
+   }
+</p>
+
               </div>
             </div>
           </div>
@@ -195,5 +203,12 @@ $(document).ready(function () {
 
     html += "</div>";
     $("#galeri-list").html(html);
+
+    $("#galeri-list").on("click", ".makna-click", function () {
+      const fullMakna = $(this).data("makna");
+      $("#maknaModalText").text(fullMakna || "Belum ada makna yang tercatat.");
+      const modal = new bootstrap.Modal(document.getElementById("maknaModal"));
+      modal.show();
+    });
   }
 });

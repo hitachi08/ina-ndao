@@ -886,9 +886,35 @@
     rgba(212, 160, 23, 0.04)
   );
   border-left: 4px solid var(--terra);
-  padding: 14px;
+  padding: 14px 14px 4px 14px;
   border-radius: 10px;
   color: #333;
+  position: relative;
+  overflow: hidden;
+  display: -webkit-box;
+  line-height: 1.5em;
+  -webkit-line-clamp: 5; /* tampil 5 baris dulu */
+  -webkit-box-orient: vertical;
+  transition: all 0.3s ease;
+}
+
+.makna.expanded {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.toggle-makna {
+  display: inline-block;
+  color: #15345b;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 5px;
+  user-select: none;
+  font-size: 0.9rem;
+}
+
+.toggle-makna:hover {
+  text-decoration: underline;
 }
 
 .specs td {
@@ -919,6 +945,17 @@
   color: #fff;
   border: none;
   box-shadow: 0 10px 30px rgba(158, 42, 43, 0.14);
+}
+
+.shopeeBtn img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.shopeeBtn img:hover {
+  transform: translateY(-3px);
 }
 
 .btn-order:hover {

@@ -175,21 +175,31 @@ $translator->start();
                     </div>
 
                     <!-- Tombol WhatsApp -->
-                    <div class="cta-wrap text-start mb-3">
-                        <a class="btn btn-order btn-sm" target="_blank"
-                            href="https://wa.me/6287848738402?text=Halo%20Ina%20Ndao%2C%20saya%20tertarik%20dengan%20<?= urlencode($kain['nama_jenis'] . ' ' . $kain['nama_daerah']) ?>">
-                            <i class="bi bi-whatsapp me-2"></i> Pesan via WhatsApp
-                        </a>
+                    <div class="d-flex gap-2">
+                        <div class="cta-wrap text-start mb-3">
+                            <a class="btn btn-order btn-sm" target="_blank"
+                                href="https://wa.me/6287848738402?text=Halo%20Ina%20Ndao%2C%20saya%20tertarik%20dengan%20<?= urlencode($kain['nama_jenis'] . ' ' . $kain['nama_daerah']) ?>">
+                                <i class="bi bi-whatsapp me-2"></i> Pesan via WhatsApp
+                            </a>
+                        </div>
+                        <div class="shopeeBtn" id="shopeeBtn" title="Buka di Shopee">
+                            <img src="/img/shopee.png"
+                                alt="Shopee">
+                        </div>
                     </div>
 
                     <hr>
 
                     <!-- Deskripsi Kain -->
                     <div class="kain-detail mb-3">
-                        <p class="mb-2 makna">
+                        <div class="mb-2">
                             <strong>Makna Motif:</strong><br>
-                            <?= nl2br(htmlspecialchars($kain['makna'] ?? 'Belum ada makna yang tercatat.')) ?>
-                        </p>
+                            <p class="makna mb-0" id="maknaText">
+                                <?= nl2br(htmlspecialchars($kain['makna'] ?? 'Belum ada makna yang tercatat.')) ?>
+                            </p>
+                            <span class="toggle-makna" id="toggleMakna">Lihat Selengkapnya</span>
+                        </div>
+
 
                         <table class="table table-sm table-borderless mt-2">
                             <tr>
@@ -389,6 +399,11 @@ $translator->start();
             const url = encodeURIComponent(window.location.href);
             window.open('https://twitter.com/intent/tweet?url=' + url, '_blank');
         });
+        // Shopee link handler
+        document.getElementById('shopeeBtn').addEventListener('click', function() {
+            window.open('https://shopee.co.id/inandao', '_blank');
+        });
+
 
         // keyboard shortcut (S)
         document.addEventListener('keydown', function(e) {
@@ -397,6 +412,20 @@ $translator->start();
                 notyf.success('Tautan disalin ke clipboard!');
             }
         });
+
+        // Toggle Makna Motif
+        const maknaText = document.getElementById('maknaText');
+        const toggleMakna = document.getElementById('toggleMakna');
+
+        if (maknaText && toggleMakna) {
+            let expanded = false;
+
+            toggleMakna.addEventListener('click', function() {
+                expanded = !expanded;
+                maknaText.classList.toggle('expanded', expanded);
+                toggleMakna.textContent = expanded ? 'Lebih Pendek' : 'Lihat Selengkapnya';
+            });
+        }
     </script>
 
 </body>

@@ -167,6 +167,22 @@ $translator->start();
         </div>
     </div>
 
+    <!-- Modal Makna Motif -->
+    <div class="modal fade" id="maknaModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content rounded-3 shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title">Makna Motif</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="maknaModalText" class="mb-0"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Footer Start -->
     <?php include "footer.php" ?>
     <!-- Footer End -->
