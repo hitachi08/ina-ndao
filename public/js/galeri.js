@@ -1,132 +1,199 @@
 $(document).ready(function () {
-  const routeUrl = "/galeri";
+  const daerahMap = {
+    alor: ["Alor", "Kalabahi", "Teluk Mutiara", "Kabola", "Pureman"],
+    belu: ["Belu", "Atambua", "Lamaknen", "Raihat", "Kakuluk Mesak"],
+    ende: ["Ende", "Ndona", "Wolowaru", "Detusoko", "Maurole"],
+    "flores timur": ["Flores Timur", "Larantuka", "Titehena", "Ile Mandiri"],
+    "kota kupang": ["Kota Kupang", "Oebobo", "Kelapa Lima", "Alak", "Maulafa"],
+    kupang: ["Kupang", "Oelamasi", "Takari", "Amarasi", "Fatuleu"],
+    lembata: ["Lembata", "Lewoleba", "Ile Ape", "Nubatukan"],
+    manggarai: ["Manggarai", "Ruteng", "Reok", "Cibal"],
+    "manggarai barat": ["Manggarai Barat", "Labuan Bajo", "Komodo", "Boleng"],
+    "manggarai timur": ["Manggarai Timur", "Borong", "Elar", "Kota Komba"],
+    nagekeo: ["Nagekeo", "Mbay", "Boawae", "Aesesa"],
+    ngada: ["Ngada", "Bajawa", "Aimere", "Golewa"],
+    rote: ["Rote", "Ba’a", "Rote Barat", "Rote Timur", "Lobalain"],
+    sabu: ["Sabu", "Raijua", "Seb’a", "Hawu Mehara"],
+    sikka: ["Sikka", "Maumere", "Nita", "Koting"],
+    sumba: [
+      "Sumba",
+      "Sumba Barat",
+      "Sumba Barat Daya",
+      "Sumba Tengah",
+      "Sumba Timur",
+      "Waingapu",
+      "Tambolaka",
+      "Waitabula",
+      "Waibakul",
+    ],
+    tts: [
+      "TTS",
+      "Soe",
+      "Amanatun",
+      "Amanuban",
+      "Nunkolo",
+      "Kie",
+      "Boking",
+      "Noebana",
+    ],
+    ttu: ["TTU", "Kefamenanu", "Biboki", "Insana", "Noemuti"],
+  };
 
-  loadGaleri();
+  loadAllKain();
 
-  // Ketika daerah di peta diklik
- $("#peta-ntt path").on("click", function () {
-   const daerahData = $(this).attr("data-daerah");
+  let selectedDaerah = null;
 
-   if (daerahData) {
-     // Pisahkan nama-nama daerah jadi array
-     const daerahArray = daerahData.split(",").map((d) => d.trim());
+  const defaultColor = "#9a6423";
+  const hoverColor = "#6d4819";
+  const selectedColor = "#264653";
 
-     // Kirim ke server untuk filter
-     loadGaleriByDaerah(daerahArray);
-   }
- });
+  const $paths = $("#peta-ntt svg path");
 
-  // Fungsi ambil galeri berdasarkan daerah
-  function loadGaleriByDaerah(daerahArray) {
-    $.ajax({
-      url: `${routeUrl}/fetch_by_daerah`,
-      type: "POST",
-      data: JSON.stringify({ daerah: daerahArray }),
-      contentType: "application/json",
-      dataType: "json",
-      success: function (res) {
-        if (res.status === "success") {
-          renderGaleri(res.data);
-        } else {
-          $("#galeri-list").html(
-            "<p class='text-center'>Tidak ada kain dari daerah tersebut.</p>"
-          );
+  // set default color pakai attr
+  $paths.attr("fill", defaultColor).css("cursor", "pointer");
+
+  $paths.hover(
+    function () {
+      if ($(this).attr("data-active") !== "true") {
+        $(this).attr("fill", hoverColor);
+      }
+    },
+    function () {
+      if ($(this).attr("data-active") !== "true") {
+        $(this).attr("fill", defaultColor);
+      }
+    }
+  );
+
+  $paths.on("click", function () {
+    const daerah =
+      $(this).attr("data-name") || $(this).attr("id") || "Tanpa ID";
+
+    if ($(this).attr("data-active") === "true") {
+      $paths.attr("data-active", "false").attr("fill", defaultColor);
+      selectedDaerah = null;
+      loadAllKain();
+      return;
+    }
+
+    $paths.attr("data-active", "false").attr("fill", defaultColor);
+    $(this).attr("data-active", "true").attr("fill", selectedColor);
+    selectedDaerah = daerah;
+    loadKainByDaerah(daerah);
+  });
+
+  function loadAllKain() {
+    $("#galeri-list").html(`
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 mb-0">Memuat semua kain...</p>
+      </div>
+    `);
+
+    fetch("/galeri/fetch_all")
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.status !== "success") {
+          $("#galeri-list").html(`
+            <div class="text-center text-danger py-5">
+              Gagal memuat data kain.
+            </div>
+          `);
+          return;
         }
-      },
-      error: function () {
-        $("#galeri-list").html(
-          "<p class='text-center'>Terjadi kesalahan koneksi.</p>"
-        );
-      },
-    });
+
+        renderKainList(response.data, "Semua Daerah");
+      })
+      .catch((err) => {
+        $("#galeri-list").html(`
+          <div class="text-center text-danger py-5">
+            Terjadi kesalahan: ${err.message}
+          </div>
+        `);
+      });
   }
 
-  // Fungsi untuk ambil semua data kain
-  function loadGaleri() {
-    $.ajax({
-      url: `${routeUrl}/fetch_all`,
-      type: "GET",
-      dataType: "json",
-      success: function (res) {
-        if (res.status === "success") {
-          renderGaleri(res.data);
-        } else {
-          $("#galeri-list").html(
-            '<p class="text-center">Gagal memuat data kain.</p>'
-          );
+  function loadKainByDaerah(daerah) {
+    const key = daerah.toLowerCase();
+    const subDaerahList = daerahMap[key] || [daerah];
+
+    $("#galeri-list").html(`
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 mb-0">Memuat kain dari <strong>${daerah}</strong>...</p>
+      </div>
+    `);
+
+    fetch("/galeri/fetch_by_daerah", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ daerah_list: subDaerahList }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.status !== "success") {
+          $("#galeri-list").html(`
+            <div class="text-center text-danger py-5">
+              Gagal memuat data kain dari daerah ini.
+            </div>
+          `);
+          return;
         }
-      },
-      error: function () {
-        $("#galeri-list").html(
-          '<p class="text-center">Terjadi kesalahan koneksi.</p>'
-        );
-      },
-    });
+
+        renderKainList(response.data, daerah);
+      })
+      .catch((err) => {
+        $("#galeri-list").html(`
+          <div class="text-center text-danger py-5">
+            Terjadi kesalahan: ${err.message}
+          </div>
+        `);
+      });
   }
 
-  // Fungsi untuk menampilkan data kain ke HTML
-  function renderGaleri(data) {
-    let html = "";
+  function renderKainList(kainList, daerah) {
+    let html = `
+      <h4 class="text-center mb-4">
+        Kain Tenun dari <span class="text-primary">${daerah}</span>
+      </h4>
+      <div class="row g-4">
+    `;
 
-    data.forEach((item) => {
-      // Ambil gambar pertama dari tabel kain_gambar
-      const gambar =
-        item.motif_gambar && item.motif_gambar.length > 0
-          ? item.motif_gambar[0].path_gambar
-          : "img/default.png";
+    if (kainList.length > 0) {
+      kainList.forEach((kain) => {
+        const imgSrc =
+          kain.motif_gambar && kain.motif_gambar.length > 0
+            ? kain.motif_gambar[0].path_gambar.replace(/\\/g, "")
+            : "/img/no-image.png";
 
-      // Potong makna menjadi 25 kata dulu
-      const maknaPendek = item.makna
-        ? item.makna.split(" ").slice(0, 25).join(" ") + "..."
-        : "Belum ada makna motif.";
-
+        html += `
+          <div class="col-6 col-sm-4 col-md-3">
+            <div class="card h-100 shadow-sm border-0">
+              <img src="${imgSrc}" class="card-img-top" alt="${
+                    kain.nama_motif
+                  }" style="height: 250px; object-fit: cover;">
+              <div class="card-body p-2">
+                <h6 class="card-title mb-1 text-primary" style="font-size: 0.8rem;">
+                  ${kain.nama_jenis} ${kain.nama_daerah}
+                </h6>
+                <p class="card-text small mb-1">Motif ${
+                  kain.nama_motif
+                }</p>
+                <p class="card-text small text-muted">${kain.makna ?? ""}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    } else {
       html += `
-            <div class="col-lg-6 col-md-6 wow fadeIn team-item" data-wow-delay="0.1s">
-                <div class="card shadow h-100 border-0 rounded-3 overflow-hidden">
-                    <div class="row g-0 align-items-center">
-                        <div class="col-5">
-                            <div class="position-relative overflow-hidden shadow">
-                                <img class="img-fluid w-100" src="${gambar}" alt="${
-        item.nama_motif
-      }">
-                                <div class="team-overlay">
-                                    <small class="position-absolute top-0 start-0 m-2">${
-                                      item.nama_jenis
-                                    }</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-7 p-3">
-                            <h5 class="mb-2">${item.nama_motif}</h5>
-                            <p class="small mb-3 text-justify short-text">${maknaPendek}</p>
-                            <p class="small mb-3 text-justify full-text d-none">${
-                              item.makna || ""
-                            }</p>
-                            <a href="#!" class="btn btn-sm btn-primary toggle-text">Lebih Lanjut</a>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-    });
+        <div class="col-12 text-center">
+          <p class="text-muted">Belum ada kain dari daerah ini.</p>
+        </div>
+      `;
+    }
 
+    html += "</div>";
     $("#galeri-list").html(html);
   }
-
-  // Tombol "Lebih Lanjut" untuk toggle teks
-  $(document).on("click", ".toggle-text", function (e) {
-    e.preventDefault();
-    const card = $(this).closest(".card");
-    const shortText = card.find(".short-text");
-    const fullText = card.find(".full-text");
-
-    if (fullText.hasClass("d-none")) {
-      shortText.addClass("d-none");
-      fullText.removeClass("d-none");
-      $(this).text("Tampilkan Lebih Sedikit");
-    } else {
-      shortText.removeClass("d-none");
-      fullText.addClass("d-none");
-      $(this).text("Lebih Lanjut");
-    }
-  });
 });

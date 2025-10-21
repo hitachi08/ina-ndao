@@ -35,7 +35,13 @@ class KainController
                 return $this->detail();
             case 'fetch_by_daerah':
                 $input = json_decode(file_get_contents("php://input"), true);
-                return $this->fetchByDaerah($input['daerah']);
+                $daerahArray = $input['daerah'] ?? $input['daerah_list'] ?? null;
+
+                if (!$daerahArray) {
+                    return ['status' => 'error', 'message' => 'Parameter daerah tidak ditemukan'];
+                }
+
+                return $this->fetchByDaerah($daerahArray);
             default:
                 return ['status' => 'error', 'message' => 'Action not found'];
         }
@@ -43,10 +49,15 @@ class KainController
 
     private function fetchByDaerah($daerahArray)
     {
+        error_log("DEBUG daerahArray: " . print_r($daerahArray, true));
+
         $data = $this->model->getKainByDaerah($daerahArray);
+        error_log("DEBUG hasilQuery: " . count($data) . " baris ditemukan.");
+
         foreach ($data as &$item) {
             $item['motif_gambar'] = $this->model->getGambarByKain($item['id_kain']);
         }
+
         return ['status' => 'success', 'data' => $data];
     }
 

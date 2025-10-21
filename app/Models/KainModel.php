@@ -229,22 +229,28 @@ class KainModel
         return $stmt->execute([$id]);
     }
 
-    // ============================
-    // CRUD GAMBAR TAMBAHAN
-    // ============================
     public function getKainByDaerah($daerahArray)
     {
-        $inQuery = implode(',', array_fill(0, count($daerahArray), '?'));
-        $stmt = $this->pdo->prepare("
+        if (!is_array($daerahArray)) $daerahArray = [$daerahArray];
+        if (empty($daerahArray)) return [];
+
+        $conditions = [];
+        foreach ($daerahArray as $d) {
+            $conditions[] = "d.nama_daerah LIKE ?";
+        }
+
+        $sql = "
         SELECT k.*, j.nama_jenis, d.nama_daerah, m.nama_motif, mm.makna
         FROM kain k
         JOIN jenis_kain j ON k.id_jenis_kain = j.id_jenis_kain
         JOIN daerah d ON k.id_daerah = d.id_daerah
         JOIN motif m ON k.id_motif = m.id_motif
         LEFT JOIN makna_motif mm ON k.id_motif = mm.id_motif AND k.id_daerah = mm.id_daerah
-        WHERE d.nama_daerah IN ($inQuery)
-    ");
-        $stmt->execute($daerahArray);
+        WHERE (" . implode(" OR ", $conditions) . ")
+    ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(array_map(fn($d) => "%$d%", $daerahArray));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
