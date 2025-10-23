@@ -128,6 +128,14 @@ $(document).ready(function () {
     var formData = new FormData(this);
     var action = $("#id_event").val() === "" ? "create" : "update";
 
+    var $btn = $(this).find('button[type="submit"]');
+    var originalText = $btn.html();
+
+    $btn.prop("disabled", true);
+    $btn.html(
+      '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Menyimpan...'
+    );
+
     $.ajax({
       url: routeUrl + "/" + action,
       type: "POST",
@@ -147,6 +155,10 @@ $(document).ready(function () {
       },
       error: function () {
         Swal.fire("Error", "Gagal menyimpan data.", "error");
+      },
+      complete: function () {
+        $btn.prop("disabled", false);
+        $btn.html(originalText);
       },
     });
   });
