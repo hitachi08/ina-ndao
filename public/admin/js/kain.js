@@ -158,86 +158,17 @@ $(document).ready(function () {
 
   function renderPagination(totalItems, currentPage) {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const pagination = $("#pagination");
-    pagination.empty();
 
-    if (totalPages <= 1) return;
-
-    const createPageItem = (
-      labelHtml,
-      page,
-      disabled = false,
-      active = false
-    ) => {
-      return `
-      <li class="page-item ${disabled ? "disabled" : ""} ${
-        active ? "active" : ""
-      }">
-        <a class="page-link rounded-2" href="#" data-page="${page}">
-          ${labelHtml}
-        </a>
-      </li>`;
-    };
-
-    pagination.append(
-      createPageItem(
-        `<i class="bi bi-chevron-double-left"></i>`,
-        1,
-        currentPage === 1
-      )
-    );
-    pagination.append(
-      createPageItem(
-        `<i class="bi bi-chevron-left"></i>`,
-        currentPage - 1,
-        currentPage === 1
-      )
-    );
-
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
-
-    if (startPage > 1) {
-      pagination.append(
-        `<li class="page-item disabled"><span class="page-link">...</span></li>`
-      );
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pagination.append(createPageItem(i, i, false, i === currentPage));
-    }
-
-    if (endPage < totalPages) {
-      pagination.append(
-        `<li class="page-item disabled"><span class="page-link">...</span></li>`
-      );
-    }
-
-    pagination.append(
-      createPageItem(
-        `<i class="bi bi-chevron-right"></i>`,
-        currentPage + 1,
-        currentPage === totalPages
-      )
-    );
-    pagination.append(
-      createPageItem(
-        `<i class="bi bi-chevron-double-right"></i>`,
-        totalPages,
-        currentPage === totalPages
-      )
-    );
-
-    pagination.find("a").on("click", function (e) {
-      e.preventDefault();
-      const targetPage = parseInt($(this).data("page"));
-      if (targetPage && targetPage !== currentPage) {
-        currentPage = targetPage;
+    renderPaginationGlobal(
+      "#pagination",
+      currentPage,
+      totalPages,
+      function (clickedPage) {
+        currentPage = clickedPage;
         renderGaleriPage(currentPage);
         renderPagination(totalItems, currentPage);
-        window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    });
+    );
   }
 
   function loadSelectOptions(callback) {

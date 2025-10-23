@@ -4,9 +4,18 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Auth.php';
 Auth::startSession();
 
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit;
+}
+
+$lang = $_SESSION['lang'] ?? 'id';
+$translator = new TranslatePage($lang);
+$translator->start();
+
 $current_page = basename($_SERVER['PHP_SELF']);
 
-// Ambil slug dari URL
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $segments = explode('/', trim($uri, '/'));
 $slug = end($segments);
@@ -15,8 +24,6 @@ if (!$slug) {
     echo "Slug tidak ditemukan";
     exit;
 }
-$translator = new TranslatePage($_GET['lang'] ?? null);
-$translator->start();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -124,8 +131,11 @@ $translator->start();
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php
-    $translator->translateOutput();
+    if (isset($translator)) {
+        $translator->translateOutput();
+    }
     ?>
+    
     <script src="/js/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/lib/wow/wow.min.js"></script>

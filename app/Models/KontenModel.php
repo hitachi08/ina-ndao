@@ -17,7 +17,14 @@ class KontenModel
 
     public function updateKonten($halaman, $konten)
     {
-        $stmt = $this->db->prepare("UPDATE konten_halaman SET konten = ?, updated_at = NOW() WHERE halaman = ?");
-        return $stmt->execute([$konten, $halaman]);
+        // JSON encode lebih ringkas
+        $kontenJson = json_encode($konten, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        $stmt = $this->db->prepare("
+            UPDATE konten_halaman 
+            SET konten = ?, updated_at = NOW() 
+            WHERE halaman = ?
+        ");
+        return $stmt->execute([$kontenJson, $halaman]);
     }
 }

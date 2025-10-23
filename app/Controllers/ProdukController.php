@@ -71,5 +71,4 @@ class ProdukController
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
     }
-
 }

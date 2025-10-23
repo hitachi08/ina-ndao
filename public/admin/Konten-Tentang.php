@@ -39,11 +39,11 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             <form id="formTentang" enctype="multipart/form-data">
                 <div id="rowsContainer"></div>
 
-                <button type="button" id="addRow" class="btn btn-primary mt-3">
-                    <i class="bi bi-plus-circle"></i> Tambah Baris
-                </button>
+                <div class="d-flex justify-content-between">
+                    <button type="button" id="addRow" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Tambah Input
+                    </button>
 
-                <div class="mt-4">
                     <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                 </div>
             </form>
@@ -60,47 +60,54 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
         $(function() {
             let rowsData = [];
 
+            function saveInputData() {
+                $('#rowsContainer .card').each(function(i) {
+                    const oldImage = $(this).find('.preview-img').attr('src') || '';
+                    rowsData[i].judul = $(this).find('.judul').val();
+                    rowsData[i].paragraf1 = $(this).find('.paragraf1').val();
+                    rowsData[i].paragraf2 = $(this).find('.paragraf2').val();
+                    rowsData[i].gambar = oldImage;
+                });
+            }
+
             function renderRows() {
                 $('#rowsContainer').empty();
                 rowsData.forEach((row, i) => {
                     $('#rowsContainer').append(`
-                        <div class="card mb-4">
-                          <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                              <h5>Bagian ${i + 1}</h5>
-                              <button type="button" class="btn btn-sm btn-danger removeRow" data-index="${i}">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5>Bagian ${i + 1}</h5>
+                            <button type="button" class="btn btn-sm btn-danger removeRow" data-index="${i}">
                                 <i class="bi bi-trash"></i>
-                              </button>
-                            </div>
-                            <hr>
-
-                            <div class="form-group mb-3">
-                              <label>Gambar</label>
-                              <input type="file" class="form-control gambar" accept="image/*">
-                              ${row.gambar ? `<img src="${row.gambar}" class="preview-img" alt="Preview">` : ''}
-                            </div>
-
-                            <div class="form-group mb-3">
-                              <label>Judul (h2)</label>
-                              <input type="text" class="form-control judul" value="${row.judul ?? ''}" placeholder="Masukkan judul">
-                            </div>
-
-                            <div class="form-group mb-3">
-                              <label>Paragraf 1</label>
-                              <textarea class="form-control paragraf1" rows="3" placeholder="Masukkan paragraf pertama">${row.paragraf1 ?? ''}</textarea>
-                            </div>
-
-                            <div class="form-group mb-3">
-                              <label>Paragraf 2</label>
-                              <textarea class="form-control paragraf2" rows="3" placeholder="Masukkan paragraf kedua">${row.paragraf2 ?? ''}</textarea>
-                            </div>
-                          </div>
+                            </button>
                         </div>
-                    `);
+                        <hr>
+                        <div class="form-group mb-3">
+                            <label>Gambar</label>
+                            <input type="file" class="form-control gambar" accept="image/*">
+                            ${row.gambar ? `<img src="${row.gambar}" class="preview-img" alt="Preview">` : ''}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Judul (h2)</label>
+                            <input type="text" class="form-control judul" value="${row.judul ?? ''}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Paragraf 1</label>
+                            <textarea class="form-control paragraf1" rows="3">${row.paragraf1 ?? ''}</textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Paragraf 2</label>
+                            <textarea class="form-control paragraf2" rows="3">${row.paragraf2 ?? ''}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `);
                 });
             }
 
             $('#addRow').click(function() {
+                saveInputData();
                 rowsData.push({
                     gambar: '',
                     judul: '',
@@ -111,6 +118,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
             });
 
             $(document).on('click', '.removeRow', function() {
+                saveInputData();
                 const index = $(this).data('index');
                 rowsData.splice(index, 1);
                 renderRows();
@@ -120,7 +128,6 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                 const input = this;
                 const file = input.files[0];
                 const preview = $(this).siblings('.preview-img');
-
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
@@ -157,29 +164,19 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
 
             $('#formTentang').on('submit', function(e) {
                 e.preventDefault();
+                saveInputData();
 
                 const formData = new FormData();
-                const kontenArray = [];
-
                 $('#rowsContainer .card').each(function(i) {
                     const fileInput = $(this).find('.gambar')[0];
                     const file = fileInput.files[0];
                     const oldImage = $(this).find('.preview-img').attr('src') || '';
-
-                    kontenArray.push({
-                        gambar: oldImage,
-                        judul: $(this).find('.judul').val(),
-                        paragraf1: $(this).find('.paragraf1').val(),
-                        paragraf2: $(this).find('.paragraf2').val()
-                    });
-
-                    if (file) {
-                        formData.append(`gambar_${i}`, file);
-                    }
+                    rowsData[i].gambar = oldImage;
+                    if (file) formData.append(`gambar_${i}`, file);
                 });
 
                 formData.append('halaman', 'tentang_ina_ndao');
-                formData.append('konten', JSON.stringify(kontenArray));
+                formData.append('konten', JSON.stringify(rowsData));
 
                 $.ajax({
                     url: '/konten/update',

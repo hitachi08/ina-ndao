@@ -226,6 +226,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/sweetalert2.all.min.js"></script>
+    <script src="../js/pagination.js"></script>
     <script src="js/event.js"></script>
 
 </body>

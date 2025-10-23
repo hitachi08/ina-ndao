@@ -3,6 +3,18 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Models/ProdukModel.php';
 require_once __DIR__ . '/../app/Controllers/ProdukController.php';
 require_once __DIR__ . '/../app/TranslatePage.php';
+require_once __DIR__ . '/../app/Auth.php';
+Auth::startSession();
+
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit;
+}
+
+$lang = $_SESSION['lang'] ?? 'id';
+$translator = new TranslatePage($lang);
+$translator->start();
 
 $controller = new ProdukController($pdo);
 $slug = $_GET['slug'] ?? null;
@@ -179,18 +191,18 @@ $translator->start();
                     </div>
 
                     <!-- Tombol WhatsApp -->
-                     <div class="d-flex gap-2">
-                         <div class="cta-wrap text-start mb-3">
-                             <a class="btn btn-order btn-sm" target="_blank"
-                                 href="https://wa.me/6287848738402?text=Halo%20Ina%20Ndao%2C%20saya%20tertarik%20dengan%20produk%20<?= urlencode($produk['nama_produk']) ?>">
-                                 <i class="bi bi-whatsapp me-2"></i> Pesan via WhatsApp
-                             </a>
-                         </div>
-                         <div class="shopeeBtn" id="shopeeBtn" title="Buka di Shopee">
-                             <img src="/img/shopee.png"
-                                 alt="Shopee">
-                         </div>
-                     </div>
+                    <div class="d-flex gap-2">
+                        <div class="cta-wrap text-start mb-3">
+                            <a class="btn btn-order btn-sm" target="_blank"
+                                href="https://wa.me/6287848738402?text=Halo%20Ina%20Ndao%2C%20saya%20tertarik%20dengan%20produk%20<?= urlencode($produk['nama_produk']) ?>">
+                                <i class="bi bi-whatsapp me-2"></i> Pesan via WhatsApp
+                            </a>
+                        </div>
+                        <div class="shopeeBtn" id="shopeeBtn" title="Buka di Shopee">
+                            <img src="/img/shopee.png"
+                                alt="Shopee">
+                        </div>
+                    </div>
 
                     <hr>
 
@@ -277,8 +289,11 @@ $translator->start();
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php
-    $translator->translateOutput();
+    if (isset($translator)) {
+        $translator->translateOutput();
+    }
     ?>
+    
     <script src="/js/jquery.min.js"></script>
     <script src="/lib/wow/wow.min.js"></script>
     <script src="/lib/easing/easing.min.js"></script>

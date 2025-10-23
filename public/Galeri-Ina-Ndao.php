@@ -1,7 +1,16 @@
 <?php
 require_once __DIR__ . '/../app/TranslatePage.php';
+require_once __DIR__ . '/../app/Auth.php';
+Auth::startSession();
 
-$translator = new TranslatePage($_GET['lang'] ?? null);
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit;
+}
+
+$lang = $_SESSION['lang'] ?? 'id';
+$translator = new TranslatePage($lang);
 $translator->start();
 ?>
 <!DOCTYPE html>
@@ -22,6 +31,8 @@ $translator->start();
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
+
     <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -53,6 +64,21 @@ $translator->start();
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
+        }
+
+        .gslide-description {
+            background-color: transparent !important;
+        }
+
+        .gdesc-inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .gslide-title {
+            color: white !important;
         }
     </style>
 
@@ -159,29 +185,14 @@ $translator->start();
     <!-- Testimonial End -->
 
     <div class="container py-5">
-        <nav>
-            <ul class="pagination justify-content-end" id="pagination-galeri"></ul>
+        <!-- 🖼️ Daftar Galeri -->
+        <div class="row g-4" id="galeri-list"></div>
+
+        <!-- 📄 Pagination di bawah galeri -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center" id="pagination-galeri"></ul>
         </nav>
-
-        <div class="row g-4" id="galeri-list">
-        </div>
     </div>
-
-    <!-- Modal Makna Motif -->
-    <div class="modal fade" id="maknaModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md">
-            <div class="modal-content rounded-3 shadow">
-                <div class="modal-header">
-                    <h5 class="modal-title">Makna Motif</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="maknaModalText" class="mb-0"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <!-- Footer Start -->
     <?php include "footer.php" ?>
@@ -191,19 +202,20 @@ $translator->start();
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php
-    $pageTranslator->translateOutput();
+    if (isset($translator)) {
+        $translator->translateOutput();
+    }
     ?>
 
-    <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Template Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/pagination.js"></script>
     <script src="/js/galeri.js"></script>
 
 </body>

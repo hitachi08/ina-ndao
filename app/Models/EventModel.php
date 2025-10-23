@@ -93,12 +93,12 @@ class EventModel
         $stmt0->execute([$id]);
         $row = $stmt0->fetch(PDO::FETCH_ASSOC);
         if ($row && $row['gambar_banner']) {
-            @unlink(__DIR__ . "/../../public/img/event/" . $row['gambar_banner']);
+            @unlink(__DIR__ . "/../../public/uploads/event/" . $row['gambar_banner']);
         }
 
         $docs = $this->getDokumentasi($id);
         foreach ($docs as $doc) {
-            @unlink(__DIR__ . "/../../public/img/event/" . $doc['gambar_dokumentasi']);
+            @unlink(__DIR__ . "/../../public/uploads/event/" . $doc['gambar_dokumentasi']);
         }
 
         $stmt = $this->pdo->prepare("DELETE FROM event WHERE id_event=?");

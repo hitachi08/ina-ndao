@@ -238,40 +238,16 @@ $(document).ready(function () {
 
   function renderPagination(totalItems, currentPage) {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const pagination = $("#pagination");
-    pagination.empty();
-    if (totalPages <= 1) return;
-    const createPageItem = (label, page, disabled = false, active = false) => `
-      <li class="page-item ${disabled ? "disabled" : ""} ${
-      active ? "active" : ""
-    }">
-        <a class="page-link rounded-2" href="#" data-page="${page}">${label}</a>
-      </li>`;
-    pagination.append(createPageItem("&laquo;", 1, currentPage === 1));
-    pagination.append(
-      createPageItem("&lsaquo;", currentPage - 1, currentPage === 1)
-    );
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
-    for (let i = startPage; i <= endPage; i++)
-      pagination.append(createPageItem(i, i, false, i === currentPage));
-    pagination.append(
-      createPageItem("&rsaquo;", currentPage + 1, currentPage === totalPages)
-    );
-    pagination.append(
-      createPageItem("&raquo;", totalPages, currentPage === totalPages)
-    );
-
-    pagination.find("a").on("click", function (e) {
-      e.preventDefault();
-      const targetPage = parseInt($(this).data("page"));
-      if (targetPage && targetPage !== currentPage) {
+    renderPaginationGlobal(
+      "#pagination",
+      currentPage,
+      totalPages,
+      function (targetPage) {
         currentPage = targetPage;
         renderProdukPage(currentPage);
         renderPagination(totalItems, currentPage);
-        window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    });
+    );
   }
 
   $("#btnAdd").click(function () {

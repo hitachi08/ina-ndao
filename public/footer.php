@@ -44,7 +44,7 @@ $currentFlagCode = $langFlags[$currentLang] ?? 'id';
           <i class="fa fa-map-marker-alt me-3"></i>Jl. Kebun Raja II, Naikoten
         </p>
         <p><i class="fa fa-phone-alt me-3"></i>+62 812 3785 620</p>
-        <p><i class="fa fa-envelope me-3"></i>inandao@gmail.com</p>
+        <p><i class="fa fa-envelope me-3"></i>ndaoina27@gmail.com</p>
         <div class="d-flex pt-2">
           <a class="btn btn-outline-primary btn-square border-2 me-2" href="https://web.facebook.com/ina.ndao.ntt/?locale=id_ID&_rdc=1&_rdr#" target="_blank"><i class="fab fa-facebook-f"></i></a>
           <a class="btn btn-outline-primary btn-square border-2 me-2" href="https://www.instagram.com/tenuninandao/?hl=id" target="_blank"><i class="fab fa-instagram"></i></a>

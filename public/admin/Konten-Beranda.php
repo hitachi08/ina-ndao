@@ -83,8 +83,10 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between pt-4">
-                            <button type="button" class="btn btn-secondary btn-sm" id="addMember">Tambah Anggota</button>
-                            <button type="submit" class="btn btn-success btn-sm">Simpan Team</button>
+                            <button type="button" id="addMember" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Tambah Input
+                            </button>
+                            <button type="submit" class="btn btn-success">Simpan Team</button>
                         </div>
                     </form>
                 </div>
@@ -96,10 +98,10 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
                         <div id="promosiWrapper"></div>
 
                         <div class="d-flex align-items-center justify-content-between pt-4">
-                            <button type="button" class="btn btn-outline-primary btn-sm" id="addPromosi">
-                                <i class="bi bi-plus-circle"></i> Tambah Promosi
+                            <button type="button" id="addPromosi" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Tambah Input
                             </button>
-                            <button type="submit" class="btn btn-sm btn-success">Simpan Promosi</button>
+                            <button type="submit" class="btn btn-success">Simpan Promosi</button>
                         </div>
                     </form>
                 </div>

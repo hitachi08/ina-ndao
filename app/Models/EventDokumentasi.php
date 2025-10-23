@@ -15,8 +15,8 @@ class EventDokumentasi
         $stmt->execute([$id_dokumentasi]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($row && file_exists(__DIR__ . "/../../public/img/event/" . $row['gambar_dokumentasi'])) {
-            unlink(__DIR__ . "/../../public/img/event/" . $row['gambar_dokumentasi']);
+        if ($row && file_exists(__DIR__ . "/../../public/uploads/event/" . $row['gambar_dokumentasi'])) {
+            unlink(__DIR__ . "/../../public/uploads/event/" . $row['gambar_dokumentasi']);
         }
 
         $stmt = $this->pdo->prepare("DELETE FROM event_dokumentasi WHERE id_dokumentasi=?");

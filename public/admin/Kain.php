@@ -175,6 +175,7 @@ $username = $_SESSION['admin_username'] ?? 'Admin';
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/select2.min.js"></script>
     <script src="../js/sweetalert2.all.min.js"></script>
+    <script src="../js/pagination.js"></script>
     <script src="js/kain.js"></script>
 
 </body>

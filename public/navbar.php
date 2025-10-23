@@ -3,26 +3,29 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Auth.php';
 Auth::startSession();
 
+$current_page = basename($_SERVER['PHP_SELF']);
+
 if (isset($_GET['lang'])) {
   $_SESSION['lang'] = $_GET['lang'];
+
+  $redirect = strtok($_SERVER["REQUEST_URI"], '?');
+  header("Location: $redirect");
+  exit;
 }
 
 $currentLang = $_SESSION['lang'] ?? 'id';
-
-$current_page = basename($_SERVER['PHP_SELF']);
 
 $langFlags = [
   'id' => 'id',
   'en' => 'gb'
 ];
-
 $langFullLabels = [
   'id' => 'Indonesia',
   'en' => 'English'
 ];
-
 $currentFlagCode = $langFlags[$currentLang] ?? 'id';
 ?>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.8.0/css/flag-icons.min.css">
 
@@ -60,10 +63,10 @@ $currentFlagCode = $langFlags[$currentLang] ?? 'id';
         <div class="navbar-nav ms-auto me-0">
 
           <!-- Beranda -->
-          <a href="/Beranda.php?lang=<?= $currentLang ?>" class="nav-item nav-link <?php if ($current_page == 'Beranda.php') echo 'active'; ?>">Beranda</a>
+          <a href="/Beranda.php" class="nav-item nav-link <?php if ($current_page == 'Beranda.php') echo 'active'; ?>">Beranda</a>
 
           <!-- Tentang Ina Ndao -->
-          <a href="/Tentang-Ina-Ndao.php?lang=<?= $currentLang ?>" class="nav-item nav-link <?php if ($current_page == 'Tentang-Ina-Ndao.php') echo 'active'; ?>">Tentang Kami</a>
+          <a href="/Tentang-Ina-Ndao.php" class="nav-item nav-link <?php if ($current_page == 'Tentang-Ina-Ndao.php') echo 'active'; ?>">Tentang Kami</a>
 
           <!-- Produk Ina Ndao -->
           <div class="nav-item dropdown">
@@ -72,13 +75,13 @@ $currentFlagCode = $langFlags[$currentLang] ?? 'id';
               Produk
             </a>
             <ul class="dropdown-menu dropdown-menu-end border-0 shadow" aria-labelledby="produkDropdown">
-              <li><a class="dropdown-item <?php if ($current_page == '/Kain-Tenun.php') echo 'active'; ?>" href="/Kain-Tenun.php?lang=<?= $currentLang ?>">Kain Tenun</a></li>
-              <li><a class="dropdown-item <?php if ($current_page == '/Produk-Olahan.php') echo 'active'; ?>" href="/Produk-Olahan.php?lang=<?= $currentLang ?>">Produk Olahan Kain</a></li>
+              <li><a class="dropdown-item <?php if ($current_page == 'Kain-Tenun.php') echo 'active'; ?>" href="/Kain-Tenun.php">Kain Tenun</a></li>
+              <li><a class="dropdown-item <?php if ($current_page == 'Produk-Olahan.php') echo 'active'; ?>" href="/Produk-Olahan.php">Produk Olahan Kain</a></li>
             </ul>
           </div>
 
           <!-- Galeri Ina Ndao -->
-          <a href="/Galeri-Ina-Ndao.php?lang=<?= $currentLang ?>" class="nav-item nav-link <?php if ($current_page == 'Galeri-Ina-Ndao.php') echo 'active'; ?>">Galeri</a>
+          <a href="/Galeri-Ina-Ndao.php" class="nav-item nav-link <?php if ($current_page == 'Galeri-Ina-Ndao.php') echo 'active'; ?>">Galeri</a>
 
           <!-- Translate -->
           <div class="nav-item dropdown d-none d-lg-block">

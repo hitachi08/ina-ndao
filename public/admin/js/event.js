@@ -39,13 +39,13 @@ $(document).ready(function () {
                     data-tempat="${ev.tempat}"
                     data-gambar="${
                       ev.gambar_banner
-                        ? `../img/event/${ev.gambar_banner}`
+                        ? `../uploads/event/${ev.gambar_banner}`
                         : `../img/no-image.png`
                     }"
                     data-open-modal="true">
                     ${
                       ev.gambar_banner
-                        ? `<img src="../img/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
+                        ? `<img src="../uploads/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
                         : `<img src="../img/no-image.png" class="card-img-top" alt="no image">`
                     }
                     <div class="card-body d-flex justify-content-between flex-column">
@@ -101,72 +101,9 @@ $(document).ready(function () {
   }
 
   function renderPagination(current, total) {
-    var pagination = $("#pagination");
-    pagination.empty();
-
-    if (total <= 1) return;
-
-    var maxVisible = 3;
-    var start = Math.max(current - Math.floor(maxVisible / 2), 1);
-    var end = Math.min(start + maxVisible - 1, total);
-    start = Math.max(end - maxVisible + 1, 1);
-
-    var firstDisabled = current === 1 ? "disabled" : "";
-    pagination.append(`
-        <li class="page-item ${firstDisabled}">
-            <a class="page-link rounded-2" href="#" data-page="1">
-                <i class="bi bi-chevron-double-left"></i>
-            </a>
-        </li>
-    `);
-
-    var prevDisabled = current === 1 ? "disabled" : "";
-    pagination.append(`
-        <li class="page-item ${prevDisabled}">
-            <a class="page-link rounded-2" href="#" data-page="${current - 1}">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-        </li>
-    `);
-
-    if (start > 1) {
-      pagination.append(
-        `<li class="page-item disabled"><span class="page-link rounded-2">...</span></li>`
-      );
-    }
-
-    for (var i = start; i <= end; i++) {
-      var active = i === current ? "active" : "";
-      pagination.append(`
-          <li class="page-item ${active}">
-              <a class="page-link rounded-2" href="#" data-page="${i}">${i}</a>
-          </li>
-      `);
-    }
-
-    if (end < total) {
-      pagination.append(
-        `<li class="page-item disabled"><span class="page-link rounded-2">...</span></li>`
-      );
-    }
-
-    var nextDisabled = current === total ? "disabled" : "";
-    pagination.append(`
-        <li class="page-item ${nextDisabled}">
-            <a class="page-link rounded-2" href="#" data-page="${current + 1}">
-                <i class="bi bi-chevron-right"></i>
-            </a>
-        </li>
-    `);
-
-    var lastDisabled = current === total ? "disabled" : "";
-    pagination.append(`
-        <li class="page-item ${lastDisabled}">
-            <a class="page-link rounded-2" href="#" data-page="${total}">
-                <i class="bi bi-chevron-double-right"></i>
-            </a>
-        </li>
-    `);
+    renderPaginationGlobal("#pagination", current, total, function (page) {
+      loadEvents(page);
+    });
   }
 
   $("#pagination").on("click", ".page-link", function (e) {
@@ -241,7 +178,7 @@ $(document).ready(function () {
 
           if (ev.gambar_banner) {
             $("#bannerPreview")
-              .attr("src", "../img/event/" + ev.gambar_banner)
+              .attr("src", "../uploads/event/" + ev.gambar_banner)
               .show();
           } else {
             $("#bannerPreview").hide();
@@ -328,7 +265,7 @@ $(document).ready(function () {
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="position-relative dokumentasi-wrapper">
                         <input type="checkbox" class="doc-checkbox position-absolute top-0 start-0 m-1" data-id="${doc.id_dokumentasi}" data-event="${id}">
-                        <img src="../img/event/${doc.gambar_dokumentasi}" class="dokumentasi-thumb img-fluid">
+                        <img src="../uploads/event/${doc.gambar_dokumentasi}" class="dokumentasi-thumb img-fluid">
                         <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 btnDelDoc" 
                                 data-id="${doc.id_dokumentasi}" data-event="${id}">
                             <i class="bi bi-trash"></i>
@@ -509,7 +446,7 @@ $(document).ready(function () {
             docs.forEach((doc) => {
               html += `
               <div class="col-6 col-md-4 col-lg-3">
-                  <img src="../img/event/${doc.gambar_dokumentasi}" 
+                  <img src="../uploads/event/${doc.gambar_dokumentasi}" 
                        class="img-fluid shadow-sm"
                        style="width: 100px; height: 150px; object-fit: cover;" 
                        alt="Dokumentasi ${card.data("nama")}">
@@ -580,13 +517,13 @@ $(document).ready(function () {
                     data-tempat="${ev.tempat}"
                     data-gambar="${
                       ev.gambar_banner
-                        ? `../img/event/${ev.gambar_banner}`
+                        ? `../uploads/event/${ev.gambar_banner}`
                         : `../img/no-image.png`
                     }"
                     data-open-modal="true">
                     ${
                       ev.gambar_banner
-                        ? `<img src="../img/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
+                        ? `<img src="../uploads/event/${ev.gambar_banner}" class="card-img-top rounded-0" alt="${ev.nama_event}">`
                         : `<img src="../img/no-image.png" class="card-img-top" alt="no image">`
                     }
                     <div class="card-body d-flex justify-content-between flex-column">

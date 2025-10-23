@@ -71,7 +71,6 @@ $(document).ready(function () {
     });
   }
 
-
   // ==================== EVENT FILTER ====================
   $(document).on(
     "change",
@@ -223,50 +222,74 @@ $(document).ready(function () {
     });
   }
 
+  // ==================== EVENT PENCARIAN ====================
+  $("#searchProduk").on("input", function () {
+    const keyword = $(this).val().trim();
+    if (keyword === "") {
+      // Kosong → tampilkan semua produk
+      filteredData = allData;
+      currentPage = 1;
+      renderProdukWithPagination(filteredData);
+    } else {
+      applySearch(keyword);
+    }
+  });
+
+  // ==================== APPLY SEARCH ====================
+  function applySearch(keyword) {
+    const container = $("#product-olahan-list");
+    container.html(`
+      <div class="text-center py-5 w-100">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        <p class="mt-3 text-muted">Mencari produk...</p>
+      </div>
+  `);
+
+    $.ajax({
+      url: "/produk/search",
+      type: "GET",
+      dataType: "json",
+      data: { q: keyword },
+      success: function (response) {
+        if (response.status === "success") {
+          filteredData = response.data || [];
+          currentPage = 1;
+
+          if (filteredData.length > 0) {
+            renderProdukWithPagination(filteredData);
+          } else {
+            container.html(`
+            <div class="col-12 text-center py-4 w-100">
+              <p class="text-muted">Tidak ditemukan produk dengan kata kunci "<strong>${keyword}</strong>".</p>
+            </div>
+          `);
+            $("#pagination").empty();
+          }
+        } else {
+          container.html(`<div class="col-12 text-center py-4 w-100">
+            <p class="text-danger">Gagal memuat hasil pencarian.</p>
+          </div>`);
+        }
+      },
+      error: function () {
+        container.html(`<div class="col-12 text-center py-4 w-100">
+          <p class="text-danger">Terjadi kesalahan saat mencari produk.</p>
+        </div>`);
+      },
+    });
+  }
+
   // ==================== RENDER PAGINATION ====================
   function renderPagination(totalPages) {
-    const pagination = $("#pagination");
-    pagination.empty();
-    if (totalPages <= 1) return;
-
-    const disabledPrev = currentPage === 1 ? "disabled" : "";
-    const disabledNext = currentPage === totalPages ? "disabled" : "";
-
-    pagination.append(`
-            <li class="page-item ${disabledPrev}">
-                <a class="page-link" href="#" data-page="${
-                  currentPage - 1
-                }"><i class="bi bi-chevron-left"></i></a>
-            </li>
-        `);
-
-    for (let i = 1; i <= totalPages; i++) {
-      const active = i === currentPage ? "active bg-dark border-dark" : "";
-      pagination.append(`
-                <li class="page-item ${active}">
-                    <a class="page-link" href="#" data-page="${i}">${i}</a>
-                </li>
-            `);
-    }
-
-    pagination.append(`
-            <li class="page-item ${disabledNext}">
-                <a class="page-link" href="#" data-page="${
-                  currentPage + 1
-                }"><i class="bi bi-chevron-right"></i></a>
-            </li>
-        `);
-
-    $(".page-link")
-      .off("click")
-      .on("click", function (e) {
-        e.preventDefault();
-        const page = parseInt($(this).data("page"));
-        if (page >= 1 && page <= totalPages) {
-          currentPage = page;
-          renderProdukWithPagination(filteredData);
-        }
-      });
+    renderPaginationGlobal(
+      "#pagination",
+      currentPage,
+      totalPages,
+      function (page) {
+        currentPage = page;
+        renderProdukWithPagination(filteredData);
+      }
+    );
   }
 
   // ==================== FORMAT RUPIAH ====================

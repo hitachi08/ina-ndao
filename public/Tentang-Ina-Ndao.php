@@ -2,8 +2,21 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Models/KontenModel.php';
 require_once __DIR__ . '/../app/TranslatePage.php';
+require_once __DIR__ . '/../app/Auth.php';
+Auth::startSession();
 
 $model = new KontenModel($pdo);
+
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit;
+}
+
+$lang = $_SESSION['lang'] ?? 'id';
+$translator = new TranslatePage($lang);
+$translator->start();
+
 $data = $model->getByHalaman('tentang_ina_ndao');
 
 if (!empty($data['konten'])) {
@@ -14,8 +27,7 @@ if (!empty($data['konten'])) {
 } else {
     $rows = [];
 }
-$translator = new TranslatePage($_GET['lang'] ?? null);
-$translator->start();
+
 ?>
 
 
@@ -50,6 +62,64 @@ $translator->start();
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        .image-wrapper {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .person-card {
+            transition: all 0.3s ease;
+        }
+
+        .person-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .line {
+            width: 120px;
+            height: 2px;
+            background-color: #0d6efd;
+            position: relative;
+        }
+
+        .line::before,
+        .line::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #0d6efd;
+        }
+
+        .line::before {
+            left: -60px;
+        }
+
+        .line::after {
+            right: -60px;
+        }
+
+        /* Responsive tweak */
+        @media (max-width: 768px) {
+
+            .line::before,
+            .line::after {
+                display: none;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
@@ -87,20 +157,109 @@ $translator->start();
     </div>
     <!-- Hero End -->
 
-    <style>
-        .image-wrapper {
-            width: 100%;
-            max-width: 320px;
-            margin: 0 auto;
-            text-align: center;
-        }
+    <!-- Struktur Organisasi Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h1 class="mb-3">Struktur <span class="text-primary">Organisasi</span></h1>
+            </div>
 
-        .image-wrapper img {
-            width: 100%;
-            height: auto;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+            <!-- Tingkat 1: Ketua -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-12 col-md-6 col-lg-4 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInDown" data-wow-delay="0.2s">
+                        <h5 class="mb-1 text-primary">Yustinus Lussi</h5>
+                        <small class="text-muted d-block mb-2">Penanggung Jawab</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Garis penghubung -->
+            <div class="text-center mb-5">
+                <div class="line mx-auto"></div>
+            </div>
+
+            <!-- Tingkat 2: Sekretaris & Bendahara -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-6 col-md-4 col-lg-3 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInUp" data-wow-delay="0.3s">
+                        <h6 class="mb-1 text-dark">Dorce Lussi</h6>
+                        <small class="text-muted">Direktris</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Garis penghubung -->
+            <div class="text-center mb-5">
+                <div class="line mx-auto"></div>
+            </div>
+
+            <!-- Tingkat 3: Koordinator -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInUp" data-wow-delay="0.5s">
+                        <h6 class="mb-1 text-dark">Hanny Lussi</h6>
+                        <small class="text-muted">Manager</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Garis penghubung -->
+            <div class="text-center mb-5">
+                <div class="line mx-auto"></div>
+            </div>
+
+            <!-- Tingkat 4: Koordinator -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInUp" data-wow-delay="0.5s">
+                        <h6 class="mb-1 text-dark">Rety Lusi</h6>
+                        <small class="text-muted">Koordinator Produksi</small>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInUp" data-wow-delay="0.5s">
+                        <h6 class="mb-1 text-dark">Nona Kake</h6>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInUp" data-wow-delay="0.5s">
+                        <h6 class="mb-1 text-dark">Mensi Longgak</h6>
+                        <small class="text-muted">Koordinator Pemasaran</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Garis penghubung -->
+            <div class="text-center mb-5">
+                <div class="line mx-auto"></div>
+            </div>
+
+            <!-- Tingkat 5: Koordinator -->
+            <div class="row justify-content-center g-4">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInUp" data-wow-delay="0.5s">
+                        <h6 class="mb-1 text-dark">Robert Matatula</h6>
+                        <small class="text-muted">Lapangan</small>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInUp" data-wow-delay="0.5s">
+                        <h6 class="mb-1 text-dark">Tersiana Tobo</h6>
+                        <small class="text-muted">Koordinator Desain</small>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="person-card bg-light p-4 rounded shadow-sm wow fadeInUp" data-wow-delay="0.5s">
+                        <h6 class="mb-1 text-dark">Yusak Sanam</h6>
+                        <small class="text-muted">Peralatan</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Struktur Organisasi End -->
 
     <!-- Tentang Ina Ndao Start -->
     <div class="container-fluid py-5">
@@ -184,7 +343,9 @@ $translator->start();
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php
-    $pageTranslator->translateOutput();
+    if (isset($translator)) {
+        $translator->translateOutput();
+    }
     ?>
 
     <!-- JavaScript Libraries -->
@@ -237,7 +398,7 @@ $translator->start();
                                 <a href="/event/detail/${slug}?lang=<?= $currentLang ?>" class="text-decoration-none text-dark">
                                     <div class="card product-card cursor-pointer shadow border-0 h-100 mb-4">
                                         <div class="position-relative">
-                                            <img class="card-img-top rounded" src="/img/event/${encodeURIComponent(ev.gambar_banner ?? 'no-image.png')}" alt="${ev.nama_event}">
+                                            <img class="card-img-top rounded" src="/uploads/event/${encodeURIComponent(ev.gambar_banner ?? 'no-image.png')}" alt="${ev.nama_event}">
                                             <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">Segera Hadir</span>
                                         </div>
                                         <div class="card-body d-flex flex-column">
@@ -296,7 +457,7 @@ $translator->start();
 
                             pastHTML += `
                             <div class="project-item position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="/img/event/${encodeURIComponent(docImg)}" alt="${ev.nama_event}">
+                                <img class="img-fluid w-100" src="/uploads/event/${encodeURIComponent(docImg)}" alt="${ev.nama_event}">
                                 <a class="project-overlay justify-content-between text-decoration-none" href="/event/detail/${slug}?lang=<?= $currentLang ?>">
                                     <h4 class="text-white description-text fs-5">${ev.nama_event}</h4>
                                     <small class="text-white description-text">${ev.deskripsi}</small>

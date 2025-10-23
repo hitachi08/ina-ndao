@@ -62,7 +62,7 @@ $csrf = $_SESSION['csrf_token'];
     <link rel="stylesheet" href="../css/notyf.min.css">
 </head>
 
-<body class="img js-fullheight" style="background-image: url(../img/assets/bg-login.JPG);">
+<body class="img js-fullheight" style="background-image: url(../img/background.jpg);">
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">

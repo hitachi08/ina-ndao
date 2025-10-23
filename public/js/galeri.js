@@ -27,6 +27,7 @@ $(document).ready(function () {
       "Waibakul",
     ],
     tts: [
+      "Timor Tengah Selatan",
       "TTS",
       "Soe",
       "Amanatun",
@@ -36,35 +37,41 @@ $(document).ready(function () {
       "Boking",
       "Noebana",
     ],
-    ttu: ["TTU", "Kefamenanu", "Biboki", "Insana", "Noemuti"],
+    ttu: [
+      "Timor Tengah Utara",
+      "TTU",
+      "Kefamenanu",
+      "Biboki",
+      "Insana",
+      "Noemuti",
+    ],
   };
-
-  loadAllKain();
-
-  let selectedDaerah = null;
 
   const defaultColor = "#9a6423";
   const hoverColor = "#6d4819";
   const selectedColor = "#264653";
 
+  let selectedDaerah = null;
+  let allKainData = [];
+  let currentPage = 1;
+  const itemsPerPage = 12;
+
   const $paths = $("#peta-ntt svg path");
 
-  // set default color pakai attr
+  // ======== Warna awal dan hover ========
   $paths.attr("fill", defaultColor).css("cursor", "pointer");
-
   $paths.hover(
     function () {
-      if ($(this).attr("data-active") !== "true") {
+      if ($(this).attr("data-active") !== "true")
         $(this).attr("fill", hoverColor);
-      }
     },
     function () {
-      if ($(this).attr("data-active") !== "true") {
+      if ($(this).attr("data-active") !== "true")
         $(this).attr("fill", defaultColor);
-      }
     }
   );
 
+  // ======== Klik daerah ========
   $paths.on("click", function () {
     const daerah =
       $(this).attr("data-name") || $(this).attr("id") || "Tanpa ID";
@@ -82,6 +89,9 @@ $(document).ready(function () {
     loadKainByDaerah(daerah);
   });
 
+  // ======== Load semua kain ========
+  loadAllKain();
+
   function loadAllKain() {
     $("#galeri-list").html(`
       <div class="text-center py-5">
@@ -93,26 +103,17 @@ $(document).ready(function () {
     fetch("/galeri/fetch_all")
       .then((res) => res.json())
       .then((response) => {
-        if (response.status !== "success") {
-          $("#galeri-list").html(`
-            <div class="text-center text-danger py-5">
-              Gagal memuat data kain.
-            </div>
-          `);
-          return;
-        }
-
-        renderKainList(response.data, "Semua Daerah");
+        if (response.status === "success") {
+          allKainData = response.data;
+          currentPage = 1;
+          renderGaleriPage(currentPage);
+          renderPagination(allKainData.length, currentPage);
+        } else showError("Gagal memuat data kain.");
       })
-      .catch((err) => {
-        $("#galeri-list").html(`
-          <div class="text-center text-danger py-5">
-            Terjadi kesalahan: ${err.message}
-          </div>
-        `);
-      });
+      .catch((err) => showError(err.message));
   }
 
+  // ======== Load kain per daerah ========
   function loadKainByDaerah(daerah) {
     const key = daerah.toLowerCase();
     const subDaerahList = daerahMap[key] || [daerah];
@@ -131,67 +132,73 @@ $(document).ready(function () {
     })
       .then((res) => res.json())
       .then((response) => {
-        if (response.status !== "success") {
-          $("#galeri-list").html(`
-            <div class="text-center text-danger py-5">
-              Gagal memuat data kain dari daerah ini.
-            </div>
-          `);
-          return;
-        }
-
-        renderKainList(response.data, daerah);
+        if (response.status === "success") {
+          allKainData = response.data;
+          currentPage = 1;
+          renderGaleriPage(currentPage, daerah);
+          renderPagination(allKainData.length, currentPage);
+        } else showError("Gagal memuat data kain dari daerah ini.");
       })
-      .catch((err) => {
-        $("#galeri-list").html(`
-          <div class="text-center text-danger py-5">
-            Terjadi kesalahan: ${err.message}
-          </div>
-        `);
-      });
+      .catch((err) => showError(err.message));
   }
 
+  function showError(message) {
+    $("#galeri-list").html(`
+      <div class="text-center text-danger py-5">
+        Terjadi kesalahan: ${message}
+      </div>
+    `);
+  }
+
+  // ======== Render per halaman ========
+  function renderGaleriPage(page = 1, daerah = "Semua Daerah") {
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pagedData = allKainData.slice(start, end);
+    renderKainList(pagedData, daerah);
+  }
+
+  // ======== Render daftar kain ========
   function renderKainList(kainList, daerah) {
     let html = `
-      <h4 class="text-center mb-4">
-        Kain Tenun dari <span class="text-primary">${daerah}</span>
-      </h4>
-      <div class="row g-4">
+      <h4 class="text-center mb-4">Kain Tenun dari <span class="text-primary">${daerah}</span></h4>
+      <div class="row g-4 justify-content-center">
     `;
 
     if (kainList.length > 0) {
-      kainList.forEach((kain) => {
-        const imgSrc =
+      kainList.forEach((kain, index) => {
+        const gambarUtama =
           kain.motif_gambar && kain.motif_gambar.length > 0
             ? kain.motif_gambar[0].path_gambar.replace(/\\/g, "")
             : "/img/no-image.png";
 
         html += `
           <div class="col-6 col-sm-4 col-md-3">
-            <div class="card h-100 shadow-sm border-0">
-              <img src="${imgSrc}" class="card-img-top" alt="${
-          kain.nama_motif
-        }" style="height: 250px; object-fit: cover;">
-              <div class="card-body p-2">
-                <h6 class="card-title mb-1 text-primary" style="font-size: 0.8rem;">
-                  ${kain.nama_jenis} ${kain.nama_daerah}
-                </h6>
-                <p class="card-text small mb-1">Motif ${kain.nama_motif}</p>
-                <p class="card-text small text-muted makna-click" 
-   data-makna="${kain.makna ? kain.makna.replace(/"/g, "&quot;") : ""}"
-   style="cursor: pointer; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
-   title="Klik untuk melihat selengkapnya">
-   ${
-     kain.makna
-       ? kain.makna.substring(0, 60) + (kain.makna.length > 60 ? "..." : "")
-       : ""
-   }
-</p>
-
+            <a href="${gambarUtama}" 
+               class="glightbox" 
+               data-gallery="motif-${index}" 
+               data-title="${kain.nama_jenis} ${kain.nama_daerah} Motif ${kain.nama_motif}">
+              <div class="card border-0 shadow-sm hover-zoom">
+                <img src="${gambarUtama}" class="card-img-top rounded" alt="${kain.nama_motif}" style="height: 250px; object-fit: cover;">
               </div>
-            </div>
-          </div>
+            </a>
         `;
+
+        // Gambar tambahan
+        if (kain.motif_gambar && kain.motif_gambar.length > 1) {
+          kain.motif_gambar.slice(1).forEach((g) => {
+            const gPath = g.path_gambar.replace(/\\/g, "");
+            html += `
+              <a href="${gPath}" 
+                 class="glightbox d-none" 
+                 data-gallery="motif-${index}" 
+                 data-title="${kain.nama_jenis} ${kain.nama_daerah} Motif ${kain.nama_motif}">
+              </a>
+            `;
+          });
+        }
+
+        html += `</div>`;
       });
     } else {
       html += `
@@ -204,11 +211,30 @@ $(document).ready(function () {
     html += "</div>";
     $("#galeri-list").html(html);
 
-    $("#galeri-list").on("click", ".makna-click", function () {
-      const fullMakna = $(this).data("makna");
-      $("#maknaModalText").text(fullMakna || "Belum ada makna yang tercatat.");
-      const modal = new bootstrap.Modal(document.getElementById("maknaModal"));
-      modal.show();
+    // Re-init GLightbox
+    if (window.glightboxInstance) window.glightboxInstance.destroy();
+    window.glightboxInstance = GLightbox({
+      touchNavigation: true,
+      loop: true,
+      zoomable: true,
+      autoplayVideos: false,
+      closeButton: true,
     });
+  }
+
+  // ======== RENDER PAGINATION ========
+  function renderPagination(totalItems, currentPage) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    renderPaginationGlobal(
+      "#pagination-galeri",
+      currentPage,
+      totalPages,
+      (page) => {
+        currentPage = page;
+        renderGaleriPage(currentPage, selectedDaerah || "Semua Daerah");
+        renderPagination(totalItems, currentPage);
+      }
+    );
   }
 });

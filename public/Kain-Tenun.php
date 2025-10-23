@@ -1,7 +1,16 @@
 <?php
 require_once __DIR__ . '/../app/TranslatePage.php';
+require_once __DIR__ . '/../app/Auth.php';
+Auth::startSession();
 
-$translator = new TranslatePage($_GET['lang'] ?? null);
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit;
+}
+
+$lang = $_SESSION['lang'] ?? 'id';
+$translator = new TranslatePage($lang);
 $translator->start();
 ?>
 <!DOCTYPE html>
@@ -80,14 +89,14 @@ $translator->start();
                 Produk Tenun Ikat <span class="text-uppercase bg-light text-primary px-2">Ina Ndao</span>
             </h1>
             <div class="mb-4">
-                <img src="img/download.jpg" alt="Banner Produk Tenun Ikat Ina Ndao"
+                <img src="img/banner.jpg" alt="Banner Produk Tenun Ikat Ina Ndao"
                     class="img-fluid w-100 rounded shadow-sm banner-img">
             </div>
             <div class="input-group mb-4">
                 <span class="input-group-text bg-white border-end-0">
                     <i class="fas fa-search text-muted"></i>
                 </span>
-                <input type="text" class="form-control border-start-0" placeholder="Cari produk...">
+                <input type="text" id="searchKain" class="form-control border-start-0" placeholder="Cari kain, motif, atau daerah...">
             </div>
 
             <!-- Row Start -->
@@ -153,7 +162,9 @@ $translator->start();
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php
-    $pageTranslator->translateOutput();
+    if (isset($translator)) {
+        $translator->translateOutput();
+    }
     ?>
 
     <!-- JavaScript Libraries -->
@@ -164,9 +175,10 @@ $translator->start();
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/pagination.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let allData = []; // semua data kain
             let filteredData = []; // hasil filter aktif
             let currentPage = 1;
@@ -181,7 +193,7 @@ $translator->start();
                     url: '/galeri/get_options_kain',
                     type: 'GET',
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         if (response.status === 'success') {
                             const daerahContainer = $("#filterDaerahContainer");
                             const jenisContainer = $("#filterJenisKainContainer");
@@ -211,19 +223,19 @@ $translator->start();
             }
 
             // ==================== EVENT FILTER ====================
-            $(document).on('change', '.filter-daerah, .filter-jenis', function () {
+            $(document).on('change', '.filter-daerah, .filter-jenis', function() {
                 applyFilter();
             });
-            $('#hargaMin, #hargaMax').on('input', function () {
+            $('#hargaMin, #hargaMax').on('input', function() {
                 applyFilter();
             });
 
             // ==================== APPLY FILTER ====================
             function applyFilter() {
-                const daerah = $('.filter-daerah:checked').map(function () {
+                const daerah = $('.filter-daerah:checked').map(function() {
                     return $(this).val();
                 }).get();
-                const jenis_kain = $('.filter-jenis:checked').map(function () {
+                const jenis_kain = $('.filter-jenis:checked').map(function() {
                     return $(this).val();
                 }).get();
                 const harga_min = $('#hargaMin').val();
@@ -250,7 +262,7 @@ $translator->start();
                         harga_min,
                         harga_max
                     },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.status === 'success') {
                             filteredData = response.data;
                             currentPage = 1;
@@ -260,9 +272,63 @@ $translator->start();
                             $('#pagination').empty();
                         }
                     },
-                    error: function () {
+                    error: function() {
                         container.html(`<div class="col-12 text-center py-4 w-100"><p class="text-danger">Terjadi kesalahan saat memuat data filter.</p></div>`);
                         $('#pagination').empty();
+                    }
+                });
+            }
+
+            // ==================== EVENT SEARCH ====================
+            $("#searchKain").on("input", function() {
+                const keyword = $(this).val().trim();
+                if (keyword === "") {
+                    // Jika kosong, tampilkan semua data lagi
+                    filteredData = allData;
+                    currentPage = 1;
+                    renderProdukWithPagination(filteredData);
+                } else {
+                    applySearch(keyword);
+                }
+            });
+
+            // ==================== FUNGSI SEARCH AJAX ====================
+            function applySearch(keyword) {
+                const container = $('#product-list');
+                container.html(`
+                    <div class="loading-overlay d-flex flex-column align-items-center justify-content-center w-100" style="min-height:300px;">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                        <p class="mt-3 text-muted">Mencari kain "${keyword}"...</p>
+                    </div>
+                `);
+
+                $.ajax({
+                    url: '/galeri/search',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        q: keyword
+                    },
+                    success: function(response) {
+                        if (response.status === 'success' && response.data.length > 0) {
+                            filteredData = response.data;
+                            currentPage = 1;
+                            renderProdukWithPagination(filteredData);
+                        } else {
+                            container.html(`
+                    <div class="col-12 text-center py-5 w-100">
+                        <p class="text-muted">Tidak ditemukan kain yang cocok dengan "<strong>${keyword}</strong>".</p>
+                    </div>
+                `);
+                            $('#pagination').empty();
+                        }
+                    },
+                    error: function() {
+                        container.html(`
+                <div class="col-12 text-center py-5 w-100">
+                    <p class="text-danger">Terjadi kesalahan saat mencari kain.</p>
+                </div>
+            `);
                     }
                 });
             }
@@ -273,7 +339,7 @@ $translator->start();
                     url: '/galeri/fetch_all',
                     type: 'GET',
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         if (response.status === 'success' && response.data.length > 0) {
                             allData = response.data;
                             filteredData = allData;
@@ -282,7 +348,7 @@ $translator->start();
                             $('#product-list').html(`<div class="col-12 text-center py-4 w-100"><p class="text-muted">Belum ada data kain yang tersedia.</p></div>`);
                         }
                     },
-                    error: function () {
+                    error: function() {
                         $('#product-list').html(`<div class="col-12 text-center py-4 w-100"><p class="text-danger">Terjadi kesalahan saat memuat data galeri.</p></div>`);
                     }
                 });
@@ -341,93 +407,10 @@ $translator->start();
                 });
             }
 
-            // ==================== RENDER PAGINATION (DENGAN ELLIPSIS) ====================
             function renderPagination(totalPages) {
-                const pagination = $('#pagination');
-                pagination.empty();
-
-                if (totalPages <= 1) return;
-
-                const disabledPrev = currentPage === 1 ? 'disabled' : '';
-                const disabledNext = currentPage === totalPages ? 'disabled' : '';
-
-                // Tombol pertama & sebelumnya
-                pagination.append(`
-        <li class="page-item ${disabledPrev}">
-            <a class="page-link" href="#" data-page="1"><i class="bi bi-chevron-double-left"></i></a>
-        </li>
-        <li class="page-item ${disabledPrev}">
-            <a class="page-link" href="#" data-page="${currentPage - 1}"><i class="bi bi-chevron-left"></i></a>
-        </li>
-    `);
-
-                // Tentukan range halaman yang akan ditampilkan
-                let startPage = Math.max(1, currentPage - 2);
-                let endPage = Math.min(totalPages, currentPage + 2);
-
-                // Tambahkan ellipsis di awal
-                if (startPage > 2) {
-                    pagination.append(`
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="1">1</a>
-            </li>
-            <li class="page-item disabled"><span class="page-link">...</span></li>
-        `);
-                } else if (startPage === 2) {
-                    pagination.append(`
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="1">1</a>
-            </li>
-        `);
-                }
-
-                // Nomor halaman tengah
-                for (let i = startPage; i <= endPage; i++) {
-                    const active = i === currentPage ? 'active bg-dark border-dark' : '';
-                    pagination.append(`
-            <li class="page-item ${active}">
-                <a class="page-link" href="#" data-page="${i}">${i}</a>
-            </li>
-        `);
-                }
-
-                // Tambahkan ellipsis di akhir
-                if (endPage < totalPages - 1) {
-                    pagination.append(`
-            <li class="page-item disabled"><span class="page-link">...</span></li>
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>
-            </li>
-        `);
-                } else if (endPage === totalPages - 1) {
-                    pagination.append(`
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>
-            </li>
-        `);
-                }
-
-                // Tombol berikutnya & terakhir
-                pagination.append(`
-        <li class="page-item ${disabledNext}">
-            <a class="page-link" href="#" data-page="${currentPage + 1}"><i class="bi bi-chevron-right"></i></a>
-        </li>
-        <li class="page-item ${disabledNext}">
-            <a class="page-link" href="#" data-page="${totalPages}"><i class="bi bi-chevron-double-right"></i></a>
-        </li>
-    `);
-
-                // Event klik
-                $('.page-link').off('click').on('click', function (e) {
-                    e.preventDefault();
-                    const page = parseInt($(this).data('page'));
-                    if (page >= 1 && page <= totalPages && !isNaN(page)) {
-                        currentPage = page;
-                        renderProdukWithPagination(filteredData);
-                        $('html, body').animate({
-                            scrollTop: $("#product-list").offset().top - 100
-                        }, 300);
-                    }
+                renderPaginationGlobal('#pagination', currentPage, totalPages, function(page) {
+                    currentPage = page;
+                    renderProdukWithPagination(filteredData);
                 });
             }
 

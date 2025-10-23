@@ -20,15 +20,15 @@ class KontenController
 
         if ($action === 'update') {
             $halaman = $_POST['halaman'] ?? '';
-            $konten = $_POST['konten'] ?? '';
+            $konten = $_POST['konten'] ?? '[]';
+            $kontenArray = json_decode($konten, true) ?: [];
 
-            if ($halaman === 'tentang_ina_ndao' && !empty($_FILES)) {
-                $konten = json_decode($konten, true);
-
+            // proses upload file untuk halaman 'tentang_ina_ndao'
+            if (!empty($_FILES) && $halaman === 'tentang_ina_ndao') {
                 foreach ($_FILES as $key => $file) {
                     if ($file['error'] === UPLOAD_ERR_OK) {
                         $index = (int) str_replace('gambar_', '', $key);
-                        $targetDir = __DIR__ . '/../../public/img/tentang/';
+                        $targetDir = __DIR__ . '/../../public/uploads/tentang/';
                         if (!file_exists($targetDir)) mkdir($targetDir, 0777, true);
 
                         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
@@ -36,15 +36,13 @@ class KontenController
                         $targetFile = $targetDir . $filename;
 
                         if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-                            $konten[$index]['gambar'] = '/img/tentang/' . $filename;
+                            $kontenArray[$index]['gambar'] = '/uploads/tentang/' . $filename;
                         }
                     }
                 }
-
-                $konten = json_encode($konten);
             }
 
-            $ok = $this->model->updateKonten($halaman, $konten);
+            $ok = $this->model->updateKonten($halaman, $kontenArray);
 
             echo json_encode([
                 'status' => $ok ? 'success' : 'error',
@@ -52,16 +50,18 @@ class KontenController
             ]);
         }
 
+        // Tambahkan handler khusus untuk upload team foto
         if ($action === 'upload_team_foto') {
             $this->uploadTeamFoto();
         }
     }
 
-    public function uploadTeamFoto()
+    // Fungsi upload foto team
+    private function uploadTeamFoto()
     {
         if (isset($_FILES['file'])) {
             $file = $_FILES['file'];
-            $targetDir = __DIR__ . '/../../public/img/team/';
+            $targetDir = __DIR__ . '/../../public/uploads/team/';
             if (!file_exists($targetDir)) mkdir($targetDir, 0777, true);
 
             $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
@@ -69,7 +69,7 @@ class KontenController
             $targetFile = $targetDir . $filename;
 
             if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-                echo json_encode(['filePath' => '/img/team/' . $filename]);
+                echo json_encode(['filePath' => '/uploads/team/' . $filename]);
             } else {
                 http_response_code(500);
                 echo json_encode(['error' => 'Gagal upload file']);

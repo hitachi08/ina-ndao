@@ -2,15 +2,26 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Models/KontenModel.php';
 require_once __DIR__ . '/../app/TranslatePage.php';
+require_once __DIR__ . '/../app/Auth.php';
+Auth::startSession();
 
 $model = new KontenModel($pdo);
+
+if (isset($_GET['lang'])) {
+  $_SESSION['lang'] = $_GET['lang'];
+  header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+  exit;
+}
+
+$lang = $_SESSION['lang'] ?? 'id';
+$translator = new TranslatePage($lang);
+$translator->start();
 
 $sejarahData = $model->getByHalaman('beranda_sejarah')['konten'] ?? '<p>Belum ada konten sejarah.</p>';
 $promosiData = $model->getByHalaman('beranda_promosi')['konten'] ?? null;
 
 $narasi_singkat = strip_tags($sejarahData);
 
-$promosiData = $model->getByHalaman('beranda_promosi')['konten'] ?? null;
 $promosi = [];
 if ($promosiData) {
   $decoded = json_decode($promosiData, true);
@@ -38,9 +49,8 @@ if ($teamData) {
 }
 
 $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
-$translator = new TranslatePage($_GET['lang'] ?? null);
-$translator->start();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -163,9 +173,9 @@ $translator->start();
         </div>
         <div class="col-lg-6">
           <div class="owl-carousel header-carousel animated fadeIn">
-            <img class="img-fluid" src="img/hero-slider-4.jpg" alt="" />
-            <img class="img-fluid" src="img/hero-slider-5.jpg" alt="" />
-            <img class="img-fluid" src="img/hero-slider-6.jpg" alt="" />
+            <img class="img-fluid" src="img/hero-slider-1.jpg" alt="" />
+            <img class="img-fluid" src="img/hero-slider-2.jpg" alt="" />
+            <img class="img-fluid" src="img/hero-slider-3.jpg" alt="" />
           </div>
         </div>
       </div>
@@ -214,10 +224,10 @@ $translator->start();
         <div class="col-lg-6">
           <div class="row">
             <div class="col-6 wow fadeIn" data-wow-delay="0.1s">
-              <img class="img-fluid" src="img/about-3.jpg" alt="" />
+              <img class="img-fluid" src="img/product-1.jpg" alt="" />
             </div>
             <div class="col-6 wow fadeIn" data-wow-delay="0.3s">
-              <img class="img-fluid h-75" src="img/about-4.jpg" alt="" />
+              <img class="img-fluid" src="img/product-2.jpg" alt="" />
               <div class="text-bungkus h-25 d-flex align-items-center justify-content-center text-center bg-primary px-4">
                 <h4 class="text-karya text-white lh-base mb-0">
                   Berkarya Sejak 1991
@@ -281,7 +291,7 @@ $translator->start();
             <div class="modal-body px-4 py-4">
               <!-- Gambar -->
               <div class="text-center mb-4">
-                <img src="img/hero-slider-4.jpg" class="img-fluid w-50 rounded shadow mx-auto d-block"
+                <img src="img/hero-slider-1.jpg" class="img-fluid w-50 rounded shadow mx-auto d-block"
                   alt="Motif Sumba" style="max-height:350px; object-fit:contain;">
               </div>
 

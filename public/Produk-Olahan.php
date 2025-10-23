@@ -1,7 +1,16 @@
 <?php
 require_once __DIR__ . '/../app/TranslatePage.php';
+require_once __DIR__ . '/../app/Auth.php';
+Auth::startSession();
 
-$translator = new TranslatePage($_GET['lang'] ?? null);
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit;
+}
+
+$lang = $_SESSION['lang'] ?? 'id';
+$translator = new TranslatePage($lang);
 $translator->start();
 ?>
 <!DOCTYPE html>
@@ -80,14 +89,14 @@ $translator->start();
                 Produk Tenun Ikat <span class="text-uppercase bg-light text-primary px-2">Ina Ndao</span>
             </h1>
             <div class="mb-4">
-                <img src="img/download.jpg" alt="Banner Produk Olahan Tenun Ikat Ina Ndao"
+                <img src="img/banner.jpg" alt="Banner Produk Olahan Tenun Ikat Ina Ndao"
                     class="img-fluid w-100 rounded shadow-sm banner-img">
             </div>
             <div class="input-group mb-4">
                 <span class="input-group-text bg-white border-end-0">
                     <i class="fas fa-search text-muted"></i>
                 </span>
-                <input type="text" class="form-control border-start-0" placeholder="Cari produk...">
+                <input type="text" id="searchProduk" class="form-control border-start-0" placeholder="Cari produk...">
             </div>
 
             <!-- Row Start -->
@@ -167,7 +176,9 @@ $translator->start();
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php
-    $pageTranslator->translateOutput();
+    if (isset($translator)) {
+        $translator->translateOutput();
+    }
     ?>
 
     <script>
@@ -182,4 +193,5 @@ $translator->start();
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/pagination.js"></script>
     <script src="js/produk-olahan.js"></script>

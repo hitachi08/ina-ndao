@@ -3,6 +3,18 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Models/KainModel.php';
 require_once __DIR__ . '/../app/Controllers/KainController.php';
 require_once __DIR__ . '/../app/TranslatePage.php';
+require_once __DIR__ . '/../app/Auth.php';
+Auth::startSession();
+
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit;
+}
+
+$lang = $_SESSION['lang'] ?? 'id';
+$translator = new TranslatePage($lang);
+$translator->start();
 
 $controller = new KainController($pdo);
 $slug = $_GET['slug'] ?? null;
@@ -24,9 +36,6 @@ function rp($num)
 {
     return 'Rp ' . number_format((float)$num, 0, ',', '.');
 }
-
-$translator = new TranslatePage($_GET['lang'] ?? null);
-$translator->start();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -266,8 +275,11 @@ $translator->start();
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php
-    $translator->translateOutput();
+    if (isset($translator)) {
+        $translator->translateOutput();
+    }
     ?>
+    
     <script src="/js/jquery.min.js"></script>
     <script src="/lib/wow/wow.min.js"></script>
     <script src="/lib/easing/easing.min.js"></script>

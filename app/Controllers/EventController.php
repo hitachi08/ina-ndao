@@ -137,7 +137,7 @@ class EventController
                     $bannerFile = time() . "_" . basename($_FILES['gambar_banner']['name']);
                     move_uploaded_file(
                         $_FILES['gambar_banner']['tmp_name'],
-                        __DIR__ . "/../../public/img/event/" . $bannerFile
+                        __DIR__ . "/../../public/uploads/event/" . $bannerFile
                     );
                 }
 
@@ -173,7 +173,7 @@ class EventController
                     $bannerFile = time() . "_" . basename($_FILES['gambar_banner']['name']);
                     move_uploaded_file(
                         $_FILES['gambar_banner']['tmp_name'],
-                        __DIR__ . "/../../public/img/event/" . $bannerFile
+                        __DIR__ . "/../../public/uploads/event/" . $bannerFile
                     );
                 }
 
@@ -183,7 +183,7 @@ class EventController
                         $fileName = time() . "_" . basename($name);
                         move_uploaded_file(
                             $_FILES['dokumentasi']['tmp_name'][$i],
-                            __DIR__ . "/../../public/img/event/" . $fileName
+                            __DIR__ . "/../../public/uploads/event/" . $fileName
                         );
                         $docFiles[] = $fileName;
                     }
@@ -255,7 +255,7 @@ class EventController
             }
 
             $uploadedFiles = [];
-            $uploadDir = __DIR__ . '/../../public/img/event/';
+            $uploadDir = __DIR__ . '/../../public/uploads/event/';
 
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
@@ -362,7 +362,7 @@ class EventController
             $files = $this->docModel->getFilesByIds($ids);
 
             foreach ($files as $row) {
-                $file = __DIR__ . "/../../public/img/event/" . $row['gambar_dokumentasi'];
+                $file = __DIR__ . "/../../public/uploads/event/" . $row['gambar_dokumentasi'];
                 if (file_exists($file)) {
                     @unlink($file);
                 }
