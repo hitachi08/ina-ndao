@@ -199,8 +199,7 @@ $translator->start();
                             </a>
                         </div>
                         <div class="shopeeBtn" id="shopeeBtn" title="Buka di Shopee">
-                            <img src="/img/shopee.png"
-                                alt="Shopee">
+                            <img src="/img/shopee.png" alt="Shopee">
                         </div>
                     </div>
 
@@ -293,7 +292,7 @@ $translator->start();
         $translator->translateOutput();
     }
     ?>
-    
+
     <script src="/js/jquery.min.js"></script>
     <script src="/lib/wow/wow.min.js"></script>
     <script src="/lib/easing/easing.min.js"></script>

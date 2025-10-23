@@ -1,4 +1,4 @@
-php_value auto_prepend_file "C:/xampp/htdocs/Ina Ndao/app/init_translate.php"
+php_value auto_prepend_file "D:/xampp/htdocs/ina-ndao/app/init_translate.php"
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -6,17 +6,13 @@ php_value auto_prepend_file "C:/xampp/htdocs/Ina Ndao/app/init_translate.php"
 
     # Redirect root / ke beranda.php
     RewriteRule ^$ beranda.php [L]
-
     # Hilangkan .php dari URL (misalnya /admin/Event)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}\.php -f
     RewriteRule ^(.*)$ $1.php [L]
-
     # Redirect otomatis ke versi tanpa .php
     RewriteCond %{THE_REQUEST} \s/([^.]+)\.php [NC]
     RewriteRule ^ %1 [R=301,L]
-
-    # ===== Routing ke index.php (front controller) =====
     # Jika bukan file atau folder yang ada → lempar ke index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
