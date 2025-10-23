@@ -190,7 +190,7 @@ if (!$slug) {
                         <div class="row g-4 align-items-start flex-column flex-md-row">
                             <!-- Gambar Event -->
                             <div class="col-12 col-md-5">
-                                <img src="/img/event/${ev.gambar_banner}" 
+                                <img src="/uploads/event/${ev.gambar_banner}" 
                                      class="event-banner shadow-sm rounded w-100" 
                                      alt="${ev.nama_event}">
                             </div>
@@ -226,7 +226,7 @@ if (!$slug) {
                             res.dokumentasi.forEach(doc => {
                                 $("#event-docs").append(`
                             <div class="col-md-3 mb-3">
-                                <img src="/img/event/${doc.gambar_dokumentasi}" class="event-doc shadow" alt="Dokumentasi">
+                                <img src="/uploads/event/${doc.gambar_dokumentasi}" class="event-doc shadow" alt="Dokumentasi">
                             </div>
                         `);
                             });

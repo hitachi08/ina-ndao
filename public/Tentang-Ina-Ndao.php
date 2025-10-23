@@ -449,10 +449,7 @@ if (!empty($data['konten'])) {
                         let pastHTML = '';
 
                         pastEvents.forEach(ev => {
-                            let docImg = (ev.dokumentasi && ev.dokumentasi.length > 0) ?
-                                ev.dokumentasi[0].gambar_dokumentasi :
-                                (ev.gambar_banner ?? 'no-image.png');
-
+                            let docImg = ev.gambar_banner || 'no-image.png';
                             let slug = slugify(ev.nama_event);
 
                             pastHTML += `
