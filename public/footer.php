@@ -30,7 +30,7 @@ $currentFlagCode = $langFlags[$currentLang] ?? 'id';
   <div class="container">
     <div class="row g-5 mb-3">
       <div
-        class="col-md-6 col-lg-3 wow fadeIn d-flex align-items-start justify-content-center"
+        class="col-md-6 col-lg-3 wow fadeIn d-flex align-items-start justify-content-start"
         data-wow-delay="0.1s">
         <img
           src="/img/ina_ndao_logo.jpeg"

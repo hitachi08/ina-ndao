@@ -4,7 +4,6 @@ $(document).ready(function () {
   let currentPage = 1;
   const itemsPerPage = 12;
 
-  // Jalankan saat halaman pertama kali dimuat
   loadProdukOlahan();
   loadFilters();
 
@@ -16,7 +15,7 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         if (response.status === "success") {
-          const data = response.data; // Ambil data
+          const data = response.data;
           const daerahContainer = $("#filterDaerahContainer");
           const jenisContainer = $("#filterJenisKainContainer");
           const kategoriContainer = $("#filterKategoriContainer");
@@ -37,7 +36,6 @@ $(document).ready(function () {
           `);
           });
 
-          // Jenis Kain
           (data.jenis_kain || []).forEach((item) => {
             jenisContainer.append(`
             <div class="form-check">
@@ -47,7 +45,6 @@ $(document).ready(function () {
           `);
           });
 
-          // Kategori
           (data.kategori || []).forEach((item) => {
             kategoriContainer.append(`
             <div class="form-check">
@@ -57,7 +54,6 @@ $(document).ready(function () {
           `);
           });
 
-          // Sub-Kategori
           (data.sub_kategori || []).forEach((item) => {
             subKategoriContainer.append(`
             <div class="form-check">
@@ -197,27 +193,27 @@ $(document).ready(function () {
       const kategori = item.nama_kategori || "-";
 
       const card = `
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <a href="/produk/detail/${item.slug}?lang=${currentLang}" class="text-decoration-none">
-                        <div class="box-card shadow h-100 cursor-pointer">
-                            <figure>
-                                <img src="${imgSrc}" alt="${namaProduk}">
-                            </figure>
-                            <div class="desc-card">
-                                <h5><div class="fw-bold text-dark mb-1">${namaProduk}</div></h5>
-                                <div class="abs-btm">
-                                  <div class="text-muted small mb-2">Kategori ${kategori}</div>
-                                  <div class="fw-bold text-primary">${harga}</div>
-                                  <div class="small fw-semibold text-secondary mt-2" style="letter-spacing: .5px; font-size: .8rem;">
-                                      <span class="d-inline d-md-none">Tenun NTT</span>
-                                      <span class="d-none d-md-inline">Tenun Tradisional NTT</span>
-                                  </div>
-                                </div>
+          <div class="col-6 col-md-4 col-lg-3 mb-4">
+              <a href="/produk/detail/${item.slug}?lang=${currentLang}" class="text-decoration-none">
+                  <div class="box-card shadow h-100 cursor-pointer">
+                      <figure>
+                          <img src="${imgSrc}" alt="${namaProduk}">
+                      </figure>
+                      <div class="desc-card">
+                          <h5><div class="fw-bold text-dark mb-1">${namaProduk}</div></h5>
+                          <div class="abs-btm">
+                            <div class="text-muted small mb-2">Kategori ${kategori}</div>
+                            <div class="fw-bold text-primary">${harga}</div>
+                            <div class="small fw-semibold text-secondary mt-2" style="letter-spacing: .5px; font-size: .8rem;">
+                                <span class="d-inline d-md-none">Tenun NTT</span>
+                                <span class="d-none d-md-inline">Tenun Tradisional NTT</span>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            `;
+                          </div>
+                      </div>
+                  </div>
+              </a>
+          </div>
+      `;
       container.append(card);
     });
   }

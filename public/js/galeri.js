@@ -178,7 +178,7 @@ $(document).ready(function () {
                class="glightbox" 
                data-gallery="motif-${index}" 
                data-title="${kain.nama_jenis} ${kain.nama_daerah} Motif ${kain.nama_motif}">
-              <div class="card border-0 shadow-sm hover-zoom">
+              <div class="cardgaleri border-0 shadow-sm hover-zoom">
                 <img src="${gambarUtama}" class="card-img-top rounded" alt="${kain.nama_motif}" style="height: 250px; object-fit: cover;">
               </div>
             </a>

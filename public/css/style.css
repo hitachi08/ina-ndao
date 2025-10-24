@@ -771,7 +771,7 @@
 
 @media (max-width: 426px) {
   .box-card {
-    padding-bottom: 40px;
+    padding-bottom: 65px;
   }
 
   .box-card .motif {
@@ -790,6 +790,45 @@
   .box-card .fw-semibold {
     font-size: 0.8rem !important;
   }
+}
+
+.short-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.full-text {
+  white-space: normal;
+}
+
+.cardgaleri {
+  transition: all 0.3s ease;
+}
+
+#peta-ntt text[font-size="11"],
+#peta-ntt text:contains("Created with paintmaps.com") {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+.gslide-description {
+  background-color: transparent !important;
+}
+
+.gdesc-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.gslide-title {
+  color: white !important;
 }
 
 #product-list {

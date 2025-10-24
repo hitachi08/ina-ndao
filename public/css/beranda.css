@@ -1,0 +1,53 @@
+@media (max-width: 500px) {
+  .text-year {
+    padding: 1rem !important;
+  }
+
+  .text-bungkus {
+    padding: 0px !important;
+  }
+
+  .text-karya {
+    font-size: 12px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .team-overlay small {
+    font-size: 0.6rem;
+  }
+
+  .team-overlay h4 {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .team-overlay small {
+    font-size: 1.1rem;
+  }
+
+  .team-overlay h4 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .team-overlay small {
+    font-size: 0.8rem;
+  }
+
+  .team-overlay h4 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 426px) {
+  .team-overlay small {
+    font-size: 0.4rem;
+  }
+
+  .team-overlay h4 {
+    font-size: 0.7rem;
+  }
+}

@@ -192,39 +192,51 @@ $(document).ready(function () {
 
   function initSelect2(res) {
     const selectConfig = {
-      placeholder: "Pilih atau ketik",
+      placeholder: "Pilih atau ketik...",
       tags: true,
       width: "100%",
       dropdownParent: $("#galeriModal"),
+      allowClear: false,
     };
 
     $("#nama_jenis")
       .empty()
+      .append('<option value=""></option>')
       .select2({
         ...selectConfig,
         data: res.jenis.map((j) => ({
           id: j.id_jenis_kain,
           text: j.nama_jenis,
         })),
-      });
+      })
+      .val(null)
+      .trigger("change");
+
     $("#nama_daerah")
       .empty()
+      .append('<option value=""></option>')
       .select2({
         ...selectConfig,
         data: res.daerah.map((d) => ({
           id: d.id_daerah,
           text: d.nama_daerah,
         })),
-      });
+      })
+      .val(null)
+      .trigger("change");
+
     $("#nama_motif")
       .empty()
+      .append('<option value=""></option>')
       .select2({
         ...selectConfig,
         data: res.motif.map((m) => ({
           id: m.id_motif,
           text: m.nama_motif,
         })),
-      });
+      })
+      .val(null)
+      .trigger("change");
   }
 
   function previewImages(input, previewContainer) {
@@ -282,7 +294,12 @@ $(document).ready(function () {
       document.getElementById("galeriModal")
     );
     galeriModal.show();
-    loadSelectOptions();
+
+    loadSelectOptions(() => {
+      $("#nama_jenis").val(null).trigger("change");
+      $("#nama_daerah").val(null).trigger("change");
+      $("#nama_motif").val(null).trigger("change");
+    });
   });
 
   $("#galeriForm").submit(function (e) {

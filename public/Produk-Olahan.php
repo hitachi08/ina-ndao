@@ -22,29 +22,17 @@ $translator->start();
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
-
-    <!-- Favicon -->
     <link href="img/ina_ndao_logo.jpeg" rel="icon" />
 
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Space+Grotesk&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -98,10 +86,7 @@ $translator->start();
                 </span>
                 <input type="text" id="searchProduk" class="form-control border-start-0" placeholder="Cari produk...">
             </div>
-
-            <!-- Row Start -->
             <div class="row g-4">
-                <!-- Sidebar Filter Start -->
                 <div class="col-12 col-lg-3 d-none d-lg-block">
                     <div class="card shadow-sm border-0 h-100">
                         <div class="card-body">
@@ -109,39 +94,30 @@ $translator->start();
                                 <i class="fas fa-filter me-2"></i> FILTER
                             </h5>
 
-                            <!-- Filter Daerah -->
                             <h6 class="fw-bold">Daerah</h6>
                             <div id="filterDaerahContainer">
-                                <!-- Akan diisi dinamis dari tabel daerah -->
                             </div>
 
                             <hr>
 
-                            <!-- Filter Jenis Kain -->
                             <h6 class="fw-bold">Jenis Kain</h6>
                             <div id="filterJenisKainContainer">
-                                <!-- Akan diisi dinamis dari tabel jenis_kain -->
                             </div>
 
                             <hr>
 
-                            <!-- Filter Kategori -->
                             <h6 class="fw-bold">Kategori</h6>
                             <div id="filterKategoriContainer">
-                                <!-- Akan diisi dinamis dari tabel kategori -->
                             </div>
 
                             <hr>
 
-                            <!-- Filter Sub-Kategori -->
                             <h6 class="fw-bold">Sub Kategori</h6>
                             <div id="filterSubKategoriContainer">
-                                <!-- Akan diisi dinamis dari tabel sub-kategori sesuai dengan pilihan pada kategori -->
                             </div>
 
                             <hr>
 
-                            <!-- Filter Harga -->
                             <h6 class="fw-bold">Rentang Harga</h6>
                             <div class="d-flex align-items-center">
                                 <input type="number" class="form-control form-control-sm me-2" id="hargaMin" placeholder="Min">
@@ -151,19 +127,14 @@ $translator->start();
                         </div>
                     </div>
                 </div>
-                <!-- Sidebar Filter End -->
 
-                <!-- List Produk Start -->
                 <div class="col-12 col-lg-9">
                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="product-olahan-list"></div>
                     <nav>
                         <ul class="pagination justify-content-end" id="pagination"></ul>
                     </nav>
                 </div>
-                <!-- List Produk End -->
-
             </div>
-            <!-- End row -->
         </div>
     </div>
     <!-- Product End -->
@@ -172,7 +143,6 @@ $translator->start();
     <?php include "footer.php" ?>
     <!-- Footer End -->
 
-    <!-- Back to Top -->
     <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php
@@ -185,7 +155,6 @@ $translator->start();
         const currentLang = "<?= $currentLang ?>";
     </script>
 
-    <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
@@ -195,3 +164,6 @@ $translator->start();
     <script src="js/main.js"></script>
     <script src="js/pagination.js"></script>
     <script src="js/produk-olahan.js"></script>
+</body>
+
+</html>

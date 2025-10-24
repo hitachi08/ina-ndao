@@ -61,87 +61,18 @@ $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta content="" name="keywords" />
   <meta content="" name="description" />
-
-  <!-- Favicon -->
   <link href="img/ina_ndao_logo.jpeg" rel="icon" />
 
-  <!-- Google Web Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Space+Grotesk&display=swap" rel="stylesheet" />
-
-  <!-- Icon Font Stylesheet -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
-
-  <!-- Libraries Stylesheet -->
   <link href="lib/animate/animate.min.css" rel="stylesheet" />
   <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
-
-  <!-- Customized Bootstrap Stylesheet -->
   <link href="css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Template Stylesheet -->
+  <link href="css/beranda.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet" />
-
-  <style>
-    @media (max-width: 500px) {
-      .text-year {
-        padding: 1rem !important;
-      }
-
-      .text-bungkus {
-        padding: 0px !important;
-      }
-
-      .text-karya {
-        font-size: 12px !important;
-      }
-    }
-
-    /* Medium devices (≥768px) */
-    @media (min-width: 768px) {
-      .team-overlay small {
-        font-size: 0.6rem;
-      }
-
-      .team-overlay h4 {
-        font-size: 1rem;
-      }
-    }
-
-    /* Large devices (≥992px) */
-    @media (min-width: 992px) {
-      .team-overlay small {
-        font-size: 1.1rem;
-      }
-
-      .team-overlay h4 {
-        font-size: 1.5rem;
-      }
-    }
-
-    /* Large devices (≥1024px) */
-    @media (min-width: 1024px) {
-      .team-overlay small {
-        font-size: 0.8rem;
-      }
-
-      .team-overlay h4 {
-        font-size: 1.2rem;
-      }
-    }
-
-    @media (min-width: 320px) and (max-width: 426px) {
-      .team-overlay small {
-        font-size: 0.4rem;
-      }
-
-      .team-overlay h4 {
-        font-size: 0.7rem;
-      }
-    }
-  </style>
 </head>
 
 <body>
@@ -243,7 +174,7 @@ $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
               <span class="text-uppercase text-primary bg-light px-2">Ina Ndao</span>
             </h1>
             <p class="mb-4 narasi-singkat">
-              <?= htmlspecialchars($narasi_singkat) ?>
+              <?= $narasi_singkat ?>
             </p>
             <div class="row g-3">
               <div class="col-sm-6">
@@ -264,8 +195,6 @@ $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
               </div>
             </div>
           </div>
-
-          <!-- Tombol baca selengkapnya dipaksa ke bawah -->
           <div class="d-flex align-items-center mt-auto pt-4">
             <a class="btn btn-primary px-4 me-2" href="#!" data-bs-toggle="modal" data-bs-target="#historyModal">
               Baca Selengkapnya
@@ -274,12 +203,9 @@ $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
         </div>
       </div>
 
-      <!-- Modal -->
       <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
           <div class="modal-content border-0 shadow-lg rounded-4">
-
-            <!-- Header -->
             <div class="modal-header bg-primary text-white border-0 rounded-top-4">
               <h5 class="modal-title fw-bold w-100 text-center text-white" id="historyModalLabel">
                 Sejarah <span class="text-uppercase">Ina Ndao</span>
@@ -287,21 +213,15 @@ $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
               <button type="button" class="btn-close btn-close-white position-absolute end-0 me-3"
                 data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-            <!-- Body -->
             <div class="modal-body px-4 py-4">
-              <!-- Gambar -->
               <div class="text-center mb-4">
                 <img src="img/hero-slider-1.jpg" class="img-fluid w-50 rounded shadow mx-auto d-block"
                   alt="Motif Sumba" style="max-height:350px; object-fit:contain;">
               </div>
-
-              <!-- Narasi -->
               <div class="px-2">
                 <?= $sejarahData ?>
               </div>
             </div>
-
-            <!-- Footer -->
             <div class="modal-footer border-0">
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
             </div>
@@ -324,16 +244,11 @@ $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
       <div class="row g-5 align-items-center text-center">
         <?php foreach ($promosi as $i => $item): ?>
           <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="<?= 0.1 + ($i % 3) * 0.2 ?>s">
-            <!-- Icon: bisa pakai icon dari JSON, jika tidak ada pakai default -->
             <i class="fa <?= htmlspecialchars($item['icon'] ?? $defaultIcons[$i] ?? 'fa-star') ?> fa-5x text-primary mb-4"></i>
-            <!-- Judul promosi -->
             <h4><?= htmlspecialchars($item['judul'] ?? 'Judul kosong') ?></h4>
-            <!-- Teks promosi -->
             <p class="mb-0"><?= htmlspecialchars($item['teks'] ?? 'Belum ada teks promosi.') ?></p>
           </div>
         <?php endforeach; ?>
-
-        <!-- Jika jumlah promosi kurang dari 6, bisa tambahkan placeholder -->
         <?php for ($j = count($promosi); $j < 6; $j++): ?>
           <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="<?= 0.1 + ($j % 3) * 0.2 ?>s">
             <i class="fa <?= $defaultIcons[$j] ?? 'fa-star' ?> fa-5x text-primary mb-4"></i>
@@ -379,7 +294,6 @@ $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
   <?php include "footer.php" ?>
   <!-- Footer End -->
 
-  <!-- Back to Top -->
   <a href="#!" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
   <?php
@@ -388,15 +302,12 @@ $extraNoTranslate = array_map(fn($anggota) => $anggota['nama'], $team);
   }
   ?>
 
-  <!-- JavaScript Libraries -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="lib/wow/wow.min.js"></script>
   <script src="lib/easing/easing.min.js"></script>
   <script src="lib/waypoints/waypoints.min.js"></script>
   <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-  <!-- Template Javascript -->
   <script src="js/main.js"></script>
 
 </body>
